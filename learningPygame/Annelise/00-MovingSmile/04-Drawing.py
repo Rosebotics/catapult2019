@@ -24,8 +24,13 @@ while True:
         # print(event) - shows every event that occurs while this is here
         if event.type == pygame.QUIT:
             sys.exit()
-    screen.fill((255, 255, 255))
+    screen.fill((0, 0, 255))
 
-    pygame.draw.circle(screen, (200, 200, 0), (320, 240), 150)
+    pygame.draw.circle(screen, (200, 200, 0), (320, 240), 150) # face
+    pygame.draw.circle(screen, (0,0,0), (250, 200), 30) # left eye
+    pygame.draw.circle(screen, (0,0,0), (400, 200), 30) # right eye
+    pygame.draw.circle(screen, (255,0,0), (320, 320), 40) # mouth
+    pygame.draw.circle(screen, (0, 0, 255), (250, 200), 10) #left iris
+    pygame.draw.circle(screen)
 
     pygame.display.update()
