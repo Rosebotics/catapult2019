@@ -1,3 +1,20 @@
+import pygame
+import sys
+
+pygame.init()
+screen = pygame.display.set_mode((640, 480))
+while True:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            sys.exit()
+   # screen.fill((255,0,0))#red
+   # screen.fill((0, 255, 0))#green
+   # screen.fill((0, 0, 255))#blue
+   # screen.fill((0, 255, 255))#teel
+   # screen.fill((255, 0, 255))#purple
+   # screen.fill((255, 255,0 ))#yellow
+   # screen.fill((140,100,20))#brown
+    pygame.display.update()
 # TODO: Copy all of your   02-TheGameLoop.py   program and put it below this comment.
 # TODO    One way to do so is:
 # TODO      1. Inside  02-TheGameLoop.py,  do:
