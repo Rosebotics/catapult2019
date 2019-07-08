@@ -1,6 +1,6 @@
 # My first Pygame program.
 # Authors: Many people and Annelise Kezdy
-# changew
+# change
 import pygame
 import sys
 
