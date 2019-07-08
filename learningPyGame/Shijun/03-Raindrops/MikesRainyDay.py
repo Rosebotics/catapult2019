@@ -1,6 +1,6 @@
 import pygame
 import sys
-import time  # Note this!
+import time  # Note this!!
 import random  # Note this!
 
 
