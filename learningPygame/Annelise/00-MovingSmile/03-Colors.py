@@ -20,7 +20,12 @@ while True:
         if event.type == pygame.QUIT:
             sys.exit()
     # screen.fill(  (255, 0, 0)  ) #RED
-    screen.fill(  (0, 255, 0)  )
+    # screen.fill(  (0, 255, 0)  ) #GREEN
+    # screen.fill(  (255, 255, 0))   #YELLOW
+    # screen.fill(  (0,0,255)  ) #BLUE
+    # screen.fill(  (255, 0, 225)  ) #MAGENTA
+    # screen.fill(  (90, 30, 20)  ) #BROWN
+    # screen.fill(  (0, 255, 255)  ) #CYAN
     pygame.display.update()
 
 # TODO: In this module we'll add color to the window
