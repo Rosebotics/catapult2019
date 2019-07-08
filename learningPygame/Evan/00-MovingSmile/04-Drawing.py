@@ -5,7 +5,7 @@
 # TODO           -- Control-C (to COPY that entire selection)
 # TODO      2. Inside this file:
 # TODO           -- Click below this comment, then
-# TODO           -- Control-V (to PASTE the copied code into this file.
+# TODO           -- Controlasfafs-V (to PASTE the copied code into this file.
 
 import pygame
 import sys
