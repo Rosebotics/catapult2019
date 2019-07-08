@@ -1,4 +1,4 @@
-# TODO: In this module we'll add color to the window
+# TODO: In this module we'll add color to the window.
 
 import pygame
 import sys

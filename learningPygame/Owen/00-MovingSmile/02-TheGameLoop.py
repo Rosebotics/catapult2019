@@ -1,5 +1,5 @@
 # My first Pygame program.
-# Authors: Many people and Owen Greybill
+# Authors: Many people and Owen Greybill.
 
 import pygame
 import sys
