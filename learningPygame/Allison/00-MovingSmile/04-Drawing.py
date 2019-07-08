@@ -23,6 +23,10 @@ while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
-    screen.fill((0, 0, 0))
-    
+    screen.fill((0, 255, 255))
+    pygame.draw.circle(screen, (255, 255, 0), (320, 240), 150, 0)
+    pygame.draw.circle(screen, (0, 0, 0), (250, 200), 25, 0)
+    pygame.draw.circle(screen, (0, 0, 0), (390, 200), 25, 0)
+    pygame.draw.circle(screen, (0, 0, 0), (320, 275), 10, 0)
+    # pygame.draw.rect(screen, (255, 0, 0),)
     pygame.display.update()
