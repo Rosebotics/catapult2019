@@ -1,0 +1,13 @@
+Coding Notes
+
+00-moving smile
+    - drawing shapes & basic animations
+    - creating key events
+    - working with addition color theory
+    - working with clock
+        clock = pygame.time.Clock
+        clock.tick(60)
+    - making game loops
+
+01-dog bark
+    - 
