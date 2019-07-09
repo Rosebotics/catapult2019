@@ -3,3 +3,7 @@ No if else statements, only else, layer a if inside it
 have to create a Rect object to draw a rectangle
 listening to keypress events variable[pygame.KEYPRESS]
 clock: clock.tick(X) is framerate control
+mousebuttondown
+sounds
+set caption
+text
