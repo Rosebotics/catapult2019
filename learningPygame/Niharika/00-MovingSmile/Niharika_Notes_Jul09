@@ -36,3 +36,6 @@ Load the sound/music "bark.mp3" into the pygame music mixer.
 
 Play the music (bark) if there's a mouse click.
             if event.type == pygame.MOUSEBUTTONDOWN:
+
+02 - Click in the Circle
+    ** is exponent
