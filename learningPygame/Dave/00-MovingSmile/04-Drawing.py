@@ -29,4 +29,7 @@ while True:
 
     pygame.draw.circle(screen, (80, 0, 0), (320, 240), 15, 6)
 
+    # pygame.draw.rect(screen, color, (x, y, width, height), thickness)
+    pygame.draw.rect(screen, (100, 0, 0), (220, 350, 200, 30))
+
     pygame.display.update()
