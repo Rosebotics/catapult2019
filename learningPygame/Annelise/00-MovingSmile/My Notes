@@ -34,3 +34,27 @@ while True:
         mouth_height = mouth_height - 5
         if mouth_height == 0:
             mouth_height = 40
+
+01 - DogBark
+- Learned about adding an image to a blank background
+    # Load the music and the image
+    # Done 1: Create an image with the 2dogs.JPG image
+    dog_image = pygame.image.load("2dogs.JPG")
+    dog_image = pygame.transform.scale(dog_image, (IMAGE_SIZE, IMAGE_SIZE))
+- Learned how to add a caption to a screen and move it around
+    # Done 4: Create a font object with a size 28 font.
+    caption_font = pygame.font.Font(None, 28)
+    caption = caption_font.render("Two Dogs.", True, BLACK)
+    meme_font = pygame.font.Font(None, 35)
+    meme_text = meme_font.render("I'm 2 minutes older, I go first.", True, WHITE)
+    screen.blit(meme_text, ((IMAGE_SIZE - caption.get_width()) // 4, IMAGE_SIZE - 450))
+- Learned how to add in sounds!
+    # Done 7: Load the sound "bark.mp3" into the pygame music mixer.
+    pygame.mixer.music.load("bark.mp3")
+     while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit()
+            # Done 8: Play the music (bark) if there's a mouse click.
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                pygame.mixer.music.play()
