@@ -52,7 +52,7 @@ class Hero:
         self.image_no_umbrella = pygame.image.load(without_umbrella_filename)
         self.last_hit_time = 2
         # TODO Remove this test
- 
+
     def draw(self):
         """ Draws this sprite onto the screen. """
         # Done 17: Draw (blit) this Hero, at this Hero's position, WITHOUT an umbrella:
