@@ -34,7 +34,7 @@ while True:
         mouth_height = mouth_height - 5
         if mouth_height == 0:
             mouth_height = 40
-
+change
 01 - DogBark
 - Learned about adding an image to a blank background
     # Load the music and the image
