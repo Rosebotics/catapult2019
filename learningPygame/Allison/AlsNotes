@@ -1,0 +1,6 @@
+Things I've learned:
+
+Moving Smile
+- pygame.draw.<shape>
+- pygame.key.get_pressed()
+- pygame.time.Clock(), clock.tick(FPS)

@@ -1,0 +1,26 @@
+Things I've learned that I can use on my project...
+
+06 - Interactions
+Drawing circle/rectangle/ellipse/line:
+    pygame.draw.circle(screen, (165, 42, 42), (leftlens_x, 200), 35, 1) #left lens
+    pygame.draw.line(screen, (165, 42, 42), (glassescenter_startx,200), (glassescenter_endx, 200), 1) #glasses center
+    pygame.draw.rect(screen, (0, 0, 0), pygame.Rect(260, 275, 120, 50))#mouth
+    pygame.draw.ellipse(screen, (255,0,0), pygame.Rect(300,285, 50, tongue_y))#tongue
+
+06 - Interactions
+    Creating a "key-pressed" event
+     if pressed_keys[pygame.K_UP]:
+        nose_y =50
+
+04 - Drawings (refer to notebook)
+    Color addition
+    Color subtraction
+
+Load Image
+    dog_image = pygame.image.load("2dogs.JPG")
+
+Draw (blit) the image onto the screen at position (0, 0)
+        screen.blit(dog_image, (0,0))
+
+Scale the image to be the size (IMAGE_SIZE, IMAGE_SIZE)
+        dog_image = pygame.transform.scale(dog_image, (IMAGE_SIZE, IMAGE_SIZE))
