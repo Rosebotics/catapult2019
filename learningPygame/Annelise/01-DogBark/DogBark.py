@@ -23,13 +23,16 @@ def main():
 
     # Done 4: Create a font object with a size 28 font.
     caption_font = pygame.font.Font(None, 28)
-    # TODO 7: Load the sound "bark.mp3" into the pygame music mixer.
-
+    # Done 7: Load the sound "bark.mp3" into the pygame music mixer.
+    pygame.mixer.music.load("bark.mp3")
+# change
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
-            # TODO 8: Play the music (bark) if there's a mouse click.
+            # Done 8: Play the music (bark) if there's a mouse click.
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                pygame.mixer.music.play()
 
         # Clear the screen and set the screen background
         screen.fill(WHITE)
@@ -48,7 +51,6 @@ def main():
         meme_font = pygame.font.Font(None, 35)
         meme_text = meme_font.render("I'm 2 minutes older, I go first.", True, WHITE)
         screen.blit(meme_text, ((IMAGE_SIZE - caption.get_width()) // 4, IMAGE_SIZE - 450))
-# change
         # Update the screen
         pygame.display.update()
 

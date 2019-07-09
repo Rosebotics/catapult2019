@@ -21,14 +21,16 @@ def main():
     dog_image = pygame.image.load("2dogs.JPG")
     # done 4: Create a font object with a size 28 font.
     caption_font = pygame.font.Font(None, 28)
-    # TODO 7: Load the sound "bark.mp3" into the pygame music mixer.
-
+    # done 7: Load the sound "bark.mp3" into the pygame music mixer.
+   bark = pygame.mixer.sound("bark.mp3")
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
             # TODO 8: Play the music (bark) if there's a mouse click.
+            if event.type == pygame.MOUSEBUTTONDOWN:
 
+                bark.play(30)
         # Clear the screen and set the screen background
         screen.fill(WHITE)
 
@@ -38,10 +40,10 @@ def main():
         # DONE 2: Draw (blit) the image onto the screen at position (0, 0)
         screen.blit(dog_image, (0,0))
         # Draw the text onto the screen
-        # TODO 5: Render the text "Two Dogs" using the font object (it's like MAKING an image).
+        # done 5: Render the text "Two Dogs" using the font object (it's like MAKING an image).
         caption = caption_font.render("Two dogs", True, BLACK)
         caption_two = caption_font.render("Click to regret", True, WHITE)
-        # TODO 6: Draw (blit) the text image onto the screen in the middle bottom.
+        # done 6: Draw (blit) the text image onto the screen in the middle bottom.
         screen.blit(caption,(((IMAGE_SIZE-caption.get_width())//2),470))
         screen.blit(caption_two, (((IMAGE_SIZE - caption.get_width()) // 2), 200))
         # Update the screen

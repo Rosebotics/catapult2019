@@ -17,4 +17,25 @@ Things I've learned that I can use on my project...
 
 01-DogBark
  - Images
+    dog_image = pygame.image.load("2dogs.JPG")
+    screen.blit(dog_image, (0, 0))
  - Sounds
+    pygame.mixer.music.load("bark.mp3")
+    pygame.mixer.music.play()
+ - Text
+    pygame.font.init()
+    big_font = pygame.font.Font(None, 56)
+    caption2 = big_font.render("TURNZ OVER!", True, WHITE)
+    screen.blit(caption2, ( (IMAGE_SIZE - caption2.get_width()) // 2  , 400))
+
+02-ClickInTheCircle
+ - Mouse click position
+    if event.type == pygame.MOUSEBUTTONDOWN:
+        click_position = event.pos
+        distance_from_circle = distance(click_position, circle_center)
+ - Playing music forever and stopping music
+    if distance_from_circle < circle_radius:
+        pygame.mixer.music.play(-1)
+    else:
+        pygame.mixer.music.stop()
+ - Practice with drawing and review of using text
