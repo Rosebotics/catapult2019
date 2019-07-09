@@ -1,25 +1,33 @@
 
-math
+math --------------------------------------------------------------------------------------------------
 
  " // " divishion but will always give an intiger aka no desimals
 
-for is used as
+
+general notes --------------------------------------------------------------------------------------------------
+
+for is writen as
         for i in range(10)
 
-00-moving face that is creepy
+creat a screen
+        screen = pygame.display.set_mode((640, 480))
+        pygame.display.set_caption("this is the end of the world")
+00-moving face that is creepy --------------------------------------------------------------------------------------------------
 thing that i can use
     pygame.draw.rect(screen, collor, (start),(with lange)
     pygame.draw.circle(screen, color, position(x,y), radius, with)
+
 lisses to key presses with
                 pressed_keys = pygame.key.get_pressed()
 and then use things like
             if pressed_keys[pygame.K_w]:
+
 can use clock
          clock = pygame.time.Clock()
  put in game loop for clock
         clock.tick(60)
 
-01- dog bark (lets make demons)
+01- dog bark (lets make demons) --------------------------------------------------------------------------------------------------
 
 to put an immige on the screen
         screen.blit(thing to put on screen , (x,y))
@@ -29,4 +37,21 @@ to get size of a image (width)
 to load in sound
      pygame.mixer.music.load("file name here")
 to play sound
-    pygame.mixer.music.play(-1)
+    pygame.mixer.music.play()
+
+02 - click the circle --------------------------------------------------------------------------------------------------
+for sound inorder to be able to stack i can do
+         var = pygame.mixer.Sound("file name here")
+this will only up to 8 sound at one time tho
+can use
+        pygame.mixer.set_num_channels()
+to increas this number
+
+to call use
+        var.play(number of time you want it to loop) set to -1 for indefenet
+        var.stop() to stop
+
+03- rain drops -------------------------------------------------------------------------------------------------
+classes
+can creat individuwal creations that have thir own variables and function
+can creat independint sprites that can run sprites parrele to eachother and have self
