@@ -17,4 +17,14 @@ Things I've learned that I can use on my project...
 
 01-DogBark
  - Images
+    dog_image = pygame.image.load("2dogs.JPG")
+    screen.blit(dog_image, (0, 0))
  - Sounds
+    pygame.mixer.music.load("bark.mp3")
+    pygame.mixer.music.play()
+ - Text
+    pygame.font.init()
+    big_font = pygame.font.Font(None, 56)
+    caption2 = big_font.render("TURNZ OVER!", True, WHITE)
+    screen.blit(caption2, ( (IMAGE_SIZE - caption2.get_width()) // 2  , 400))
+
