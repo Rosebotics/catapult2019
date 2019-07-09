@@ -13,3 +13,26 @@
 #  Two black circle eyes
 #  Red rectangle (rect) mouth
 #  Red circle nose.
+
+import pygame
+import sys
+
+pygame.init()
+screen = pygame.display.set_mode((640, 480))
+while True:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            sys.exit()
+    screen.fill((0, 255, 255))  #Cyan
+
+    pygame.draw.circle(screen, (255,255,0), (320,240), 150) # face
+    pygame.draw.circle(screen, (0, 0, 0), (270, 200), 20) #left eye
+    pygame.draw.circle(screen, (0, 0, 0), (370, 200), 20) #right eye
+    pygame.draw.circle(screen, (165, 42, 42), (370, 200), 35, 1)# right lens
+    pygame.draw.circle(screen, (165, 42, 42), (270, 200), 35, 1) #left lens
+    pygame.draw.line(screen, (165, 42, 42), (305,200), (335, 200), 1) #glasses center
+
+    #pygame.draw.circle(screen, (0, 0, 0), (320, 270), 10)  # nose
+
+
+    pygame.display.update()
