@@ -1,0 +1,78 @@
+06 - Moving Smile
+    (Below code is an example)
+    - Learned about how to make different shapes move using different keys.
+    - Learned how to use a clock to animate a feature.
+
+nose_y = 240
+left_iris = 250
+right_iris = 400
+mouth_height = 40
+clock = pygame.time.Clock()
+
+pygame.init()
+screen = pygame.display.set_mode((640, 480))
+while True:
+    clock.tick(60)
+    for event in pygame.event.get():
+        # print(event) - shows every event that occurs while this is here
+        if event.type == pygame.QUIT:
+            sys.exit()
+# changes
+    pressed_keys = pygame.key.get_pressed()
+    if pressed_keys[pygame.K_UP]:
+        nose_y = 50
+    if pressed_keys[pygame.K_LEFT]:
+        left_iris = left_iris - 5
+        right_iris = right_iris - 5
+    if pressed_keys[pygame.K_RIGHT]:
+        left_iris = left_iris + 5
+        right_iris = right_iris + 5
+    if pressed_keys[pygame.K_DOWN]:
+        left_iris = 250
+        right_iris = 400
+    if pressed_keys[pygame.K_DOWN]:
+        mouth_height = mouth_height - 5
+        if mouth_height == 0:
+            mouth_height = 40
+
+01 - DogBark
+- Learned about adding an image to a blank background
+    # Load the music and the image
+    # Done 1: Create an image with the 2dogs.JPG image
+    dog_image = pygame.image.load("2dogs.JPG")
+    dog_image = pygame.transform.scale(dog_image, (IMAGE_SIZE, IMAGE_SIZE))
+- Learned how to add a caption to a screen and move it around
+    # Done 4: Create a font object with a size 28 font.
+    caption_font = pygame.font.Font(None, 28)
+    caption = caption_font.render("Two Dogs.", True, BLACK)
+    meme_font = pygame.font.Font(None, 35)
+    meme_text = meme_font.render("I'm 2 minutes older, I go first.", True, WHITE)
+    screen.blit(meme_text, ((IMAGE_SIZE - caption.get_width()) // 4, IMAGE_SIZE - 450))
+- Learned how to add in sounds!
+    # Done 7: Load the sound "bark.mp3" into the pygame music mixer.
+    pygame.mixer.music.load("bark.mp3")
+     while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit()
+            # Done 8: Play the music (bark) if there's a mouse click.
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                pygame.mixer.music.play()
+
+02 - Click In The Circle
+- Learned how to present messages when the user performs certain actions
+- Learned how to play music and stop it based on the actions of the user
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                click_position = event.pos
+                # print(click_position) -- use to check
+            # Done 3: Determine if the distance to the circle_center is less than the circle_radius
+                distance_from_circle = distance(click_position, circle_center)
+                print(distance_from_circle)
+
+                if distance_from_circle < circle_radius:
+                    message_text = "Bullseye!"
+                    pygame.mixer.music.play()   <-- in the parenthesis, you can tell it how many times to play the music, (-1) will play it forever
+                else:
+                    message_text = "You missed!"
+                    pygame.mixer.music.stop()

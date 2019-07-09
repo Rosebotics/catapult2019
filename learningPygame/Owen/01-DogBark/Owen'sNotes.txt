@@ -9,4 +9,14 @@ Things I have learned that I can use on my project
 
 01-DogBark
     - Images
+    - Fonts
+    - Making Text
+    - Mouse button down
     - Sounds
+
+02-TheGameLoop
+    - used math
+    - added sound
+    - square root
+    - distance formula
+    - infinite sound
