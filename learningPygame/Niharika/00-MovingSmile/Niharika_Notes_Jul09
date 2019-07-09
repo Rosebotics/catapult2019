@@ -39,3 +39,20 @@ Play the music (bark) if there's a mouse click.
 
 02 - Click in the Circle
     ** is exponent
+    Specify when music sounds
+        if distance_from_circle < circle_radius:
+                    message_text = 'Bullseye!  :)'
+                    pygame.mixer.music.play(loops=-1)
+                else:
+                    message_text = 'You Missed! :( '
+
+    Event to get the click position
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                click_position = event.pos
+            print(click_position)
+                distance_from_circle = distance(click_position, circle_center)
+            print(distance_from_circle)
+
+    Import math and math functions
+         distance = math.sqrt((point1_x-point2_x)**2 +(point1_y-point2_y)**2)
+    return distance
