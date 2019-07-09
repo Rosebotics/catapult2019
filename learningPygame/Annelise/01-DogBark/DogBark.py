@@ -48,7 +48,7 @@ def main():
         meme_font = pygame.font.Font(None, 35)
         meme_text = meme_font.render("I'm 2 minutes older, I go first.", True, WHITE)
         screen.blit(meme_text, ((IMAGE_SIZE - caption.get_width()) // 4, IMAGE_SIZE - 450))
-
+# change
         # Update the screen
         pygame.display.update()
 
