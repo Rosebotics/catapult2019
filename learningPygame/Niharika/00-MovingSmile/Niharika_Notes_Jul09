@@ -1,0 +1,58 @@
+Things I've learned that I can use on my project...
+
+06 - Interactions
+Drawing circle/rectangle/ellipse/line:
+    pygame.draw.circle(screen, (165, 42, 42), (leftlens_x, 200), 35, 1) #left lens
+    pygame.draw.line(screen, (165, 42, 42), (glassescenter_startx,200), (glassescenter_endx, 200), 1) #glasses center
+    pygame.draw.rect(screen, (0, 0, 0), pygame.Rect(260, 275, 120, 50))#mouth
+    pygame.draw.ellipse(screen, (255,0,0), pygame.Rect(300,285, 50, tongue_y))#tongue
+
+06 - Interactions
+    Creating a "key-pressed" event
+     if pressed_keys[pygame.K_UP]:
+        nose_y =50
+
+04 - Drawings
+    Color addition (refer to notebook)
+    Color subtraction (refer to notebook)
+    Color Fill
+        screen.fill((0, 255, 255))
+
+01 - Dog Bark
+Loading an Image
+    dog_image = pygame.image.load("2dogs.JPG")
+
+Draw (blit) the image onto the screen at position (0, 0)
+        screen.blit(dog_image, (0,0))
+
+Scale the image to be the size (IMAGE_SIZE, IMAGE_SIZE)
+        dog_image = pygame.transform.scale(dog_image, (IMAGE_SIZE, IMAGE_SIZE))
+
+Create a font object with a size X font.
+    caption_font = pygame.font.Font(None, X) - None allows for the default font
+
+Load the sound/music "bark.mp3" into the pygame music mixer.
+    pygame.mixer.music.load("bark.mp3")
+
+Play the music (bark) if there's a mouse click.
+            if event.type == pygame.MOUSEBUTTONDOWN:
+
+02 - Click in the Circle
+    ** is exponent
+    Specify when music sounds
+        if distance_from_circle < circle_radius:
+                    message_text = 'Bullseye!  :)'
+                    pygame.mixer.music.play(loops=-1)
+                else:
+                    message_text = 'You Missed! :( '
+
+    Event to get the click position
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                click_position = event.pos
+            print(click_position)
+                distance_from_circle = distance(click_position, circle_center)
+            print(distance_from_circle)
+
+    Import math and math functions
+         distance = math.sqrt((point1_x-point2_x)**2 +(point1_y-point2_y)**2)
+    return distance

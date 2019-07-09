@@ -1,0 +1,30 @@
+Things I've learned that I can use on my project...
+
+00-Moving Smile
+ - Drawing circle and rect
+    pygame.draw.circle(screen, (80, 0, 0), (320, nose_y), 15, 6)
+    # pygame.draw.rect(screen, color, (x, y, width, height), thickness)
+    pygame.draw.rect(screen, (100, 0, 0), (240, 350, 160, 30))
+ - Listening to key press events
+    pressed_keys = pygame.key.get_pressed()
+    if pressed_keys[pygame.K_UP]:
+        nose_y = 50
+ - Clock
+    clock = pygame.time.Clock()
+    clock.tick(60)
+ - Game loop
+
+
+01-DogBark
+ - Images
+    dog_image = pygame.image.load("2dogs.JPG")
+    screen.blit(dog_image, (0, 0))
+ - Sounds
+    pygame.mixer.music.load("bark.mp3")
+    pygame.mixer.music.play()
+ - Text
+    pygame.font.init()
+    big_font = pygame.font.Font(None, 56)
+    caption2 = big_font.render("TURNZ OVER!", True, WHITE)
+    screen.blit(caption2, ( (IMAGE_SIZE - caption2.get_width()) // 2  , 400))
+

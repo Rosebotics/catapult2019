@@ -34,10 +34,6 @@ while True:
     pygame.draw.circle(screen, (225, 225, 0), (320, 240), 150)
     pygame.draw.circle(screen, (0, 0, 0), (260, 200), 10, 5)
     pygame.draw.circle(screen, (0, 0, 0), (380, 200), 10, 5)
-
+    pygame.draw.circle(screen, (0, 0, 0), (324, 250), 10, 5)
+    pygame.draw.arc(screen, (255, 255, 0), (260, 310, 120, 270)
     pygame.display.update()
-
-
-
-
-

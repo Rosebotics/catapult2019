@@ -1,0 +1,51 @@
+
+math --------------------------------------------------------------------------------------------------
+
+ " // " divishion but will always give an intiger aka no desimals
+
+
+general notes --------------------------------------------------------------------------------------------------
+
+for is writen as
+        for i in range(10)
+
+creat a screen
+        screen = pygame.display.set_mode((640, 480))
+
+00-moving face that is creepy --------------------------------------------------------------------------------------------------
+thing that i can use
+    pygame.draw.rect(screen, collor, (start),(with lange)
+    pygame.draw.circle(screen, color, position(x,y), radius, with)
+
+lisses to key presses with
+                pressed_keys = pygame.key.get_pressed()
+and then use things like
+            if pressed_keys[pygame.K_w]:
+
+can use clock
+         clock = pygame.time.Clock()
+ put in game loop for clock
+        clock.tick(60)
+
+01- dog bark (lets make demons) --------------------------------------------------------------------------------------------------
+
+to put an immige on the screen
+        screen.blit(thing to put on screen , (x,y))
+to get size of a image (width)
+        caption.get_width()
+
+to load in sound
+     pygame.mixer.music.load("file name here")
+to play sound
+    pygame.mixer.music.play()
+
+   02 - click the circle --------------------------------------------------------------------------------------------------
+   for sound inorder to be able to stack i can do
+             var = pygame.mixer.Sound("file name here")
+    this will only up to 8 sound at one time tho
+    ccan use
+            pygame.mixer.set_num_channels()
+    to increas this number
+
+    to call use
+            var.play(number of time you want it to loop) set to -1 for indefenet

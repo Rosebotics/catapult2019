@@ -1,0 +1,10 @@
+Things I've learned:
+
+Moving Smile
+- pygame.draw.<shape>
+- pygame.key.get_pressed()
+- pygame.time.Clock(), clock.tick(FPS)
+DogBark
+- To put an image on the screen after loading, screen.blit(image, (x, y))
+- For audio, can either load single file or do other thing (?)
+- Text
