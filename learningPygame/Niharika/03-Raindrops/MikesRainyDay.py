@@ -59,7 +59,7 @@ class Hero:
 
     def draw(self):
         """ Draws this sprite onto the screen. """
-        # TODO 17: Draw (blit) this Hero, at this Hero's position, WITHOUT an umbrella:
+        # done 17: Draw (blit) this Hero, at this Hero's position, WITHOUT an umbrella:
         self.screen.blit(self.image_no_umbrella, (self.x, self.y))
         # done 21: Instead draw (blit) this Hero, at this Hero's position, as follows:
         #     If the current time is greater than this Hero's last_hit_time + 1,
@@ -150,7 +150,7 @@ def main():
         if mike.hit_by(test_drop):
             mike.last_hit_time = time.time()
             #print(mike.last_hit_time)
-        # TODO 22: When you run this test, slow the rain down to a speed of 2 to see the result, then remove that code
+        # done 22: When you run this test, slow the rain down to a speed of 2 to see the result, then remove that code
 
         # TODO 26: Draw the Cloud.
 
