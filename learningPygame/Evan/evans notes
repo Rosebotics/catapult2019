@@ -1,0 +1,15 @@
+
+00-moving face that is creepy
+thing that i can use
+    pygame.draw.rect(screen, collor, (start),(with lange)
+    pygame.draw.circle(screen, color, position(x,y), radius, with)
+lisses to key presses with
+                pressed_keys = pygame.key.get_pressed()
+and then use things like
+            if pressed_keys[pygame.K_w]:
+can use clock
+         clock = pygame.time.Clock()
+ put in game loop for clock
+        clock.tick(60)
+
+01- dog bark (lets make demons)
