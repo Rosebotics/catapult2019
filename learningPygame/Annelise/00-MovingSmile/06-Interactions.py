@@ -27,7 +27,7 @@ while True:
         # print(event) - shows every event that occurs while this is here
         if event.type == pygame.QUIT:
             sys.exit()
-# change
+# changes
     pressed_keys = pygame.key.get_pressed()
     if pressed_keys[pygame.K_UP]:
         nose_y = 50
