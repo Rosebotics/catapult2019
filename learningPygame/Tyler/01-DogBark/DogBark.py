@@ -42,7 +42,7 @@ def main():
         # TODO 5: Render the text "Two Dogs" using the font object (it's like MAKING an image).
         caption = caption_font.render('Two Dogs', True, BLACK)
         meme_caption = caption_font.render('Why are we still here? just to suffer?', True, WHITE)
-        # TODO 6: Draw (blit) the text image onto the screen in the middle bottom.
+        # TODO 6: Draw (blit) the text image onto the screen in the middle botom.
         screen.blit(caption, ((IMAGE_SIZE - caption.get_width()) // 2, IMAGE_SIZE + 5))
         screen.blit(meme_caption, ((IMAGE_SIZE - caption.get_width()) // 2 - 100, 50))
 
