@@ -50,8 +50,7 @@ class Hero:
         self.y = y
         self.image_umbrella = pygame.image.load(with_umbrella_filename)
         self.image_no_umbrella = pygame.image.load(without_umbrella_filename)
-        self.last_hit_time = 2
-        # TODO Remove this test
+        self.last_hit_time = 0
 
     def draw(self):
         """ Draws this sprite onto the screen. """
