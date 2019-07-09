@@ -58,7 +58,7 @@ while True:
             # Done 8: Play the music (bark) if there's a mouse click.
             if event.type == pygame.MOUSEBUTTONDOWN:
                 pygame.mixer.music.play()
-
+ 
 02 - Click In The Circle
 - Learned how to present messages when the user performs certain actions
 - Learned how to play music and stop it based on the actions of the user
