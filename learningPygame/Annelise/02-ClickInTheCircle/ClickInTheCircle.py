@@ -12,7 +12,7 @@ def distance(point1, point2):
     #       distance = sqrt(   (delta x) ** 2 + (delta y) ** 2  )
     return math.sqrt((point1_x - point2_x) ** 2  +  (point1_y - point2_y) ** 2)
 
-#change
+
 def main():
     pygame.init()
     screen = pygame.display.set_mode((400, 400))

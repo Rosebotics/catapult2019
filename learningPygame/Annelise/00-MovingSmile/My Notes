@@ -58,3 +58,21 @@ while True:
             # Done 8: Play the music (bark) if there's a mouse click.
             if event.type == pygame.MOUSEBUTTONDOWN:
                 pygame.mixer.music.play()
+
+02 - Click In The Circle
+- Learned how to present messages when the user performs certain actions
+- Learned how to play music and stop it based on the actions of the user
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                click_position = event.pos
+                # print(click_position) -- use to check
+            # Done 3: Determine if the distance to the circle_center is less than the circle_radius
+                distance_from_circle = distance(click_position, circle_center)
+                print(distance_from_circle)
+
+                if distance_from_circle < circle_radius:
+                    message_text = "Bullseye!"
+                    pygame.mixer.music.play()
+                else:
+                    message_text = "You missed!"
+                    pygame.mixer.music.stop()
