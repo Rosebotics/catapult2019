@@ -1,0 +1,36 @@
+06 - Moving Smile
+    (Below code is an example)
+    - Learned about how to make different shapes move using different keys.
+    - Learned how to use a clock to animate a feature.
+
+nose_y = 240
+left_iris = 250
+right_iris = 400
+mouth_height = 40
+clock = pygame.time.Clock()
+
+pygame.init()
+screen = pygame.display.set_mode((640, 480))
+while True:
+    clock.tick(60)
+    for event in pygame.event.get():
+        # print(event) - shows every event that occurs while this is here
+        if event.type == pygame.QUIT:
+            sys.exit()
+# changes
+    pressed_keys = pygame.key.get_pressed()
+    if pressed_keys[pygame.K_UP]:
+        nose_y = 50
+    if pressed_keys[pygame.K_LEFT]:
+        left_iris = left_iris - 5
+        right_iris = right_iris - 5
+    if pressed_keys[pygame.K_RIGHT]:
+        left_iris = left_iris + 5
+        right_iris = right_iris + 5
+    if pressed_keys[pygame.K_DOWN]:
+        left_iris = 250
+        right_iris = 400
+    if pressed_keys[pygame.K_DOWN]:
+        mouth_height = mouth_height - 5
+        if mouth_height == 0:
+            mouth_height = 40
