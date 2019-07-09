@@ -1,13 +1,24 @@
-# TODO: Copy all of your   03-Colors.py   program and put it below this comment.
-# TODO    One way to do so is:
-# TODO      1. Inside  03-Colors.py,  do:
-# TODO           -- Control-A (to SELECT the entire contents of the file, then
-# TODO           -- Control-C (to COPY that entire selection)
-# TODO      2. Inside this file:
-# TODO           -- Click below this comment, then
-# TODO           -- Control-V (to PASTE the copied code into this file.
+import pygame
+import sys
 
-
+pygame.init()
+screen = pygame.display.set_mode((640, 480))
+#right = pygame.transform(screen, 45)
+#left = pygame.transform(screen, -45)
+while True:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            sys.exit()
+#    screen.fill((255,0,0))
+    screen.fill((40, 40, 40))
+    pygame.draw.circle(screen, (190, 190, 0), (320, 240), 110)
+    pygame.draw.circle(screen, (0, 0, 0), (280, 200), 10)
+    pygame.draw.circle(screen, (0, 0, 0), (360, 200), 10)
+    pygame.draw.circle(screen, (0, 0, 0), (320, 240), 8)
+    pygame.draw.rect(screen, (0, 0, 0), pygame.Rect((300, 290), (40, 10)))
+    pygame.draw.rect(screen, (0, 0, 0), pygame.Rect((260, 290), (40, 10)))
+    pygame.draw.rect(screen, (0, 0, 0), pygame.Rect((340, 290), (40, 10)))
+    pygame.display.update()
 # TODO: In this module we'll start drawing a simple smiley face
 #  Yellow circle for the head
 #  Two black circle eyes

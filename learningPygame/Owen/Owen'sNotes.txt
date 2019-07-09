@@ -1,0 +1,18 @@
+Things I have learned that I can use on my project
+
+00-moving smile
+    - drawing circle and rect
+    - Listening to key press events
+    - Clock
+    - Game loop
+    - colors
+
+01-DogBark
+    - Images
+    - Fonts
+    - Making Text
+    - Mouse button down
+    - Sounds
+
+02-TheGameLoop
+    -

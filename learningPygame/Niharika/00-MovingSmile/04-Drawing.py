@@ -19,6 +19,8 @@ import sys
 
 pygame.init()
 screen = pygame.display.set_mode((640, 480))
+
+
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -31,8 +33,14 @@ while True:
     pygame.draw.circle(screen, (165, 42, 42), (370, 200), 35, 1)# right lens
     pygame.draw.circle(screen, (165, 42, 42), (270, 200), 35, 1) #left lens
     pygame.draw.line(screen, (165, 42, 42), (305,200), (335, 200), 1) #glasses center
+    pygame.draw.line(screen, (165, 42, 42), (250, 175), (200, 160), 1)  # left glasses lever
+    pygame.draw.line(screen, (165, 42, 42), (395, 175), (445, 160), 1)  # right glasses lever
 
-    #pygame.draw.circle(screen, (0, 0, 0), (320, 270), 10)  # nose
+    pygame.draw.rect(screen, (0, 0, 0), pygame.Rect(260, 275, 120, 50))#tongue
+    pygame.draw.ellipse(screen, (255,0,0), pygame.Rect(300,285, 50, 60))#tongue
+    pygame.draw.line(screen, (0,0,0), (325,290), (325,325), 2)#tongue
 
+
+    pygame.draw.circle(screen, (0, 0, 0), (325, 250), 10)  # nose
 
     pygame.display.update()
