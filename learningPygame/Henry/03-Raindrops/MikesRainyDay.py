@@ -6,29 +6,26 @@ import random  # Note this!
 
 class Raindrop:
     def __init__(self, screen, x, y):
-        """ Creates a Raindrop sprite that travels down at a random speed. """
-        # TODO 8: Initialize this Raindrop, as follows:
-        # TODO    - Store the screen.
-        # TODO    - Set the initial position of the Raindrop to x and y.
-        # TODO    - Set the initial speed to a random integer between 5 and 15.
-        # TODO  Use instance variables:   screen  x  y  speed.
+        self.screen = screen
+        self.x = x
+        self.y = y
+        self.speed = random.randint(5, 15)
         pass
 
     def move(self):
-        """ Move the self.y value of the Raindrop down the screen (y increase) at the self.speed. """
-        # TODO 11: Change the  y  position of this Raindrop by its speed.
+        self.y = self.y + self.speed
         pass
 
     def off_screen(self):
-        """ Returns true if the Raindrop y value is not shown on the screen, otherwise false. """
-        # Note: this will be used for testing, but not used in the final version of the code for the sake of simplicity.
-        # TODO 13: Return  True  if the  y  position of this Raindrop is greater than 800.
+        if self.y > self.screen.get_height():
+            return True
+        else:
+            return False
         pass
 
     def draw(self):
-        """ Draws this sprite onto the screen. """
-        # TODO 9: Draw a vertical line that is 5 pixels long, 2 pixels thick,
-        # TODO     from the current position of this Raindrop (use either a black or blue color).
+
+        pygame.draw.line(self.screen, (0, 0, 0), (self.x, self.y), (self.x, self.y-5), 2)
         pass
 
 
@@ -43,9 +40,20 @@ class Hero:
         # TODO    - Set the "last hit time" to 0.
         # TODO  Use instance variables:
         # TODO     screen  x  y  image_umbrella   image_no_umbrella  last_hit_time.
+        self.screen = screen
+        self.x = x
+        self.y = y
+        self.image_umbrella = pygame.image.load(with_umbrella_filename)
+        self.image_no_umbrella = pygame.image.load(without_umbrella_filename)
+        self.last_hit_time = 0
         pass
 
     def draw(self):
+
+        if time.time() > self.last_hit_time + 1:
+            self.screen.blit(self.image_no_umbrella, (self.x, self.y))
+        else:
+            self.screen.blit(self.image_umbrella, (self.x, self.y))
         """ Draws this sprite onto the screen. """
         # TODO 17: Draw (blit) this Hero, at this Hero's position, WITHOUT an umbrella:
         # TODO 21: Instead draw (blit) this Hero, at this Hero's position, as follows:
@@ -55,9 +63,8 @@ class Hero:
         pass
 
     def hit_by(self, raindrop):
-        """ Returns true if the given raindrop is hitting this Hero, otherwise false. """
-        # TODO 19: Return True if this Hero is currently colliding with the given Raindrop.
-        pass
+        return pygame.Rect(self.x, self.y, 170, 192).collidepoint((raindrop.x, raindrop.y))
+
 
 
 class Cloud:
@@ -87,16 +94,40 @@ class Cloud:
 
 
 def main():
-    """ Main game loop that creates the sprite objects, controls interactions, and draw the screen. """
-    # TODO 1: Initialize the game, display a caption, and set   screen   to a 1000x600 Screen.
+    """ VARIABLES: """
+    clock = pygame.time.Clock()
+    screen = pygame.display.set_mode((1000, 600))
+    """ PRE-INIT """
+    pygame.display.set_caption("rainman")
+    testDrop = Raindrop(screen, 320, 10)
+    mike = Hero(screen, 300, 400, "Mike_umbrella.png", "mike.png")
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit()
+        clock.tick(90)
+        screen.fill((255, 255, 255))
+        testDrop.draw()
+        testDrop.move()
+        mike.draw()
+        if testDrop.off_screen():
+            testDrop.y = 10
+        if mike.hit_by(testDrop):
+            mike.last_hit_time = time.time()
 
-    # TODO 2: Make a Clock
-    # TODO 7: As a temporary test, make a new Raindrop called test_drop at x=320 y=10
-    # TODO 15: Make a Hero, named mike, with appropriate images, starting at position x=300 y=400.
+        pygame.display.update()
+
+
+
+    """ Main game loop that creates the sprite objects, controls interactions, and draw the screen. """
+
+
+
+
     # TODO 23: Make a Cloud, named cloud, with appropriate images, starting at position x=300 y=50.
 
     # TODO 3: Enter the game loop, with a clock tick of 60 (or so) at each iteration.
-        # TODO 4:   Make the pygame.QUIT event stop the game.
+
 
         # TODO 27: Inside the game loop (AFTER the events loop above), get the list of keys that are currently pressed.
         # TODO    Arrange so that the Cloud moves:
@@ -107,9 +138,8 @@ def main():
         # DISCUSS: If you want something to happen once per key press, put it in the events loop above
         #          If you want something to continually happen while holding the key, put it after the events loop.
 
-        # TODO 5: Inside the game loop, draw the screen (fill with white)
 
-        # TODO 12: As a temporary test, move test_drop
+
         # TODO 14: As a temporary test, check if test_drop is off screen, if so reset the y position to 10
         # TODO 10: As a temporary test, draw test_drop
 
@@ -129,7 +159,9 @@ def main():
         # TODO 18: Draw the Hero
 
         # TODO 6: Update the display and remove the pass statement below
-    pass
 
 
-# TODO: Call main.
+
+
+
+main()

@@ -8,15 +8,17 @@ def distance(point1, point2):
     point1_y = point1[1]
     point2_y = point2[1]
 
+
     # TODO: Return the actual distance between point 1 and point 2.
     #       distance = sqrt(   (delta x) ** 2 + (delta y) ** 2  )
-    return 0
+    return math.sqrt((point1_x-point2_x)**2 + (point1_y-point2_y)**2)
 
 
 def main():
     pygame.init()
     screen = pygame.display.set_mode((400, 400))
     pygame.display.set_caption("Mouse click positions")
+    pygame.mixer.music.load("drums.wav")
     font = pygame.font.Font(None, 25)
 
     frame_color = (0, 0, 0)
@@ -40,7 +42,19 @@ def main():
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                sys.quit()
+                sys.exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                clickPos = event.pos
+                distanceTo = distance(clickPos, circle_center)
+                print(distanceTo)
+                if distanceTo < circle_radius:
+                    message_text = "gud"
+                    pygame.mixer.music.play(-1)
+                else:
+                    message_text = "nope"
+                    pygame.mixer.music.stop()
+
+
 
             # TODO 2: For a MOUSEBUTTONDOWN event get the click position.
             # TODO 3: Determine if the distance to the circle_center is less than the circle_radius
@@ -50,14 +64,15 @@ def main():
 
         screen.fill(frame_color)
 
-        # TODO 1: Draw the circle using the screen, circle_color, circle_center, circle_radius, and circle_border_width
-
+        pygame.draw.circle(screen, circle_color, circle_center, circle_radius, circle_border_width)
+        message = font.render(message_text, True, (122, 237, 201))
         # TODO 5: Create a text image (render the text) based on the message_text
         # TODO 5:   Color (122, 237, 201)
         # TODO 5:   Background Color (122, 237, 201)
 
         screen.blit(instructions_image, (25, 25))
-        # TODO 6: Draw (blit) the message to the user that says 'Bullseye!' or 'You missed!'
+        screen.blit(message, (185, 100))
+
 
         pygame.display.update()
 
