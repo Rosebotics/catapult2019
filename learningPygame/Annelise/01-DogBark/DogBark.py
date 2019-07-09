@@ -25,7 +25,7 @@ def main():
     caption_font = pygame.font.Font(None, 28)
     # Done 7: Load the sound "bark.mp3" into the pygame music mixer.
     pygame.mixer.music.load("bark.mp3")
-
+# change
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
