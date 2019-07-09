@@ -7,7 +7,7 @@
 # TODO           -- Click below this comment, then
 # TODO           -- Control-V (to PASTE the copied code into this file.
 
-
+# change
 # TODO: In this module we'll start drawing a simple smiley face
 #  Yellow circle for the head
 #  Two black circle eyes
@@ -29,8 +29,15 @@ while True:
     pygame.draw.circle(screen, (200, 200, 0), (320, 240), 150) # face
     pygame.draw.circle(screen, (0,0,0), (250, 200), 30) # left eye
     pygame.draw.circle(screen, (0,0,0), (400, 200), 30) # right eye
-    pygame.draw.circle(screen, (255,0,0), (320, 320), 40) # mouth
-    pygame.draw.circle(screen, (0, 0, 255), (250, 200), 10) #left iris
-    pygame.draw.circle(screen)
+    # pygame.draw.circle(screen, (255,0,0), (320, 320), 40) # circle mouth
+    # pygame.draw.rect(screen, color, (x, y, width, height), thickness)
+    pygame.draw.rect(screen, (255, 0, 0), (280, 300, 70, 40)) # mouth
+    pygame.draw.circle(screen, (0, 0, 255), (250, 200), 12) #left iris
+    pygame.draw.circle(screen, (0, 0, 255), (400, 200), 12) # right iris
+    pygame.draw.circle(screen, (255, 0, 0), (320, 250), 15) # nose
+
+# http://blog.tankorsmash.com/?p=128 -- work on rotated rectangle mouth
+    # bigger = pygame.Rect(0, 0, 100, 50)
+    # smaller = pygame.Rect
 
     pygame.display.update()
