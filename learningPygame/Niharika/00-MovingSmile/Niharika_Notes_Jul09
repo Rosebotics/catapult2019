@@ -16,6 +16,7 @@ Drawing circle/rectangle/ellipse/line:
     Color addition
     Color subtraction
 
+01 - Dog Bark
 Load Image
     dog_image = pygame.image.load("2dogs.JPG")
 
@@ -24,3 +25,6 @@ Draw (blit) the image onto the screen at position (0, 0)
 
 Scale the image to be the size (IMAGE_SIZE, IMAGE_SIZE)
         dog_image = pygame.transform.scale(dog_image, (IMAGE_SIZE, IMAGE_SIZE))
+
+Create a font object with a size 28 font.
+    caption_font = pygame.font.Font(None, 28) - None allows for the default font
