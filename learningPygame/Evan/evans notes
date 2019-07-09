@@ -1,4 +1,8 @@
 
+math
+
+ " // " divishion but will always give an intiger aka no desimals
+
 00-moving face that is creepy
 thing that i can use
     pygame.draw.rect(screen, collor, (start),(with lange)
@@ -13,3 +17,8 @@ can use clock
         clock.tick(60)
 
 01- dog bark (lets make demons)
+
+to put an immige on the screen
+        screen.blit(thing to put on screen , (x,y))
+
+

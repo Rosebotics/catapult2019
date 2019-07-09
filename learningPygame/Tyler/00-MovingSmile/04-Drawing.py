@@ -17,12 +17,15 @@ while True:
 
     #screen.fill((255,0,0))
     #screen.fill((0, 255, 0))
-    screen.fill((60, 100, 0))
+    screen.fill((0, 100, 200))
 
     pygame.draw.circle(screen, (200, 200, 0), (320, 240), 150)
     pygame.draw.circle(screen, (0, 0, 0), (280, 170), 10)
     pygame.draw.circle(screen, (0, 0, 0), (366, 170), 10)
-    pygame.draw.arc(screen, (0, 0 , 0), (320, 310, 50, 50), 90, 180)
+    pygame.draw.circle(screen, (0, 0, 0), (320, 225), 10)
+    pygame.draw.arc(screen, (0, 0 , 0), (270, 310, 100, 20), 10, 100, 5)
+    pygame.draw.rect(screen, (200, 200, 0), (320, 280, 20, 50), 100)
+
 
 
     pygame.display.update()
