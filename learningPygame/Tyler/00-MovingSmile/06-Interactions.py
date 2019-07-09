@@ -15,7 +15,7 @@ import math
 
 pygame.init()
 screen = pygame.display.set_mode((640, 480))
-pygame.display.set_caption('cool smiley face')
+pygame.display.set_caption('smiley face')
 
 eye_x = 0
 
