@@ -30,6 +30,12 @@ in main function have a
                 sys.exit()
  to make the "x" button work and in the new (for event) loop have button/mouse events
 
+inorder to use randome ness have
+    import random
+at the begining of the code and use
+    randome.randint(min,max)
+for randome intigers
+
 00-moving face that is creepy --------------------------------------------------------------------------------------------------
 thing that i can use
     pygame.draw.rect(screen, collor, (start),(with lange)
@@ -80,7 +86,7 @@ classes are liek compound functions with their own memory and frnctions
  var_name1.class_variable = number               this will change that variable for that instance spicificaly
 
 
- for creating the class
+ for creating the class -------------------------------------------------------------------------------------------------------------------
  class class_name:
     def __init__(self, paramiters you want it to have):
 
@@ -88,7 +94,25 @@ classes are liek compound functions with their own memory and frnctions
         self.var = var
 
         this is what is writen to make a new function in a class
-    def function_name (paramiters):
+    def function_name (self, paramiters):
         here is where
+classes can be used to manige sprites
 
+usfull code to copy/past
+        self.screen = screen
+        self.x = x
+        self.y = y
 
+time.time() to get time since start.
+need to have //import time// at the start inorder for this to work
+
+for colishion
+pygame.Rect(starting_x, starting_y, langth, hight).collidepoint((x position of object colliding into, y position of object colliding into))
+make a /rect/ as the hit box then use the collidepoint to see if a cirten point is in that box
+this returned true/false
+
+04- bounsing ball --------------------------------------------------------------------------------------------------------------------------------
+to get screen width
+    screen.get_width()
+to get screen hieght
+    screen.get_height()
