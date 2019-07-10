@@ -75,6 +75,7 @@ class Hero:
         return pygame.Rect(self.x, self.y, 170, 192).collidepoint(raindrop.x, raindrop.y)
 
 
+
 class Cloud:
     def __init__(self, screen, x, y, image_filename):
         """ Creates a Cloud sprite that will produce Raindrop objects.  The cloud will be moving around. """
