@@ -46,7 +46,7 @@ def main():
             if event. type == pygame.MOUSEBUTTONDOWN:
                 click_position = event.pos
             # TODO 3: Determine if the distance to the circle_center is less than the circle_radius
-                #print(click_position)
+                #priradiusnt(click_position)
                 distance_from_circle = distance(click_position, circle_center)
                 print(distance_from_circle)
 

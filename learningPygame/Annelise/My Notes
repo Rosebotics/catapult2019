@@ -76,3 +76,35 @@ while True:
                 else:
                     message_text = "You missed!"
                     pygame.mixer.music.stop()
+
+03 - Mike's Rainy Day
+- Learned how to use classes
+    class Cloud:
+- Learned how to give classes screen, x, and y
+        self.screen = screen
+        self.x = x
+        self.y = y
+        self.image = pygame.image.load(image_filename)
+- Learned how to give a class an image (above)
+- Learned about __init__
+- Imported the time library and random library
+import time
+import random
+- Practiced using key clicks to move a sprite
+        pressed_keys = pygame.key.get_pressed()
+        if pressed_keys[pygame.K_UP] and event.type == pygame.KEYDOWN:
+            cloud.y = cloud.y - 5
+        if pressed_keys[pygame.K_DOWN] and event.type == pygame.KEYDOWN:
+            cloud.y = cloud.y + 5
+        if pressed_keys[pygame.K_LEFT] and event.type == pygame.KEYDOWN:
+            cloud.x = cloud.x - 5
+        if pressed_keys[pygame.K_RIGHT] and event.type == pygame.KEYDOWN:
+            cloud.x = cloud.x + 5
+- The and event.type == pygame.KEYDOWN: is a precautionary measure meant to keep from having any unnecessary movements of the sprite
+or any other unwanted interactions with other key commands. Mike's Rainy Day works without it, but it is good to know for more complicated games.
+
+04 - Bouncing Ball
+- Reviewed how to make lists
+- Created a class and added the necessary components for it to appear and move
+- Learned how to change the x and y speed of a single sprite separately
+- Learned how to make a sprite change direction once reaching a certain point
