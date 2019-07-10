@@ -39,3 +39,12 @@ Things I've learned that I can use on my project...
     else:
         pygame.mixer.music.stop()
  - Practice with drawing and review of using text
+
+
+03-Raindrops
+ - Learning to work with Classes to manage sprites on the screen (Raindrop, Hero, Cloud)
+ - These Sprite classes often have instance variables: screen, x, and y (or image)
+ - They also have methods like: __init__, draw, and others (like move)
+ - More practice with collidepoint
+ - time.time() to track the current seconds since epoch (note: it had this line import time at the top)
+ - More practice with loops, if statements, and more
