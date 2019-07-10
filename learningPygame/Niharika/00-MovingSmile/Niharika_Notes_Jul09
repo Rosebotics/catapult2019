@@ -60,6 +60,8 @@ Play the music (bark) if there's a mouse click.
 03 - Raindrops
     Working with Classes
 
+DISCUSS: If you want something to happen once per key press, put it in the events loop above
+If you want something to continually happen while holding the key, put it after the events loop.
 class Raindrop:
     def __init__(self, screen, x, y):
         """ Creates a Raindrop sprite that travels down at a random speed. """
@@ -86,3 +88,20 @@ class Raindrop:
         return self.y > self.screen.get_height()
 
     - time.time() to track the current seconds since each
+
+04 - Boucning Ball
+    - learned that you need to account for radius when setting the bounds for the space that the ball bounces in
+    - I also learned that you can add an or connector in if statements which allows for two conditions to be considered
+    - ^this helped to set parameters for the size of the screen
+     if self.x > 275 or self.x < 25:
+            self.speed_x = - self.speed_x
+        if self.y > 275 or self.y < 25 :
+            self.speed_y = - self.speed_y
+    - I also deepened my understanding of classes and how to use them
+
+ 05 - Tic Tac Toe
+    - Nested for loops
+    - arrays
+
+
+

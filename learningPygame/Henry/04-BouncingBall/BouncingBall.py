@@ -1,20 +1,13 @@
-import pygame
-import sys
-
-
-# TODO: Create a Ball class.
-# TODO: Member variables: screen, color, x, y, radius, speed_x, speed_y
-# TODO: Methods __init__, draw, move
-
+import pygame, sys, time, math, random
+from Ball import Ball
 
 def main():
     pygame.init()
-    screen = pygame.display.set_mode((300, 300))
+    screen = pygame.display.set_mode((600, 600))
     pygame.display.set_caption('Bouncing Ball')
     screen.fill(pygame.Color('gray'))
     clock = pygame.time.Clock()
-
-    # TODO: Create an instance of the Ball class
+    ball = Ball(screen, random.randint(0, screen.get_width()), random.randint(0, screen.get_height()), 5, (0, 0, 0), 15)
 
     while True:
         for event in pygame.event.get():
@@ -23,7 +16,9 @@ def main():
 
         clock.tick(60)
         screen.fill(pygame.Color('gray'))
-
+        ball.move()
+        ball.draw()
+        ball.spawn(2)
         # TODO: Move the ball
         # TODO: Draw the ball
 
