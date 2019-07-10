@@ -12,12 +12,13 @@ class Ball:
         self.screen = screen
         self.x = x
         self.y = y
-        self.speed_x = random.randint(20,25)
-        self.speed_y = random.randint(20,25)
+        self.speed_x = random.randint(5,15)
+        self.speed_y = random.randint(5,15)
+        self.color = (random.randint(0,255), random.randint(0,255), random.randint(0,255))
 
 
     def draw(self):
-        pygame.draw.circle(self.screen, (0, 0, 255), (self.x, self.y), 25, 25)
+        pygame.draw.circle(self.screen, self.color, (self.x, self.y), 15, 15)
 
     def move(self):
         self.x = self.x + self.speed_x
@@ -26,8 +27,6 @@ class Ball:
             self.speed_x = - self.speed_x
         if self.y > 275 or self.y < 25 :
             self.speed_y = - self.speed_y
-
-
 
 
 def main():
@@ -42,8 +41,8 @@ def main():
     testball = Ball(screen, 50, 150)
     balls =[]
 
-    for x in range(20):
-        ball = Ball(screen, random.randint(50,250), random.randint(50,250))
+    for x in range(10):
+        ball = Ball(screen, random.randint(25,275), random.randint(25,275))
         balls.append(ball)
 
     while True:
@@ -53,7 +52,6 @@ def main():
             # if event.type :
             #     test_position = event.pos
             #     print(test_position)
-
 
         clock.tick(60)
         screen.fill(pygame.Color('gray'))
