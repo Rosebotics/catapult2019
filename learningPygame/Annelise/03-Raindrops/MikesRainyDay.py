@@ -182,7 +182,7 @@ def main():
                 # cloud.raindrops.remove(raindrop)
             # if raindrop.off_screen():
                 # unfinished? or possibly correct - line: cloud.raindrops.remove(raindrops)
-
+ 
         # Done 18: Draw the Hero
         mike.draw()
 
