@@ -23,7 +23,6 @@ while True:
     clock.tick(60)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            sys.exit()
 
         pressed_keys = pygame.key.get_pressed()
         if pressed_keys[pygame.K_UP]:

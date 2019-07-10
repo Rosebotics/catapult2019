@@ -17,4 +17,9 @@ Things Ive' learned that I can use on mt projet
 02 ClickInTheCircle.py
 - Mouse Click position
 - The importance of typing correctly
--
+
+03 Raindrops
+- How to organize a large project
+- What classes are
+- instance variables for sprites
+- time.time( to track the current seconds since epoch
