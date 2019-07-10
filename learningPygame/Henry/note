@@ -7,3 +7,5 @@ mousebuttondown
 sounds
 set caption
 text
+if deleting an item from a list, it "skips" the next item in the list
+in the future, make classes in external files

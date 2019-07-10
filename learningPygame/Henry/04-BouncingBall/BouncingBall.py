@@ -1,11 +1,4 @@
-import pygame
-import sys
-
-
-# TODO: Create a Ball class.
-# TODO: Member variables: screen, color, x, y, radius, speed_x, speed_y
-# TODO: Methods __init__, draw, move
-
+import pygame, sys, time, math, random
 
 def main():
     pygame.init()
