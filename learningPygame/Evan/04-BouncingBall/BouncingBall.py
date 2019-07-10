@@ -62,7 +62,10 @@ def main():
             if pressed_keys[pygame.K_SPACE]:
                 # can change how many are made at a time
                for i in range(10):
+                   # randomeness
                     ball = Ball(screen, (random.randint(0,155), random.randint(55,255), random.randint(100,255)), random.randint(50,screen.get_width()-50), random.randint(50,screen.get_height()-50), random.randint(5, 15),random.randint(1, 10), random.randint(1, 10))
+                    #line of balls
+                   # ball = Ball(screen,(random.randint(0,155), random.randint(55,255), random.randint(100,255)),50,50,random.randint(5, 15),10,10)
                     balls.append(ball)
                 # clear the caos
             if pressed_keys[pygame.K_DOWN]:
