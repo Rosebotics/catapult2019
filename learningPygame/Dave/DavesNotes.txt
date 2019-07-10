@@ -58,4 +58,3 @@ Things I've learned that I can use on my project...
  - Created a class to manage the data for the game state
  - Nested for loops
  - 2D array (lists within lists)
- 
