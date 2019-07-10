@@ -6,7 +6,8 @@ class Ball:
         self.screen = screen
         self.x = int(x)
         self.y = int(y)
-        self.speed = speed
+        self.Xspeed = speed
+        self.Yspeed = speed
         self.color = color
         self.radius = radius
 
@@ -15,17 +16,18 @@ class Ball:
     def draw(self):
         pygame.draw.circle(self.screen, self.color, (self.x, self.y), self.radius)
     def move(self):
-        # Make sure angle is positive, then make sure it's within 360
-        # if self.x > self.screen.get_width() or self.y > self.screen.get_height() or self.y < 0:
-        #     self.angle = 180 - self.angle
-        key = pygame.key.get_pressed()
-        if key[pygame.K_UP]:
-            self.angle += 1
-            self.x = int(self.screen.get_width()/2)
-            self.y = (self.screen.get_height()/2)
-        self.angle = abs(self.angle)
-        if self.angle > 360:
-            self.angle -= 360
-        self.x += int(math.sin((self.angle / 360) * math.pi) * self.speed)
-        self.y += int(math.cos((self.angle / 360) * math.pi) * self.speed)
+        if self.x > self.screen.get_width():
+            self.Xspeed *= -1
+        if self.x < 0:
+            self.Xspeed = abs(self.Xspeed)
+        if self.y > self.screen.get_height():
+            self.Yspeed *= -1
+        if self.y < 0:
+            self.Yspeed = abs(self.Yspeed)
+
+        self.x += self.Xspeed
+        self.y += self.Yspeed
+    def spawn(self, number):
+        for i in range(number):
+            newBall = Ball(self.screen, random.randint(0, self.screen.get_width()), random.randint(0, self.screen.get_height()), 5, (random.int(0, 255), (random.int(0, 255), (random.int(0, 255)), 15)))
 

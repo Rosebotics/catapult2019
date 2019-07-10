@@ -9,3 +9,6 @@ set caption
 text
 if deleting an item from a list, it "skips" the next item in the list
 in the future, make classes in external files
+
+keep it simple, stupid!
+    have to declare a folder as a source folder in settings to import
