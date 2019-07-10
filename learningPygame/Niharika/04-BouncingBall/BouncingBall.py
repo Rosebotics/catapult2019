@@ -14,7 +14,6 @@ class Ball:
         self.y = y
         self.speed_x = random.randint(20,25)
         self.speed_y = random.randint(20,25)
-        self.balls = []
 
 
     def draw(self):
@@ -28,9 +27,6 @@ class Ball:
         if self.y > 275 or self.y < 25 :
             self.speed_y = - self.speed_y
 
-    def add(self):
-        ball = Ball(self.screen, random.randint(self.x, self.y))
-        self.balls.append(ball)
 
 
 
@@ -44,7 +40,11 @@ def main():
     # done: Create an instance of the Ball class
 
     testball = Ball(screen, 50, 150)
+    balls =[]
 
+    for x in range(20):
+        ball = Ball(screen, random.randint(50,250), random.randint(50,250))
+        balls.append(ball)
 
     while True:
         for event in pygame.event.get():
@@ -61,9 +61,12 @@ def main():
         # done: Move the ball
         # done: Draw the ball
 
-        testball.draw()
-        testball.move()
+        # testball.draw()
+        # testball.move()
 
+        for ball in balls:
+            ball.move()
+            ball.draw()
         pygame.display.update()
 
 
