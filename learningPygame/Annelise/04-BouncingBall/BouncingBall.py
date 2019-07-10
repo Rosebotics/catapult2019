@@ -2,19 +2,38 @@ import pygame
 import sys
 
 
-# TODO: Create a Ball class.
-# TODO: Member variables: screen, color, x, y, radius, speed_x, speed_y
-# TODO: Methods __init__, draw, move
+# Done: Create a Ball class.
+# ASK: Member variables: screen, color, x, y, radius, speed_x, speed_y
+# Done: Methods __init__, draw, move
+class Ball:
+    def __init__(self, screen, x, y):
+        self.screen = screen
+        self.x = x
+        self.y = y
+        self.speed_x = 10
+        self.speed_y = 10
 
+    def draw(self):
+        pygame.draw.circle(self.screen, (0, 255, 0), (self.x, self.y), 15)
+
+    def move(self):
+        self.y = self.y + self.speed_y
+        self.x = self.x + self.speed_x
+
+        if self.x >= 400 or self.x <= 0:
+            self.speed_x = -self.speed_x
+        if self.y >= 400 or self.y <= 0:
+            self.speed_y = -self.speed_y
 
 def main():
     pygame.init()
-    screen = pygame.display.set_mode((300, 300))
+    screen = pygame.display.set_mode((400, 400))
     pygame.display.set_caption('Bouncing Ball')
     screen.fill(pygame.Color('gray'))
     clock = pygame.time.Clock()
 
-    # TODO: Create an instance of the Ball class
+    # Done: Create an instance of the Ball class
+    ball = Ball(screen, 45, 120)
 
     while True:
         for event in pygame.event.get():
@@ -24,8 +43,13 @@ def main():
         clock.tick(60)
         screen.fill(pygame.Color('gray'))
 
-        # TODO: Move the ball
-        # TODO: Draw the ball
+        # Done: Move the ball
+        ball.move()
+
+
+
+        # Done: Draw the ball
+        ball.draw()
 
         pygame.display.update()
 
