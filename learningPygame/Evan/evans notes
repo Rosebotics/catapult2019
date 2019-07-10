@@ -8,16 +8,34 @@ general notes ------------------------------------------------------------------
 
 for is writen as
         for i in range(10)
+        or
+        for x in list_name_here
 
 creat a screen
         screen = pygame.display.set_mode((640, 480))
         pygame.display.set_caption("this is the end of the world")
+
+to creat a new function
+def function_name(paramiters):
+normaly have a /main/ function to have no global variables
+
+in main function have a
+    while True:
+    to have a continuus loop
+
+    in loop have
+            for event in pygame.event.get():
+
+            if event.type == pygame.QUIT:
+                sys.exit()
+ to make the "x" button work and in the new (for event) loop have button/mouse events
+
 00-moving face that is creepy --------------------------------------------------------------------------------------------------
 thing that i can use
     pygame.draw.rect(screen, collor, (start),(with lange)
     pygame.draw.circle(screen, color, position(x,y), radius, with)
 
-lisses to key presses with
+lisses to key presses with ,  this line needs to be in the begining of the loop, this will reupbate what the last event was
                 pressed_keys = pygame.key.get_pressed()
 and then use things like
             if pressed_keys[pygame.K_w]:
@@ -55,3 +73,22 @@ to call use
 classes
 can creat individuwal creations that have thir own variables and function
 can creat independint sprites that can run sprites parrele to eachother and have self
+classes are liek compound functions with their own memory and frnctions
+        example
+ var_name1 = class(paramiters for class)         this will creat an instance of the class
+ var_name1.class_function(paramiters)            this will do one of the function for the class
+ var_name1.class_variable = number               this will change that variable for that instance spicificaly
+
+
+ for creating the class
+ class class_name:
+    def __init__(self, paramiters you want it to have):
+
+        this will make a person variable for the instance of the class
+        self.var = var
+
+        this is what is writen to make a new function in a class
+    def function_name (paramiters):
+        here is where
+
+
