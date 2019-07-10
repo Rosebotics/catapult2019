@@ -186,7 +186,7 @@ def main():
                     scoreboard.score = scoreboard.score + 5
                     badguy.dead = True
                     missile.exploded = True
-
+ 
         # Done 17: Use the fighter to remove exploded missiles
         fighter.remove_exploded_missiles()
         # Done 18: Use the enemy to remove dead badguys
