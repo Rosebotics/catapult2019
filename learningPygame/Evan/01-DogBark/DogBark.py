@@ -22,7 +22,7 @@ def main():
     # done 4: Create a font object with a size 28 font.
     caption_font = pygame.font.Font(None, 28)
     # done 7: Load the sound "bark.mp3" into the pygame music mixer.
-    pygame.mixer.music.load("bark.mp3")
+   bark = pygame.mixer.sound("bark.mp3")
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -30,7 +30,7 @@ def main():
             # TODO 8: Play the music (bark) if there's a mouse click.
             if event.type == pygame.MOUSEBUTTONDOWN:
 
-                pygame.mixer.music.play(-1)
+                bark.play(30)
         # Clear the screen and set the screen background
         screen.fill(WHITE)
 
