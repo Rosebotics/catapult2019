@@ -5,6 +5,8 @@ import random
 # Done: Create a Ball class.
 # ASK: Member variables: screen, color, x, y, radius, speed_x, speed_y
 # Done: Methods __init__, draw, move
+
+
 class Ball:
     def __init__(self, screen, x, y):
         self.screen = screen
@@ -41,7 +43,6 @@ def main():
     for x in range(20):
         new_ball = Ball(screen, random.randint(50, 250), random.randint(50, 250))
         ball_list.append(new_ball)
-
 
     while True:
         for event in pygame.event.get():
