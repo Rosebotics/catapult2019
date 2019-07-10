@@ -116,3 +116,4 @@ to get screen width
     screen.get_width()
 to get screen hieght
     screen.get_height()
+    
