@@ -69,7 +69,6 @@ class Game:
                 pygame.mixer.music.play(1)
 
 
-
 def draw_board(screen, game):
     """ Draw the board based on the marked store in the board configuration array """
     # Done: Loop over the game.board to place X and O images on the screen as appropriate.
@@ -110,7 +109,6 @@ def main():
             if pressed_keys[pygame.K_SPACE]:
                 game = Game()
                 pygame.display.set_caption("X's Turn")
-
 
         screen.fill(pygame.Color("white"))
         screen.blit(board_surface, get_xy_position(0, 0))
