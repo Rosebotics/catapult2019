@@ -1,4 +1,4 @@
-Things Ive' learned that I can use on mt projet
+Things Ive' learned that I can use on my projet
 
 - drawing with circle and rect
 - how to speed or slow down using the clock
@@ -28,3 +28,7 @@ Things Ive' learned that I can use on mt projet
 - the order you code stuff in matters
 - pay attention to the indentations
 - copying code from other programs works, but you have to retrofit it to fit your code
+
+05 TicTacToe
+- Not all classes are visible
+- Data managing is a good idea for strategy games
