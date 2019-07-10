@@ -34,7 +34,6 @@ class Fighter:
         self.missiles.append(new_missile)
 
     def remove_exploded_missiles(self):
-        # Already complete
         for k in range(len(self.missiles) - 1, -1, -1):
             if self.missiles[k].exploded or self.missiles[k].y < 0:
                 del self.missiles[k]
@@ -50,27 +49,24 @@ class Badguy:
         self.move_right = True
         self.image = pygame.image.load("badguy.png")
         self.image.set_colorkey((0,0,0))
+
     def move(self):
         if self.move_right:
+            self.x += 2
             if self.x > self.originalX + 100:
-                move_right = False
-            else:
-                self.x += 2
+                self.move_right = False
+                self.y += 10
         else:
+            self.x -= 2
             if self.x < self.originalX - 100:
-                move_right = True
-            else:
-                self.x -= 2
-
+                self.move_right = True
+                self.y += 10
 
     def draw(self):
         self.screen.blit(self.image, (self.x, self.y))
 
     def hit_by(self, missile):
-        # Return True if a 70x45 rectangle at this Badguy's current position
-        #   collides with the xy point of the given missile.
-        # Return False otherwise.
-        pass
+        return pygame.Rect(self.x, self.y, 70, 45).collidepoint(missile.x, missile.y)
 
 
 class EnemyFleet:
@@ -83,38 +79,43 @@ class EnemyFleet:
 
     @property
     def is_defeated(self):
-        # Return True if the number of badguys in this Enemy Fleet is 0,
-        # otherwise return False.
-        pass
+        return len(self.badguys) == 0
 
     def move(self):
-        # Make each badguy in this EnemyFleet move.
-        pass
+        for badguy in self.badguys:
+            badguy.move()
 
     def draw(self):
-        # Make each badguy in this EnemyFleet draw itself.
-        pass
+        for badguy in self.badguys:
+            badguy.draw()
 
     def remove_dead_badguys(self):
         for k in range(len(self.badguys) - 1, -1, -1):
             if self.badguys[k].dead:
                 del self.badguys[k]
+class Scoreboard:
+    def __init__(self, screen, ):
+        self.screen = screen
+        self.score = 0
+        self.font = pygame.font.Font(None, 30)
+    def draw(self):
+        text_as_image = self.font.render("Score: "+ str(self.score), True, (255, 255, 255))
+        self.screen.blit(text_as_image, (5, 5))
 
 def main():
     pygame.init()
     clock = pygame.time.Clock()
     pygame.display.set_caption("SPACE INVADERS!")
     screen = pygame.display.set_mode((640, 650))
-
-    # TODO 9: Set    enemy_rows    to an initial value of 3.
-    # TODO 10: Create an EnemyFleet object (called enemy) with the screen and enemy_rows
+    enemy_rows = 3
+    enemy = EnemyFleet(screen, enemy_rows)
+    scoreboard = Scoreboard(screen)
     fighter = Fighter(screen, 320, 590)
     missile = Missile(screen, fighter.x)
     while True:
         clock.tick(60)
         for event in pygame.event.get():
             pressed_keys = pygame.key.get_pressed()
-            # TODO 5: If the event type is KEYDOWN and pressed_keys[K_SPACE] is True, then fire a missile
             if event.type == QUIT:
                 sys.exit()
             if event.type == KEYDOWN and pressed_keys[K_SPACE]:
@@ -130,13 +131,21 @@ def main():
         for missile in fighter.missiles:
             missile.move()
             missile.draw()
+        for badguy in enemy.badguys:
+            for missile in fighter.missiles:
+                if badguy.hit_by(missile):
+                    badguy.dead = True
+                    missile.exploded = True
+                    scoreboard.score += 100
 
-        # TODO 11: Move the enemy
-        # TODO 12: Draw the enemy
-
-        # TODO 6: For each missile in the fighter missiles
-        #   TODO 7: Move the missile
-        #   TODO 8: Draw the missile
+        fighter.remove_exploded_missiles()
+        enemy.remove_dead_badguys()
+        if enemy.is_defeated:
+            enemy_rows += 1
+            enemy = EnemyFleet(screen, enemy_rows)
+        enemy.move()
+        enemy.draw()
+        scoreboard.draw()
 
         # TODO 12: For each badguy in the enemy badguys
         #     TODO 13: For each missile in the fighter missiles
