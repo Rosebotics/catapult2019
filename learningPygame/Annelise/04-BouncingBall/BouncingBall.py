@@ -1,7 +1,7 @@
 import pygame
 import sys
 
-
+ 
 # Done: Create a Ball class.
 # ASK: Member variables: screen, color, x, y, radius, speed_x, speed_y
 # Done: Methods __init__, draw, move
