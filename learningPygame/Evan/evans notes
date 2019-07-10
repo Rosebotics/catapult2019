@@ -11,7 +11,7 @@ for is writen as
 
 creat a screen
         screen = pygame.display.set_mode((640, 480))
-
+        pygame.display.set_caption("this is the end of the world")
 00-moving face that is creepy --------------------------------------------------------------------------------------------------
 thing that i can use
     pygame.draw.rect(screen, collor, (start),(with lange)
@@ -39,13 +39,19 @@ to load in sound
 to play sound
     pygame.mixer.music.play()
 
-   02 - click the circle --------------------------------------------------------------------------------------------------
-   for sound inorder to be able to stack i can do
-             var = pygame.mixer.Sound("file name here")
-    this will only up to 8 sound at one time tho
-    ccan use
-            pygame.mixer.set_num_channels()
-    to increas this number
+02 - click the circle --------------------------------------------------------------------------------------------------
+for sound inorder to be able to stack i can do
+         var = pygame.mixer.Sound("file name here")
+this will only up to 8 sound at one time tho
+can use
+        pygame.mixer.set_num_channels()
+to increas this number
 
-    to call use
-            var.play(number of time you want it to loop) set to -1 for indefenet
+to call use
+        var.play(number of time you want it to loop) set to -1 for indefenet
+        var.stop() to stop
+
+03- rain drops -------------------------------------------------------------------------------------------------
+classes
+can creat individuwal creations that have thir own variables and function
+can creat independint sprites that can run sprites parrele to eachother and have self
