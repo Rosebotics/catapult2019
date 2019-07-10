@@ -142,6 +142,7 @@ def main():
 
     fighter = Fighter(screen, 320, 590)
     scoreboard = Scoreboard(screen, 5, 5)
+    game_over = False
 
     while True:
         clock.tick(60)

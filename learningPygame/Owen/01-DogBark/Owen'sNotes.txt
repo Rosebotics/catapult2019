@@ -22,8 +22,26 @@ Things I have learned that I can use on my project
     - infinite sound
 
 03-Raindrops
-    -
-    -
-    -
-    -
-    -
+    - classes
+    - self in class, noun. What they do- verbs
+    - must call in main
+    - self is needed for the class.
+    - class tells all the parameters and the main calls it.
+    - practice with collide points.
+    - init is the constructor, call draw and speed.
+    - class manages it the thing you see
+    - time.time() to track the seconds since epoch (note it had this line import time at the top.
+    - more practice with loops, if statements, and more.
+
+04-BouncingBall
+    -practice making a class to represent an on-screen sprite
+    -practice using a list to manage many objects.
+    -if / or statements.
+    -for loop
+
+05-TicTacToe
+    -model view controller./
+    -class for non visual displayed
+    -added sound and images
+    -columns
+    -rows

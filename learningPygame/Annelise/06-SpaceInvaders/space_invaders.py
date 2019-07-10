@@ -5,16 +5,19 @@ from pygame.locals import *
 class Missile:
     def __init__(self, screen, x):
         # Store the data.  Initialize:   y to 591   and   exploded to False.
-        pass
+        self.screen = screen
+        self.x = x
+        self.y = 591
+        self.exploded = False
 
     def move(self):
         # Make self.y 5 smaller than it was (which will cause the Missile to move UP).
-        pass
+        self.y = self.y - 5
 
     def draw(self):
         # Draw a vertical, 4 pixels thick, 8 pixels long, red (or green) line on the screen,
         # where the line starts at the current position of this Missile.
-        pass
+        pygame.draw.line(self.screen, (0, 255, 0), (self.x, self.y), (self.x, self.y - 8), 4)
 
 
 class Fighter:
@@ -23,16 +26,22 @@ class Fighter:
         # Set   self.missiles   to the empty list.
         # Load the file  "fighter.png"  as the image
         # Set the colorkey to white (it has a white background that needs removed)
-        pass
+        self.screen = screen
+        self.x = x
+        self.y = y
+        self.missiles = []
+        self.image = pygame.image.load("fighter.png")
+        self.image.set_colorkey(pygame.Color("White"))
 
     def draw(self):
         # Draw this Fighter, using its image at its current (x, y) position.
-        pass
+        self.screen.blit(self.image, (self.x, self.y))
 
     def fire(self):
         # Construct a new Missile 50 pixels to the right of this Fighter.
         # Append that Missile to this Fighter's list of Missile objects.
-        pass
+        new_missile = Missile(self.screen, self.x + 50)
+        self.missiles.append(new_missile)
 
     def remove_exploded_missiles(self):
         # Already complete
@@ -46,7 +55,10 @@ class Badguy:
         # Store the data.
         # Set   dead to False   and   original_x to x   and move_right to True.
         # Load the file  "badguy.png"  as the image. and set its colorkey to black.
-        pass
+        self.screen = screen
+        self.x = x
+        self.y = y
+        self.dead = False
 
     def move(self):
         # Move 2 units in the current direction.
@@ -97,30 +109,43 @@ def main():
     pygame.display.set_caption("SPACE INVADERS!")
     screen = pygame.display.set_mode((640, 650))
 
-    # TODO 9: Set    enemy_rows    to an initial value of 3.
-    # TODO 10: Create an EnemyFleet object (called enemy) with the screen and enemy_rows
-    # TODO 1: Create a Fighter (called fighter) at location  320, 590
+    # Done 9: Set    enemy_rows    to an initial value of 3.
+    enemy_rows = 3
+    # Done 10: Create an EnemyFleet object (called enemy) with the screen and enemy_rows
+    enemy = EnemyFleet(screen, enemy_rows)
+    # Done 1: Create a Fighter (called fighter) at location  320, 590
+    fighter = Fighter(screen, 320, 590)
 
     while True:
         clock.tick(60)
         for event in pygame.event.get():
             pressed_keys = pygame.key.get_pressed()
-            # TODO 5: If the event type is KEYDOWN and pressed_keys[K_SPACE] is True, then fire a missile
+            # Done 5: If the event type is KEYDOWN and pressed_keys[K_SPACE] is True, then fire a missile
             if event.type == QUIT:
                 sys.exit()
+            if event.type == pygame.KEYDOWN and pressed_keys[K_SPACE]:
+                fighter.fire()
 
         screen.fill((0, 0, 0))
         pressed_keys = pygame.key.get_pressed()
-        # TODO 3: If K_LEFT is pressed and fighter.x is greater than -50 move the fighter left 5
-        # TODO 4: If K_RIGHT is pressed and fighter.x is less than 590 move the fighter right 5
-        # TODO 2: Draw the fighter
+        # Done 3: If K_LEFT is pressed and fighter.x is greater than -50 move the fighter left 5
+        if pressed_keys[K_LEFT] and fighter.x > -50:
+            fighter.x = fighter.x - 5
+        # Done 4: If K_RIGHT is pressed and fighter.x is less than 590 move the fighter right 5
+        if pressed_keys[K_RIGHT] and fighter.x < 590:
+            fighter.x = fighter.x + 5
+        # Done 2: Draw the fighter
+        fighter.draw()
 
         # TODO 11: Move the enemy
         # TODO 12: Draw the enemy
 
-        # TODO 6: For each missile in the fighter missiles
-        #   TODO 7: Move the missile
-        #   TODO 8: Draw the missile
+        # Done 6: For each missile in the fighter missiles
+        #   Done 7: Move the missile
+        for missile in fighter.missiles:
+            missile.move()
+            missile.draw()
+        #   Done 8: Draw the missile
 
         # TODO 12: For each badguy in the enemy badguys
         #     TODO 13: For each missile in the fighter missiles

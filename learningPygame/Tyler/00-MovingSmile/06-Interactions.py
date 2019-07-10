@@ -51,8 +51,8 @@ while True:
     #screen.fill((255,0,0))
     #screen.fill((0, 255, 0))
     screen.fill((0, 100, 200))
-
-    pygame.draw.circle(screen, (200, 200, 0), (320, 240), 150) #face
+    pygame.draw.ci
+    pygame.draw.circle(screen, (200, 200, 0), (320, 240), 150)  #face
     pygame.draw.circle(screen, (0, 0, 0), (280 + eye_x, 170), 10) #eyes
     pygame.draw.circle(screen, (0, 0, 0), (366 + eye_x, 170), 10)
 

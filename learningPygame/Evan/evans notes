@@ -8,16 +8,40 @@ general notes ------------------------------------------------------------------
 
 for is writen as
         for i in range(10)
+        or
+        for x in list_name_here
 
 creat a screen
         screen = pygame.display.set_mode((640, 480))
         pygame.display.set_caption("this is the end of the world")
+
+to creat a new function
+def function_name(paramiters):
+normaly have a /main/ function to have no global variables
+
+in main function have a
+    while True:
+    to have a continuus loop
+
+    in loop have
+            for event in pygame.event.get():
+
+            if event.type == pygame.QUIT:
+                sys.exit()
+ to make the "x" button work and in the new (for event) loop have button/mouse events
+
+inorder to use randome ness have
+    import random
+at the begining of the code and use
+    randome.randint(min,max)
+for randome intigers
+
 00-moving face that is creepy --------------------------------------------------------------------------------------------------
 thing that i can use
     pygame.draw.rect(screen, collor, (start),(with lange)
     pygame.draw.circle(screen, color, position(x,y), radius, with)
 
-lisses to key presses with
+lisses to key presses with ,  this line needs to be in the begining of the loop, this will reupbate what the last event was
                 pressed_keys = pygame.key.get_pressed()
 and then use things like
             if pressed_keys[pygame.K_w]:
@@ -40,7 +64,7 @@ to play sound
     pygame.mixer.music.play()
 
 02 - click the circle --------------------------------------------------------------------------------------------------
-for sound inorder to be able to stack i can do
+for sound inorder to be able to stack i can do (only workes with OGG and .WAV files)
          var = pygame.mixer.Sound("file name here")
 this will only up to 8 sound at one time tho
 can use
@@ -55,3 +79,48 @@ to call use
 classes
 can creat individuwal creations that have thir own variables and function
 can creat independint sprites that can run sprites parrele to eachother and have self
+classes are liek compound functions with their own memory and frnctions
+        example
+ var_name1 = class(paramiters for class)         this will creat an instance of the class
+ var_name1.class_function(paramiters)            this will do one of the function for the class
+ var_name1.class_variable = number               this will change that variable for that instance spicificaly
+
+
+ for creating the class -------------------------------------------------------------------------------------------------------------------
+ class class_name:
+    def __init__(self, paramiters you want it to have):
+
+        this will make a person variable for the instance of the class
+        self.var = var
+
+        this is what is writen to make a new function in a class
+    def function_name (self, paramiters):
+        here is where
+classes can be used to manige sprites, manage data, help with orginization
+
+def __init__    is used to define what is in a class( this part is manly ment for variables and not commands
+
+usfull code to copy/past
+        self.screen = screen
+        self.x = x
+        self.y = y
+
+time.time() to get time since start.
+need to have //import time// at the start inorder for this to work
+
+for colishion
+pygame.Rect(starting_x, starting_y, langth, hight).collidepoint((x position of object colliding into, y position of object colliding into))
+make a /rect/ as the hit box then use the collidepoint to see if a cirten point is in that box
+this returned true/false
+
+04- bounsing ball --------------------------------------------------------------------------------------------------------------------------------
+to get screen width
+    screen.get_width()
+to get screen hieght
+    screen.get_height()
+
+    rememberin to put in comments
+    learned how to make my own classes
+
+05- tic tac toe -------------------------------------------------------------------------------------------------------------------------------
+not much lerned but that classes do not have to be seen and .Sound only workes with OGG and .WAV
