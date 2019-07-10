@@ -23,3 +23,8 @@ Things Ive' learned that I can use on mt projet
 - What classes are
 - instance variables for sprites
 - time.time( to track the current seconds since epoch
+
+04 Bouncing ball
+- the order you code stuff in matters
+- pay attention to the indentations
+- copying code from other programs works, but you have to retrofit it to fit your code
