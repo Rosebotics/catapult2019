@@ -24,7 +24,6 @@ class Ball:
             self.speed_x = -self.speed_x
         if self.y >= 400 or self.y <= 0:
             self.speed_y = -self.speed_y
- 
 
 
 def main():
@@ -42,7 +41,7 @@ def main():
         new_ball = Ball(screen, random.randint(50, 250), random.randint(50, 250))
         ball_list.append(new_ball)
 
-
+ 
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
