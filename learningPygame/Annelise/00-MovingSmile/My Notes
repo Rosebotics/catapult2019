@@ -80,7 +80,7 @@ while True:
 03 - Mike's Rainy Day
 - Learned how to use classes
     class Cloud:
-- Leanrned how to give classes screen, x, and y
+- Learned how to give classes screen, x, and y
         self.screen = screen
         self.x = x
         self.y = y
