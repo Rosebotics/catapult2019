@@ -22,3 +22,7 @@ Coding Notes
     - time.time to track current seconds of epoch (imported time library at top)
     - more practice with loops
     - methods like: __init__, draw, etc.
+04-bouncing ball
+    - creating classes
+    - working more independently
+    - defining move independently
