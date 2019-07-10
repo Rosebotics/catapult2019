@@ -46,6 +46,7 @@ class Game:
         self.check_for_game_over()
 
     def check_for_game_over(self):
+        pygame.mixer.music.load("win.mp3")
         lines = []
         lines.append(self.board[0][0] + self.board[0][1] + self.board[0][2])
         lines.append(self.board[1][0] + self.board[1][1] + self.board[1][2])
@@ -56,13 +57,31 @@ class Game:
         lines.append(self.board[0][0] + self.board[1][1] + self.board[2][2])
         lines.append(self.board[0][2] + self.board[1][1] + self.board[2][0])
 
+        for line in lines:
+            if line == "XXX":
+                self.game_is_over = True
+                pygame.display.set_caption("X is winner!")
+                pygame.mixer.music.play()
+            if line == "OOO":
+                self.game_is_over = True
+                pygame.display.set_caption("O is winner")
+                pygame.mixer.music.play()
         # TODO: Use the lines list to determine if there is a winner.
         # TODO: If there is a winner, update the title text, play a sound, and set game_is_over to True.
 
 
 def draw_board(screen, game):
-    """ Draw the board based on the marked store in the board configuration array """
-    # TODO: Loop over the game.board to place X and O images on the screen as appropriate.
+    for row in range(3):
+        for col in range(3):
+            current_mark = game.board[row][col]
+            if current_mark == "X":
+                xImage = pygame.image.load("x_mark.png")
+                screen.blit(xImage, get_xy_position(row, col))
+            if current_mark == "O":
+                oImage = pygame.image.load("o_mark.png")
+                screen.blit(oImage, get_xy_position(row, col))
+
+
 
 
 def main():
@@ -70,20 +89,23 @@ def main():
     pygame.mixer.music.load("win.mp3")
     screen = pygame.display.set_mode((380, 400))
     pygame.display.set_caption("X's Turn")
-    board_surface = pygame.image.load("board.png")
-    # TODO: Create an instance of the Game class
 
+    board_surface = pygame.image.load("board.png")
+    game = Game()
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
-            # TODO: When a MOUSEBUTTONUP event occurs take a game turn
-            # TODO: When the K_SPACE key is pressed create a new game instance and update the text.
-
+            key = pygame.key.get_pressed()
+            if event.type == pygame.MOUSEBUTTONUP:
+                game.take_turn()
+            if key[pygame.K_SPACE]:
+                game = Game()
+                pygame.display.set_caption("X's Turn")
         screen.fill(pygame.Color("white"))
         screen.blit(board_surface, get_xy_position(0, 0))
 
-        # TODO: Call draw_board
+        draw_board(screen, game)
 
         pygame.display.update()
 
