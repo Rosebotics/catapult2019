@@ -4,8 +4,13 @@ Moving Smile
 - pygame.draw.<shape>
 - pygame.key.get_pressed()
 - pygame.time.Clock(), clock.tick(FPS)
-DogBark
+Dog Bark
 - To put an image on the screen after loading, screen.blit(image, (x, y))
 - For audio, can either load single file or do other thing (?)
 - Text
-- If you want something to happen once per key press, put it in the events loop. If you want something to continually happen while holding the key, put it after the events loop.
+Rainy Day
+- If you want something to happen once per key press, put it in the events loop.
+  If you want something to continually happen while holding the key, put it after the events loop.
+- With a list [], to add a new element use .append
+- You can hit ctrl/ to comment chunks
+- Classes!
