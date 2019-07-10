@@ -5,6 +5,7 @@ def main():
     # pre-define RGB colors for Pygame
     BLACK = (0, 0, 0)
     WHITE = (255, 255, 255)
+    WHITE = (255, 255, 255)
     IMAGE_SIZE = 470
     TEXT_HEIGHT = 30
 
