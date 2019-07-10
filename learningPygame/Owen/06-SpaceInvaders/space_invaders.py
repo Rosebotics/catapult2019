@@ -60,7 +60,7 @@ class Badguy:
         self.x = x
         self.y = y
         self.dead = False
-        
+
 
     def move(self):
         # Move 2 units in the current direction.
