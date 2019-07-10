@@ -102,3 +102,4 @@ import random
             cloud.x = cloud.x + 5
 - The and event.type == pygame.KEYDOWN: is a precautionary measure meant to keep from having any unnecessary movements of the sprite
 or any other unwanted interactions with other key commands. Mike's Rainy Day works without it, but it is good to know for more complicated games.
+
