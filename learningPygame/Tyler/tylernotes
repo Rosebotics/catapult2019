@@ -15,3 +15,11 @@ Things I've learned
 02-ClickInTheCircle
     - calculate distance
     -
+
+03-Raindrop
+    -working with classes
+    -self
+    -using sprites that move and interact
+    -collide point
+    -time.time() to measure time
+    -working with loops and for each loops

@@ -15,7 +15,7 @@ class Raindrop:
         self.screen = screen
         self.x = x
         self.y = y
-        self.speed = 2 #random.randint(5, 15)
+        self.speed = random.randint(5, 15)
 
     def move(self):
         """ Move the self.y value of the Raindrop down the screen (y increase) at the self.speed. """
@@ -85,20 +85,27 @@ class Cloud:
         # TODO    - Create a list for Raindrop objects as an empty list called raindrops.
         # TODO  Use instance variables:
         # TODO     screen  x  y  image   raindrops.
+        self.screen = screen
+        self.x = x
+        self.y = y
+        self.image = pygame.image.load(image_filename)
+        self.raindrops = []
 
 
     def draw(self):
         """ Draws this sprite onto the screen. """
         # TODO 25: Draw (blit) this Cloud's image at its current position.
-        pass
+        self.screen.blit(self.image, (self.x, self.y))
 
     def rain(self):
         """ Adds a Raindrop to the array of raindrops so that it looks like the Cloud is raining. """
-        # TODO 28: Append a new Raindrop to this Cloud's list of 03-Raindrops,
+        # done 28: Append a new Raindrop to this Cloud's list of 03-Raindrops,
         # TODO    where the new Raindrop starts at:
         # TODO      - x is a random integer between this Cloud's x and this Cloud's x + 300.
         # TODO      - y is this Cloud's y + 100.
-        pass
+        new_drop = Raindrop(self.screen, random.randint(self.x, self.x + 300), self.y + 100)
+        self.raindrops.append(new_drop)
+
 
 
 def main():
@@ -111,10 +118,11 @@ def main():
     clock = pygame.time.Clock()
 
     # TODO 7: As a temporary test, make a new Raindrop called test_drop at x=320 y=10
-    test_drop = Raindrop(screen, 320, 10)
+    #test_drop = Raindrop(screen, 320, 10)
     # TODO 15: Make a Hero, named mike, with appropriate images, starting at position x=300 y=400.
     mike = Hero(screen, 300, 400, "Mike_umbrella.png", "Mike.png")
-    # TODO 23: Make a Cloud, named cloud, with appropriate images, starting at position x=300 y=50.
+    # 23: Make a Cloud, named cloud, with appropriate images, starting at position x=300 y=50.
+    cloud = Cloud(screen, 300, 50, 'cloud.png')
 
     # TODO 3: Enter the game loop, with a clock tick of 60 (or so) at each iteration.
     while True:
@@ -124,6 +132,23 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
+
+        pressed_keys = pygame.key.get_pressed()
+
+        if pressed_keys[pygame.K_UP]:
+            cloud.y -= 5
+
+        if pressed_keys[pygame.K_DOWN]:
+            cloud.y += 5
+
+        if pressed_keys[pygame.K_LEFT]:
+            cloud.x -= 5
+
+        if pressed_keys[pygame.K_RIGHT]:
+            cloud.x += 5
+
+
+
 
         # TODO 27: Inside the game loop (AFTER the events loop above), get the list of keys that are currently pressed.
         # TODO    Arrange so that the Cloud moves:
@@ -138,21 +163,22 @@ def main():
         screen.fill((255, 255, 255))
 
         # TODO 12: As a temporary test, move test_drop
-        test_drop.move()
+        # test_drop.move()
         # TODO 14: As a temporary test, check if test_drop is off screen, if so reset the y position to 10
-        if test_drop.off_screen():
-            test_drop.y = 10
-
+        # if test_drop.off_screen():
+        #    test_drop.y = 10
+        #
         # TODO 10: As a temporary test, draw test_drop
-        test_drop.draw()
+        # test_drop.draw()
 
         # TODO 20: As a temporary test, check if test_drop is hitting Mike, if so set Mike's last_hit_time
-        if mike.hit_by(test_drop):
-            mike.last_hit_time = time.time()
+        #if mike.hit_by(test_drop):
+        #    mike.last_hit_time = time.time()
 
-        # TODO 22: When you run this test, slow the rain down to a speed of 2 to see the result, then remove that code
+        # done 22: When you run this test, slow the rain down to a speed of 2 to see the result, then remove that code
 
         # TODO 26: Draw the Cloud.
+        cloud.draw()
 
         # TODO 29: Remove the temporary testdrop code from this function and refactor it as follows:
         # TODO: Inside the game loop, make the Cloud "rain", and then:
@@ -161,6 +187,16 @@ def main():
             # TODO      - draw the Raindrop.
             # TODO  30: if the Hero is hit by a Raindrop, set the Hero's last_time_hit to the current time.
             # CONSIDER  - if the Raindrop is off the screen, delete it from the Cloud's list of 03-Raindrops.
+
+
+        cloud.rain()
+        for raindrop in cloud.raindrops:
+            raindrop.move()
+            raindrop.draw()
+            if mike.hit_by(raindrop):
+                mike.last_hit_time = time.time()
+            if raindrop.y > 650:
+                cloud.raindrops.remove(raindrop)
 
         # TODO 18: Draw the Hero
         mike.draw()
