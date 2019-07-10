@@ -17,7 +17,7 @@ def get_xy_position(row, col):
     left_x = 50
     return left_x + col * spacing_x, top_y + row * spacing_y
 
-
+#change
 class Game:
     def __init__(self):
         self.board = [['.' for _ in range(3)] for _ in range(3)]
