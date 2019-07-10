@@ -24,7 +24,7 @@ class Ball:
             self.speed_x = -self.speed_x
         if self.y >= 400 or self.y <= 0:
             self.speed_y = -self.speed_y
-
+ 
 
 
 def main():
