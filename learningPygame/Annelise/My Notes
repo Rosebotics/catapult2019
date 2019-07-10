@@ -108,3 +108,9 @@ or any other unwanted interactions with other key commands. Mike's Rainy Day wor
 - Created a class and added the necessary components for it to appear and move
 - Learned how to change the x and y speed of a single sprite separately
 - Learned how to make a sprite change direction once reaching a certain point
+
+05 - TicTacToe
+- Learned about the classes of a strategy game
+- Practiced nested for loops with if statements
+- Practiced using keys to make actions
+- Practiced using music 
