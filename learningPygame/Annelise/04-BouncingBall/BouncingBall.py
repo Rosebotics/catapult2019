@@ -41,7 +41,7 @@ def main():
         new_ball = Ball(screen, random.randint(50, 250), random.randint(50, 250))
         ball_list.append(new_ball)
 
- 
+
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
