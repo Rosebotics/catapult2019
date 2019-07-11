@@ -60,7 +60,8 @@ def main():
     greendown = Greendown
     yellowup = Yellowup
     blueright = Blueright
-
+    hpbar = HPBar
+    dancer = Dancer
 
 
 
@@ -70,6 +71,10 @@ def main():
             if event.type == pygame.QUIT:
                 sys.exit()
 
+
+        hpbar.draw()
+        dancer.draw()
+        dancer.move()
         pinkleft.move()
         pinkleft.draw()
         greendown.move()
@@ -77,7 +82,7 @@ def main():
         yellowup.move()
         yellowup.draw()
         blueright.move()
-        pblueright.draw()
+        blueright.draw()
 
 
 
