@@ -117,7 +117,7 @@ class EnemyFleet:
             if self.badguys[k].dead:
                 del self.badguys[k]
 class Scoreboard:
-    def __init__(self,screen):
+    def __init__(self, screen):
         self.screen = screen
         self.score = 0
         self.font = pygame.font.Font(None, 30)

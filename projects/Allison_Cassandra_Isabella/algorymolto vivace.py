@@ -11,7 +11,6 @@ class Dancer:
 
         pass
 
-
 class Blueright:
     def __init__(self, screen, x, y):
         self.screen = screen
@@ -29,13 +28,13 @@ class Pinkleft:
     def draw(self):
         pygame.draw.circle(self.screen, (230, 10, 150), (self.x, self.y), 40)
 
-class Greendown:
+class Purpledown:
     def __init__(self, screen, x, y):
         self.screen = screen
         self.x = x
         self.y = y
     def draw(self):
-        pygame.draw.circle(self.screen, (25, 255, 70), (self.x, self.y), 40)
+        pygame.draw.circle(self.screen, (191, 0, 254), (self.x, self.y), 40)
 
 class Yellowup:
     def __init__(self, screen, x, y):
@@ -47,7 +46,7 @@ class Yellowup:
 
 
 class HPBar:
-    def __init__(self,screen):
+    def __init__(self, screen):
         self.screen = screen
         self.score = 1000
         self.font = pygame.font.Font(None, 30)
@@ -55,16 +54,17 @@ class HPBar:
         text_as_image = self.font.render("Health:" + str(self.score), True, (155, 75, 160))
         self.screen.blit(text_as_image, (5, 5))
 
+
 def main():
 
     pinkleft = Pinkleft
-    greendown = Greendown
+    purpledown = Purpledown
     yellowup = Yellowup
     blueright = Blueright
-    hpbar = HPBar
+    hpbar = HPBar(screen)
     dancer = Dancer
 
-
+    pygame.mixer.music.load("albatraoz.mp3")
 
     while True:
 
@@ -78,12 +78,17 @@ def main():
         dancer.move()
         pinkleft.move()
         pinkleft.draw()
-        greendown.move()
-        greendown.draw()
+        purpledown.move()
+        purpledown.draw()
         yellowup.move()
         yellowup.draw()
         blueright.move()
         blueright.draw()
+
+        if badguy.hit_by(missile):
+            hpbar.score = hpbar.score - 100
+            badguy.dead = True
+            missile.exploded = True
 
 
 
