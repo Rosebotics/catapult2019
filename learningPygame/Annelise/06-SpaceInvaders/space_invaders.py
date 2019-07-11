@@ -68,12 +68,12 @@ class Badguy:
         # Move 2 units in the current direction.
         # Switch direction if this Badguy's position is more than 100 pixels from its original position.
         if self.move_right:
-            self.x = self.x + 2
+            self.x = self.x + 5
             if self.x > self.original_x + 100:
                 self.move_right = False
                 self.y = self.y + 15
         else:
-            self.x = self.x - 2
+            self.x = self.x - 5
             if self.x < self.original_x - 100:
                 self.move_right = True
                 self.y = self.y + 15
@@ -142,6 +142,10 @@ def main():
     fighter = Fighter(screen, 320, 590)
     scoreboard = Scoreboard(screen)
 
+    gameover_image = pygame.image.load("gameover.png")
+
+    is_game_over = False
+
     while True:
         clock.tick(60)
         for event in pygame.event.get():
@@ -186,21 +190,29 @@ def main():
                     scoreboard.score = scoreboard.score + 5
                     badguy.dead = True
                     missile.exploded = True
- 
+
         # Done 17: Use the fighter to remove exploded missiles
         fighter.remove_exploded_missiles()
         # Done 18: Use the enemy to remove dead badguys
         enemy.remove_dead_badguys()
 
-        # TODO 19: If the enemy is_defeated
-        #     TODO 20: Increment the enemy_rows
-        #     TODO 21: Create a new enemy with the screen and enemy_rows
+        # Done 19: If the enemy is_defeated
+        #     Done 20: Increment the enemy_rows
+        #     Done 21: Create a new enemy with the screen and enemy_rows
         if enemy.is_defeated:
             enemy_rows = enemy_rows + 1
             enemy = EnemyFleet(screen, enemy_rows)
 
         scoreboard.draw()
-        pygame.display.update()
+
+        if not is_game_over:
+            pygame.display.update()
+
+            for badguy in enemy.badguys:
+                if badguy.y > 545:
+                    screen.blit(gameover_image, (170, 200))
+                    pygame.display.update()
+                    is_game_over = True
 
 
 main()
