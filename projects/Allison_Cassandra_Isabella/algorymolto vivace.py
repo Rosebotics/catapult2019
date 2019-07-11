@@ -67,7 +67,7 @@ class Yellowup:
         # Return True if a 70x45 rectangle at this Badguy's current position
         #   collides with the xy point of the given missile.
         # Return False otherwise.
-       return pygame.Rect(self.x, self.y, 70, 45).collidepoint((missile.x, missile.y)) #TODO: Fix "missile"
+       return pygame.Rect(self.x, self.y, 70, 45).collidepoint((missile.x, missile.y)) #TODO: Fix "misse"
 
 class HPBar:
     def __init__(self, screen):
