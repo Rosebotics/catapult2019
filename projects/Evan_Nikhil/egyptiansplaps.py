@@ -1,12 +1,40 @@
 import pygame, sys, random, time
 from pygame.locals import *
 
+#-------------------------------------------------------------------------------Challenge
+class Challenge:
+    def __init__(self):
+        pass
+
+#detect to set up tries remaining
+    def card_detector(self):
+        pass
+
+#detect if card placed after challenge card is another challenge card
+    def battle(self):
+        pass
+
+#-----------------------------------------------------------------------------------Detection
+class Detection:
+    def __init__(self):
+
+
+    def slap(self):
+        pass
+
+    def win(self):
+        pass
+
+    def new_round(self):
+        pass
+
 #-----------------------------------------------------------------------------Player
 class Player:
     def __init__(self,deck):
         self.deck = deck
         self.inout = 1
         self.slap_time = 0
+
 
 #add top card of deck to pot then remove card from deck
     def place_card(self,pot):
@@ -28,33 +56,6 @@ class CenterPile:
         pass
 
     def draw(self):
-        pass
-
-#-----------------------------------------------------------------------------------Detection
-class Detection:
-    def __init__(self):
-        pass
-
-    def slap(self):
-        pass
-
-    def win(self):
-        pass
-
-    def new_round(self):
-        pass
-
-#-------------------------------------------------------------------------------Challenge
-class Challenge:
-    def __init__(self):
-        pass
-
-#detect to set up tries remaining
-    def card_detector(self):
-        pass
-
-#detect if card placed after challenge card is another challenge card
-    def battle(self):
         pass
 
 #-----------------------------------------------------------------------------------------
