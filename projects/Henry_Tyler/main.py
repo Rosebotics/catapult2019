@@ -9,7 +9,7 @@ class Player:
         self.column = column
         self.direction = direction
         self.color = color
-        self.lives = 3
+        self.lives = 2
 
     def draw(self):
         #pygame.draw.polygon(self.screen, self.color, [(self.x, self.y), (self.x+50, self.y-20), (self.x + 100, self.y), (self.x + 100, self.y +50), (self.x + 50, self.y +30), (self.x, self.y +50)])
