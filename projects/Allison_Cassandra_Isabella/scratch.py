@@ -56,12 +56,31 @@ class HPBar:
 
 def main():
 
+    pinkleft = Pinkleft
+    greendown = Greendown
+    yellowup = Yellowup
+    blueright = Blueright
+
+
+
 
     while True:
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
+
+        pinkleft.move()
+        pinkleft.draw()
+        greendown.move()
+        greendown.draw()
+        yellowup.move()
+        yellowup.draw()
+        blueright.move()
+        pblueright.draw()
+
+
+
 
     screen.fill(0, 0, 0)
 
