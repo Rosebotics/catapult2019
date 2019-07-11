@@ -20,6 +20,12 @@ class Blueright:
     def draw(self):
         pygame.draw.circle(self.screen, (10, 165, 225), (self.x, self.y), 40)
 
+    def hit_by(self, missile):
+        # Return True if a 70x45 rectangle at this Badguy's current position
+        #   collides with the xy point of the given missile.
+        # Return False otherwise.
+       return pygame.Rect(self.x, self.y, 70, 45).collidepoint((missile.x, missile.y)) #TODO: Fix "missile"
+
 class Pinkleft:
     def __init__(self, screen, x, y):
         self.screen = screen
@@ -27,6 +33,13 @@ class Pinkleft:
         self.y = y
     def draw(self):
         pygame.draw.circle(self.screen, (230, 10, 150), (self.x, self.y), 40)
+
+    def hit_by(self, missile):
+        # Return True if a 70x45 rectangle at this Badguy's current position
+        #   collides with the xy point of the given missile.
+        # Return False otherwise.
+       return pygame.Rect(self.x, self.y, 70, 45).collidepoint((missile.x, missile.y)) #TODO: Fix "missile"
+
 
 class Purpledown:
     def __init__(self, screen, x, y):
@@ -36,6 +49,12 @@ class Purpledown:
     def draw(self):
         pygame.draw.circle(self.screen, (191, 0, 254), (self.x, self.y), 40)
 
+    def hit_by(self, missile):
+        # Return True if a 70x45 rectangle at this Badguy's current position
+        #   collides with the xy point of the given missile.
+        # Return False otherwise.
+       return pygame.Rect(self.x, self.y, 70, 45).collidepoint((missile.x, missile.y)) #TODO: Fix "missile"
+
 class Yellowup:
     def __init__(self, screen, x, y):
         self.screen = screen
@@ -44,6 +63,11 @@ class Yellowup:
     def draw(self):
         pygame.draw.circle(self.screen, (255, 240, 0), (self.x, self.y), 40)
 
+    def hit_by(self, missile):
+        # Return True if a 70x45 rectangle at this Badguy's current position
+        #   collides with the xy point of the given missile.
+        # Return False otherwise.
+       return pygame.Rect(self.x, self.y, 70, 45).collidepoint((missile.x, missile.y)) #TODO: Fix "missile"
 
 class HPBar:
     def __init__(self, screen):
@@ -85,10 +109,22 @@ def main():
         blueright.move()
         blueright.draw()
 
-        if :
+        if pinkleft.hit_by:
+            pinkleft.dead = True
+
+        if purpledown.hit_by:
+            purpledown.dead = True
+
+        if yellowup.hit_by:
+            yellowup.dead = True
+
+        if blueright.hit_by:
+            blueright.dead = True
+
+        if dancer.hit_by:
             hpbar.score = hpbar.score - 100
-            badguy.dead = True
-            missile.exploded = True
+
+        if hp
 
 
 
