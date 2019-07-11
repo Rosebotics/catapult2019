@@ -48,7 +48,7 @@ def main():
     balls = []
     for k in range(1000):
         radius = random.randint(3, 10)
-        new_ball = Ball(screen, (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)), random.randint(radius, screen.get_width()), random.randint(radius, screen.get_height()), radius, random.randint(1, 5), random.randint(1, 5))
+        new_ball = Ball(screen, (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)), random.randint(20, screen.get_width()), random.randint(20, screen.get_height()), radius, random.randint(-5, 5), random.randint(-5, 5))
         balls.append(new_ball)
 
     while True:

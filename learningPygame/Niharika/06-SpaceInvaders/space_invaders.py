@@ -72,12 +72,12 @@ class Badguy:
         # Move 2 units in the current direction.
         # Switch direction if this Badguy's position is more than 100 pixels from its original position.
         if self.move_right:
-            self.x = self.x + 5
+            self.x = self.x + 8
             if self.x > self.original_x + 100:
                 self.move_right = False
                 self.y = self.y + 15
         else:
-            self.x = self.x - 2
+            self.x = self.x - 8
             if self.x < self.original_x - 100:
                 self.move_right = True
                 self.y = self.y + 15
@@ -154,6 +154,8 @@ def main():
     fighter = Fighter(screen, 320, 590)
 
     scoreboard = Scoreboard(screen)
+    gameover_image = pygame.image.load("gameover.png")
+    is_game_over = False
 
     while True:
         clock.tick(60)
@@ -164,7 +166,7 @@ def main():
             if event.type == QUIT:
                 sys.exit()
 
-            if event.type == pygame.KEYDOWN and pressed_keys[K_SPACE]:
+        if event.type == pygame.KEYDOWN and pressed_keys[K_SPACE]:
                 fighter.fire()
 
 
@@ -221,7 +223,14 @@ def main():
         #     done 21: Create a new enemy with the screen and enemy_rows
         scoreboard.draw()
 
-        pygame.display.update()
+        if not is_game_over:
+            pygame.display.update()
+
+            for badguy in enemy.badguys:
+                if badguy.y > 545:
+                    screen.blit(gameover_image, (170, 200))
+                    pygame.display.update()
+                    is_game_over = True
 
 
 main()
