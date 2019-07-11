@@ -78,6 +78,7 @@ class Badguy:
                 self.move_right = True
                 self.y = self.y + 15
 
+
     def draw(self):
         # Draw this Badguy, using its image at its current (x, y) position.
         self.screen.blit(self.image, (self.x, self.y))
