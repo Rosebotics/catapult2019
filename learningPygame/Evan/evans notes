@@ -156,3 +156,13 @@ to get screen hieght
 not much lerned but that classes do not have to be seen and .Sound only workes with OGG and .WAV
 
 06-- space invaders -------------------------------------------------
+more practice with classes
+
+  self.image.set_colorkey(pygame.Color('WHITE'))
+
+
+  if top card == 'j' or top card == 'q' or top card == 'k' or top card == 'a'
+
+
+
+if

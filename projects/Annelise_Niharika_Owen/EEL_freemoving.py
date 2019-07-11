@@ -11,29 +11,15 @@ class WaterBottle:
         self.screen.blit(self.image, (self.x, self.y))
 
 
-class Head:
+class StarFish:
     def __init__(self, screen, x, y,):
         self.screen = screen
         self.x = x
         self.y = y
 
-    def draw(self):
-        pygame.draw.rect(self.screen, (255, 165, 0), (self.x, self.y), 5)
+class Eel:
 
-    def move(self):
-        pass
-
-class Fish:
-    pass
-
-class Board:
-    def __init__(self):
-        self.board = [['.' for _ in range(25)] for _ in range(25)]
-
-    def test(self):
-        eel = []
-        eel.append(self.board[0][0])
-
+class Oyster:
 
 class Scoreboard:
     pass
@@ -49,8 +35,8 @@ def main():
 
     waterbottles = []
 
-    for x in range(2000):
-        waterbottle = WaterBottle(screen, random.randint(50, 850), random.randint(50, 850))
+    for x in range(50):
+        waterbottle = WaterBottle(screen, random.randint(20, 850), random.randint(20, 850))
         waterbottles.append(waterbottle)
 
     while True:
