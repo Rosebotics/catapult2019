@@ -26,15 +26,6 @@ class Head:
 class Fish:
     pass
 
-class Board:
-    def __init__(self):
-        self.board = [['.' for _ in range(25)] for _ in range(25)]
-
-    def test(self):
-        eel = []
-        eel.append(self.board[0][0])
-
-
 class Scoreboard:
     pass
 
@@ -49,8 +40,8 @@ def main():
 
     waterbottles = []
 
-    for x in range(60):
-        waterbottle = WaterBottle(screen, random.randint(50, 850), random.randint(50, 850))
+    for x in range(6):
+        waterbottle = WaterBottle(screen, random.randint(20, 850), random.randint(20, 850))
         waterbottles.append(waterbottle)
 
     while True:
