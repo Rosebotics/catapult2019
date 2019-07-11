@@ -9,3 +9,8 @@ class Fish:
 class Body:
 
 class Scoreboard:
+
+def main()
+
+
+main()
