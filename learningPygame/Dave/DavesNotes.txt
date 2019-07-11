@@ -48,3 +48,13 @@ Things I've learned that I can use on my project...
  - More practice with collidepoint
  - time.time() to track the current seconds since epoch (note: it had this line import time at the top)
  - More practice with loops, if statements, and more
+
+
+04-BouncingBall
+ - Practice making a Class to represent an on-screen sprite
+ - Practice using a list to manage many objects
+
+05-TicTacToe
+ - Created a class to manage the data for the game state
+ - Nested for loops
+ - 2D array (lists within lists)
