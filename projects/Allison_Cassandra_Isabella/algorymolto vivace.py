@@ -20,7 +20,7 @@ class Blueright:
         self.y = y
 
     def draw(self):
-        pygame.draw.circle(self.screen, (10, 165, 225), (self.x, self.y), 40)
+        pygame.draw.circle(self.screen, (0, 255, 225), (self.x, self.y), 30)
 
     def hit_by(self, missile):
         # Return True if a 70x45 rectangle at this Badguy's current position
@@ -37,7 +37,7 @@ class Pinkleft:
         self.x = x
         self.y = y
     def draw(self):
-        pygame.draw.circle(self.screen, (230, 10, 150), (self.x, self.y), 40)
+        pygame.draw.circle(self.screen, (230, 10, 150), (self.x, self.y), 30)
 
     def hit_by(self, missile):
         # Return True if a 70x45 rectangle at this Badguy's current position
@@ -54,7 +54,7 @@ class Purpledown:
         self.x = x
         self.y = y
     def draw(self):
-        pygame.draw.circle(self.screen, (191, 0, 254), (self.x, self.y), 40)
+        pygame.draw.circle(self.screen, (191, 0, 254), (self.x, self.y), 30)
 
     def hit_by(self, missile):
         # Return True if a 70x45 rectangle at this Badguy's current position
@@ -71,7 +71,7 @@ class Yellowup:
         self.x = x
         self.y = y
     def draw(self):
-        pygame.draw.circle(self.screen, (255, 240, 0), (self.x, self.y), 40)
+        pygame.draw.circle(self.screen, (255, 240, 0), (self.x, self.y), 30)
 
     def hit_by(self, missile):
         # Return True if a 70x45 rectangle at this Badguy's current position
