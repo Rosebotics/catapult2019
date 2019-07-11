@@ -114,6 +114,14 @@ def main():
                 player.color = (0, 255, 0)
             elif pressed_keys[K_d]:
                 player.color = (0, 0, 255)
+        #   elif pressed_keys[K_a] and pressed_keys[K_s]:
+        #       player.color = (255, 255, 0)
+        #   elif pressed_keys[K_s] and pressed_keys[K_d]:
+        #       player.color = (0, 255, 255)
+        #   elif pressed_keys[K_a] and pressed_keys[K_d]:
+        #       player.color = (255, 0, 255)
+        #   elif pressed_keys[K_a] and pressed_keys[K_s] and pressed_keys[K_d]:
+        #       player.color = (255, 255, 255)
 
             # -EXIT-
             if event.type == pygame.QUIT:
@@ -137,5 +145,6 @@ def main():
         enemy_list.move()
         score.draw()
         pygame.display.update()
+
 
 main()
