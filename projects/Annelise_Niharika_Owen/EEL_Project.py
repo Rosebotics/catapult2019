@@ -12,5 +12,4 @@ class Scoreboard:
 
 def main()
 
-
 main()
