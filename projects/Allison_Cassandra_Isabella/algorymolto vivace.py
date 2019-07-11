@@ -9,6 +9,7 @@ class Dancer:
 
     def draw(self):
 
+        pass
 
 
 class Blueright:
