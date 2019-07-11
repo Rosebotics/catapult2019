@@ -56,7 +56,7 @@ def main():
     pygame.init()
     clock = pygame.time.Clock()
     pygame.display.set_caption("this is a test")
-    screen = pygame.display.set_mode((2000, 1000))
+    screen = pygame.display.set_mode((500, 500))
     #---------------set up----------------------------------------------------------------------------set up
     #setting up new deck and dealing out cards
     new_deck = [2,2,2,2,3,3,3,3,4,4,4,4,5,5,5,5,6,6,6,6,7,7,7,7,8,8,8,8,9,9,9,9,10,10,10,10,'J','J','J','J','Q','Q','Q','Q','K','K','K','K','A','A','A','A']
@@ -68,9 +68,29 @@ def main():
         temp_deck.append(new_deck[0])
         new_deck.pop(0)
     player1 = Player(temp_deck)
+    print(temp_deck)
     temp_deck = []
+
     #player2
+    for i in range(17):
+        temp_deck.append(new_deck[0])
+        new_deck.pop(0)
+    player2 = Player(temp_deck)
+    print(temp_deck)
+    temp_deck = []
+
     #player3
+    for i in range(17):
+        temp_deck.append(new_deck[0])
+        new_deck.pop(0)
+    player3 = Player(temp_deck)
+    print(temp_deck)
+    temp_deck = []
+
+    #--------------------------------------------------------------------------------------------------------
+    turn = 1
+
+
 
 
 
@@ -80,14 +100,26 @@ def main():
 
 
     #-----------------------------------------------------------------------------------------------------------
+
     while True:
         clock.tick(60)
+        pressed_keys = pygame.key.get_pressed()
 
         for event in pygame.event.get():
-            pressed_keys = pygame.key.get_pressed()
             if event.type == QUIT:
                 sys.exit()
             #-----in for loop------------------------------------------------------------------------------in for event loop
+            if pressed_keys[pygame.K_BACKQUOTE] and turn == 1:
+                print(new_deck)
+                turn = 2
+
+            if pressed_keys[pygame.K_v] and turn == 2:
+                print(new_deck)
+                turn = 3
+
+            if pressed_keys[pygame.K_o] and turn == 3:
+                print(new_deck)
+                turn = 1
 
 
 
