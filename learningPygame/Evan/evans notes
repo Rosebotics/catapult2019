@@ -36,6 +36,36 @@ at the begining of the code and use
     randome.randint(min,max)
 for randome intigers
 
+set up lines ------------------------------------------------------------------------------------------------
+load up
+    inishat pygame
+       pygame.init()
+    set up screen
+       screen = pygame.display.set_mode((x, y))
+    update screen
+       pygame.display.update()
+    make "x" button work
+        if event.type == QUIT:
+            sys.exit()
+    load  images
+       image = pygame.image.load('fighter.png')
+    see keys
+       pressed_keys = pygame.key.get_pressed()
+    sound
+       pygame.mixer.music.load("file name here")
+       var = pygame.mixer.Sound("file name here")
+    set up chanals
+       pygame.mixer.set_num_channels()
+    start time
+       time.time()
+    set up clock/fps
+       clock = pygame.time.Clock()
+    use clock/fps
+        clock.tick(60)
+
+general notes ----------------------------------------------------------------------------------------------------------------------------------
+starting points for images is in the top left
+
 00-moving face that is creepy --------------------------------------------------------------------------------------------------
 thing that i can use
     pygame.draw.rect(screen, collor, (start),(with lange)
@@ -52,8 +82,9 @@ can use clock
         clock.tick(60)
 
 01- dog bark (lets make demons) --------------------------------------------------------------------------------------------------
-
-to put an immige on the screen
+load in immage
+var = pygame.image.load('file name')
+to put an image on the screen
         screen.blit(thing to put on screen , (x,y))
 to get size of a image (width)
         caption.get_width()
@@ -85,6 +116,13 @@ classes are liek compound functions with their own memory and frnctions
  var_name1.class_function(paramiters)            this will do one of the function for the class
  var_name1.class_variable = number               this will change that variable for that instance spicificaly
 
+for colishion
+pygame.Rect(starting_x, starting_y, langth, hight).collidepoint((x position of object colliding into, y position of object colliding into))
+make a /rect/ as the hit box then use the collidepoint to see if a cirten point is in that box
+this returned true/false
+
+time.time() to get time since start.
+need to have //import time// at the start inorder for this to work
 
  for creating the class -------------------------------------------------------------------------------------------------------------------
  class class_name:
@@ -105,14 +143,6 @@ usfull code to copy/past
         self.x = x
         self.y = y
 
-time.time() to get time since start.
-need to have //import time// at the start inorder for this to work
-
-for colishion
-pygame.Rect(starting_x, starting_y, langth, hight).collidepoint((x position of object colliding into, y position of object colliding into))
-make a /rect/ as the hit box then use the collidepoint to see if a cirten point is in that box
-this returned true/false
-
 04- bounsing ball --------------------------------------------------------------------------------------------------------------------------------
 to get screen width
     screen.get_width()
@@ -124,3 +154,5 @@ to get screen hieght
 
 05- tic tac toe -------------------------------------------------------------------------------------------------------------------------------
 not much lerned but that classes do not have to be seen and .Sound only workes with OGG and .WAV
+
+06-- space invaders -------------------------------------------------

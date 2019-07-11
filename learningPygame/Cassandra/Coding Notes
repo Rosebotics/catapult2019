@@ -15,4 +15,14 @@ Coding Notes
     - working with inserting sounds/music
 02-click in circle
     - adding music
-    -
+
+03-mikes rainy day
+    - making classes and onscreen sprites
+    - sprite classes instance variables (screen, x, y, image)
+    - time.time to track current seconds of epoch (imported time library at top)
+    - more practice with loops
+    - methods like: __init__, draw, etc.
+04-bouncing ball
+    - creating classes
+    - working more independently
+    - defining move independently
