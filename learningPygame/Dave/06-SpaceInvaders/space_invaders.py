@@ -196,6 +196,6 @@ def main():
                     screen.blit(gameover_image, (170, 200))
                     pygame.display.update()
                     is_game_over = True
-                    
+
 
 main()
