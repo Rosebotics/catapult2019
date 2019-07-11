@@ -49,7 +49,7 @@ def main():
 
     waterbottles = []
 
-    for x in range(60):
+    for x in range(2000):
         waterbottle = WaterBottle(screen, random.randint(50, 850), random.randint(50, 850))
         waterbottles.append(waterbottle)
 
