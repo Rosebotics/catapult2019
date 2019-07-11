@@ -22,4 +22,5 @@ def main()
     pygame.display.set_caption("EEL!")
     screen = pygame.display.set_mode((650, 650))
 
+    clock.tick(60)
 main()
