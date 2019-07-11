@@ -132,9 +132,7 @@ class Scoreboard:
 
 
 def main():
-
     ser = serial.Serial('/dev/cu.usbmodem14202', 115200, timeout=0)
-    serial_buffer = ''
 
     pygame.init()
     clock = pygame.time.Clock()
@@ -158,21 +156,14 @@ def main():
                 fighter.fire()
 
         serial_data = ser.read()
-        while serial_data:
-            serial_buffer += serial_data.decode('utf-8')
-            if '\r\n' in serial_buffer:
-                # print(serial_buffer)
-                if 'L' in serial_buffer and fighter.x > -50:
-                    fighter.x = fighter.x - 25
-                    # print("l", end='')
-                if 'R' in serial_buffer and fighter.x < 590:
-                    fighter.x = fighter.x + 25
-                    # print("r", end='')
-                if 'F' in serial_buffer and fighter.x < 590:
-                    fighter.fire()
-                    # print("f")
-                serial_buffer = ''
-            serial_data = ser.read()
+        if serial_data:
+            message = serial_data.decode('utf-8')
+            if message == 'L' and fighter.x > -50:
+                fighter.x = fighter.x - 25
+            if message == 'R' and fighter.x < 590:
+                fighter.x = fighter.x + 25
+            if message == 'F' and fighter.x < 590:
+                fighter.fire()
 
         screen.fill((0, 0, 0))
         pressed_keys = pygame.key.get_pressed()
