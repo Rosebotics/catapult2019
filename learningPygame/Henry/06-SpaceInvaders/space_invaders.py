@@ -52,15 +52,15 @@ class Badguy:
 
     def move(self):
         if self.move_right:
-            self.x += 2
+            self.x += 5
             if self.x > self.originalX + 100:
                 self.move_right = False
-                self.y += 10
+                self.y += 15
         else:
-            self.x -= 2
+            self.x -= 5
             if self.x < self.originalX - 100:
                 self.move_right = True
-                self.y += 10
+                self.y += 15
 
     def draw(self):
         self.screen.blit(self.image, (self.x, self.y))
@@ -106,12 +106,14 @@ def main():
     pygame.init()
     clock = pygame.time.Clock()
     pygame.display.set_caption("SPACE INVADERS!")
+    gameover_image = pygame.image.load("gameover.png")
     screen = pygame.display.set_mode((640, 650))
     enemy_rows = 3
     enemy = EnemyFleet(screen, enemy_rows)
     scoreboard = Scoreboard(screen)
     fighter = Fighter(screen, 320, 590)
     missile = Missile(screen, fighter.x)
+    gameover = False
     while True:
         clock.tick(60)
         for event in pygame.event.get():
@@ -146,6 +148,14 @@ def main():
         enemy.move()
         enemy.draw()
         scoreboard.draw()
+        if not gameover:
+            pygame.display.update()
+            for badguy in enemy.badguys:
+                if badguy.y > 545:
+                    gameover = True
+                    screen.blit(gameover_image, (170, 200))
+                    pygame.display.update()
+
 
         # TODO 12: For each badguy in the enemy badguys
         #     TODO 13: For each missile in the fighter missiles
@@ -160,7 +170,7 @@ def main():
         #     TODO 20: Increment the enemy_rows
         #     TODO 21: Create a new enemy with the screen and enemy_rows
 
-        pygame.display.update()
+
 
 
 main()
