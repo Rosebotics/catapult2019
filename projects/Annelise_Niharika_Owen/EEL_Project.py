@@ -29,10 +29,10 @@ def main():
     pygame.init()
     clock = pygame.time.Clock()
     pygame.display.set_caption("EEL!")
-    screen = pygame.display.set_mode((650, 650))
+    screen = pygame.display.set_mode((1000, 1000))
     level1_image = pygame.image.load('level_1.png')
     screen.blit(level1_image, (0,0))
-    level1_image = pygame.transform.scale(level1_image, (IMAGE_SIZE, IMAGE_SIZE))
+    # level1_image = pygame.transform.scale(level1_image, (IMAGE_SIZE, IMAGE_SIZE))
 
     while True:
         for event in pygame.event.get():
