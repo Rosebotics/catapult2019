@@ -55,8 +55,8 @@ def main():
 
     waterbottles = []
 
-    for x in range(6):
-        waterbottle = WaterBottle(screen, random.randint(20, 850), random.randint(20, 850))
+    for x in range(60):
+        waterbottle = WaterBottle(screen, random.randint(50, 850), random.randint(50, 850))
         waterbottles.append(waterbottle)
 
     while True:
