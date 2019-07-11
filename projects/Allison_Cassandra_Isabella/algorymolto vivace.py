@@ -85,7 +85,7 @@ def main():
     purpledown = Purpledown
     yellowup = Yellowup
     blueright = Blueright
-    hpbar = HPBar(screen)
+    hpbar = HPBar
     dancer = Dancer
 
     pygame.mixer.music.load("albatraoz.mp3")
@@ -124,7 +124,6 @@ def main():
         if dancer.hit_by:
             hpbar.score = hpbar.score - 100
 
-        if hp
 
 
 
