@@ -84,6 +84,7 @@ class Badguy:
         # Draw this Badguy, using its image at its current (x, y) position.
         self.screen.blit(self.image, (self.x, self.y))
 
+
     def hit_by(self, missile):
         # Return True if a 70x45 rectangle at this Badguy's current position
         #   collides with the xy point of the given missile.
