@@ -133,7 +133,7 @@ def main():
     clock = pygame.time.Clock()
     pygame.display.set_caption("SPACE INVADERS!")
     screen = pygame.display.set_mode((640, 650))
-
+    is_game_over = False
     # DONE 9: Set    enemy_rows    to an initial value of 3.
     enemy_rows = 3
     # DONE 10: Create an EnemyFleet object (called enemy) with the screen and enemy_rows
@@ -141,8 +141,9 @@ def main():
     # DONE 1: Create a Fighter (called fighter) at location  320, 590
     fighter = Fighter(screen, 320, 590)
     scoreboard = Scoreboard(screen)
+    gameover_image = pygame.image.load('gameover.png')
     while True:
-        clock.tick(60)
+        clock.tick(600) # TODO: Reset to 60
         for event in pygame.event.get():
             pressed_keys = pygame.key.get_pressed()
             # DONE 5: If the event type is KEYDOWN and pressed_keys[K_SPACE] is True, then fire a missile
@@ -194,8 +195,14 @@ def main():
         if enemy.is_defeated:
             enemy_rows += 1
             enemy = EnemyFleet(screen, enemy_rows)
-        pygame.display.update()
-
+        if not is_game_over:
+            pygame.display.update()
+        for badguy in enemy.badguys:
+            if badguy.y > 545:
+                screen.blit(gameover_image, (170, 200))
+                if not is_game_over:
+                    pygame.display.update()
+                is_game_over = True
 
 # TODO: After the core game is complete we will implement these tasks:
 # Create a Scoreboard class (from scratch)
