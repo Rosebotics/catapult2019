@@ -7,6 +7,9 @@ class WaterBottle:
         self.y = y
         self.image = pygame.image.load('water_bottle.png')
 
+    def draw(self):
+        self.screen.blit(self.image, (self.x, self.y))
+
 
 class Head:
     def __init__(self, screen, x, y,):
@@ -48,9 +51,11 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
+        screen.blit(level1_image, (0, 0))
+        for waterbottle in waterbottles:
+            waterbottle.draw()
 
         clock.tick(60)
-        screen.blit(level1_image, (0, 0))
         pygame.display.update()
 
 main()
