@@ -66,7 +66,7 @@ def main():
     pearls = []
     for x in range(3):
         pearl = Pearl(screen, random.randint(60, 850), random.randint(60, 850))
-        pearls.append(pearl)
+        # pearls.append(pearl)
 
 
     waterbottles = []
