@@ -39,7 +39,7 @@ class Fighter:
         self.screen.blit(self.image, (self.x,self.y))
 
     def fire(self):
-        # Construct a new Missile 50 pixels to the right of this Fighter.
+        # Construct a new Missile 50 pixels to the right of this Fighter.dd
         # Append that Missile to this Fighter's list of Missile objects.
         new_missile = Missile(self.screen, self.x + 50)
         self.missiles.append(new_missile)
