@@ -192,10 +192,7 @@ def main():
                     scoreboard.score += 100
                     badguy.dead = True
                     missile.exploded = True
-
-        # TODO 17: Use the fighter to remove exploded missiles
         fighter.remove_exploded_missiles()
-        # TODO 18: Use the enemy to remove dead badguys
         enemy.remove_dead_badguys()
 
         # TODO 19: If the enemy is_defeated
