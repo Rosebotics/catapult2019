@@ -11,15 +11,35 @@ class WaterBottle:
         self.screen.blit(self.image, (self.x, self.y))
 
 
-class StarFish:
+class Starfish:
     def __init__(self, screen, x, y,):
         self.screen = screen
         self.x = x
         self.y = y
+        self.image = pygame.image.load('starfish.png')
+
+    def draw(self):
+        self.screen.blit(self.image, (self.x, self.y))
 
 class Eel:
+    def __init__(self, screen, x, y, ):
+        self.screen = screen
+        self.x = x
+        self.y = y
+        self.image = pygame.image.load('eel.png')
 
-class Oyster:
+    def draw(self):
+        self.screen.blit(self.image, (self.x, self.y))
+
+class Pearl:
+    def __init__(self, screen, x, y, ):
+        self.screen = screen
+        self.x = x
+        self.y = y
+        self.image = pygame.image.load('pearl.png')
+
+    def draw(self):
+        self.screen.blit(self.image, (self.x, self.y))
 
 class Scoreboard:
     pass
@@ -31,12 +51,11 @@ def main():
     screen = pygame.display.set_mode((900, 900))
     level1_image = pygame.image.load('level_1.png')
 
-    # level1_image = pygame.transform.scale(level1_image, (IMAGE_SIZE, IMAGE_SIZE))
+    starfish = Starfish(screen, x, y)
 
     waterbottles = []
-
     for x in range(50):
-        waterbottle = WaterBottle(screen, random.randint(20, 850), random.randint(20, 850))
+        waterbottle = WaterBottle(screen, random.randint(60, 850), random.randint(60, 850))
         waterbottles.append(waterbottle)
 
     while True:
@@ -46,6 +65,13 @@ def main():
         screen.blit(level1_image, (0, 0))
         for waterbottle in waterbottles:
             waterbottle.draw()
+
+        starfish.draw()
+        pressed_keys = pygame.key.get_pressed()
+        if pressed_keys[pygame.K_UP]:
+            starfish.y = starfish.y - 5
+
+
 
         clock.tick(60)
         pygame.display.update()

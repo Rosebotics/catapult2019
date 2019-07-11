@@ -9,7 +9,7 @@ class Player:
         self.column = column
         self.direction = direction
         self.color = color
-        self.lives = 3
+        self.lives = 2
 
     def draw(self):
         #pygame.draw.polygon(self.screen, self.color, [(self.x, self.y), (self.x+50, self.y-20), (self.x + 100, self.y), (self.x + 100, self.y +50), (self.x + 50, self.y +30), (self.x, self.y +50)])
@@ -94,6 +94,9 @@ def main():
     gameclock = time.time()
     score = Score(screen)
     enemy_list.spawn()
+    up_hit = pygame.mixer.Sound("sword_hit.wav")
+    down_hit = pygame.mixer.Sound("shield_hit.wav")
+    lives = 3
     while True:
         clock.tick(60)
         for event in pygame.event.get():
@@ -101,10 +104,9 @@ def main():
             pressed_keys = pygame.key.get_pressed()
             if pressed_keys[K_UP] and player.direction == False:
                 player.direction = True
-                #player.y += 33
             elif pressed_keys[K_DOWN] and player.direction == True:
                 player.direction = False
-                #player.y -= 33
+
             # -SWITCH PLAYER COLOR-
             if pressed_keys[K_a]:
                 player.color = (255, 0, 0)
@@ -112,6 +114,7 @@ def main():
                 player.color = (0, 255, 0)
             elif pressed_keys[K_d]:
                 player.color = (0, 0, 255)
+
             # -EXIT-
             if event.type == pygame.QUIT:
                 sys.exit()
@@ -120,6 +123,10 @@ def main():
             gameclock = time.time()
         for enemy in enemy_list.enemy_list:
             if player.isHit(enemy) and player.direction == enemy.direction and player.color == enemy.color:
+                if player.direction:
+                    pygame.mixer.Sound.play(up_hit)
+                else:
+                    pygame.mixer.Sound.play(down_hit)
                 enemy.is_hit = True
                 score.score += 100
         enemy_list.removeHitEnemies()

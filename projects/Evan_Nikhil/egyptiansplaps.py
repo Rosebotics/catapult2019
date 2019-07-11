@@ -17,6 +17,10 @@ class Challenge:
 #-----------------------------------------------------------------------------------Detection
 class Detection:
     def __init__(self):
+        self.last5cards = []
+        self.order_of_slaps = []
+        self.round_winner = 0
+
 
 
     def slap(self):
@@ -32,20 +36,22 @@ class Detection:
 class Player:
     def __init__(self,deck):
         self.deck = deck
-        self.inout = 1
+        self.in_out = True
         self.slap_time = 0
+        self.have_slapped = False
 
 
 #add top card of deck to pot then remove card from deck
     def place_card(self,pot):
         pot.append(self.deck[0])
         self.deck.pop(0)
-        #TODO remove the pront and prints
+        #TODO remove the print and prints
         print(pot)
         print(self.deck)
 
     def slap(self):
-        pass
+        #add name to list and then say that you have slapped
+        self.have_slapped = True
 
     def draw(self):
         pass
@@ -66,6 +72,14 @@ def main():
     pygame.display.set_caption("this is a test")
     screen = pygame.display.set_mode((500, 500))
     #---------------set up----------------------------------------------------------------------------set up
+    turn = 1
+    pot = []
+    centerpile = CenterPile()
+    detection = Detection()
+    challenge = Challenge()
+
+
+
     #setting up new deck and dealing out cards
     new_deck = [2,2,2,2,3,3,3,3,4,4,4,4,5,5,5,5,6,6,6,6,7,7,7,7,8,8,8,8,9,9,9,9,10,10,10,10,'J','J','J','J','Q','Q','Q','Q','K','K','K','K','A','A','A','A']
     temp_deck = []
@@ -97,13 +111,6 @@ def main():
     temp_deck = []
 
     #--------------------------------------------------------------------------------------------------------
-    turn = 1
-    pot = []
-    centerpile = CenterPile()
-    detection = Detection()
-    challenge = Challenge()
-
-
 
 
 
@@ -122,7 +129,7 @@ def main():
                 sys.exit()
             #-----in for loop------------------------------------------------------------------------------in for event loop
            #done remove prints
-            # this is button detection for card placment
+            # this is button detection for card placement
             if pressed_keys[pygame.K_BACKQUOTE] and turn == 1:
                 #print(new_deck)
                 turn = 2
@@ -138,15 +145,23 @@ def main():
                 turn = 1
                 player3.place_card(pot)
             #button presses for slapping
-            #todo removec Prints
+            #todo remove Prints
             if pressed_keys[pygame.K_1]:
-              #  print('1')
+                print('1')
+                player1.slap()
+                detection.order_of_slaps.append(1)
+
 
             if pressed_keys[pygame.K_b]:
-             #   print('b')
+                print('b')
+                player2.slap()
+                detection.order_of_slaps.append(2)
 
             if pressed_keys[pygame.K_p]:
-            #    print('p')
+                print('p')
+                player3.slap()
+                detection.order_of_slaps.append(3)
+                print(detection.order_of_slaps)
 
 
 
