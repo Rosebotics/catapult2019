@@ -69,12 +69,14 @@ class Badguy:
         # Move 2 units in the current direction.
         # Switch direction if this Badguy's position is more than 100 pixels from its original position.
         if self.move_right:
-            self.x += 2
+            # done change the speed back to 2
+            self.x += 5
             if self.x > self.original_x + 100:
                 self.move_right = False
                 self.y += 15
         else:
-            self.x -= 2
+            # done change speed back to 2
+            self.x -= 5
             if self.x < self.original_x - 100:
                 self.move_right = True
                 self.y += 15
@@ -157,7 +159,8 @@ def main():
                        # done 1: Create a Fighter (called fighter) at location  320, 590
     fighter = Fighter(screen, 320, 590)
 
-
+    gameover_image = pygame.image.load('gameover.png')
+    is_game_over = False
     while True:
         clock.tick(60)
 
@@ -213,20 +216,26 @@ def main():
         fighter.remove_exploded_missiles()
         enemy.remove_dead_badguys()
 
-        # TODO 19: If the enemy is_defeated
-        #     TODO 20: Increment the enemy_rows
-        #     TODO 21: Create a new enemy with the screen and enemy_rows
+        # done 19: If the enemy is_defeated
+        #     done 20: Increment the enemy_rows
+        #     done 21: Create a new enemy with the screen and enemy_rows
         if enemy.is_defeated:
             enemy_rows += 1
             enemy = EnemyFleet(screen, enemy_rows)
 
-        pygame.display.update()
+        if not is_game_over:
+            pygame.display.update()
 
+            for badguy in enemy.badguys:
+                if badguy.y > 545:
+                    screen.blit(gameover_image,(170,200))
+                    is_game_over = True
+                    pygame.display.update()
 
 main()
 
 
-# TODO: After the core game is complete we will implement these tasks:
+# done: After the core game is complete we will implement these tasks:
 # Create a Scoreboard class (from scratch)
 #   Instance variables: screen, x, y, score, and font (size 30)
 #   Methods: draw (and __init__)
