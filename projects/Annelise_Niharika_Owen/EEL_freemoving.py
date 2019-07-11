@@ -42,9 +42,14 @@ class Pearl:
         self.x = x
         self.y = y
         self.image = pygame.image.load('pearl.png')
+        self.rect = self.image.get_rect()
+        self.rect[0] = self.x
+        self.rect[1] = self.y
+
 
     def draw(self):
         self.screen.blit(self.image, (self.x, self.y))
+
 
 class Scoreboard:
     pass
@@ -58,11 +63,18 @@ def main():
 
     starfish = Starfish(screen, 55, 60)
 
+    pearls = []
+    for x in range(3):
+        pearl = Pearl(screen, random.randint(60, 850), random.randint(60, 850))
+        pearls.append(pearl)
+
+
     waterbottles = []
     for x in range(50):
         waterbottle = WaterBottle(screen, random.randint(60, 850), random.randint(60, 850))
         waterbottles.append(waterbottle)
 
+    .collidepoint
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -70,6 +82,8 @@ def main():
         screen.blit(level1_image, (0, 0))
         for waterbottle in waterbottles:
             waterbottle.draw()
+        for pearl in pearls:
+            pearl.draw()
 
         starfish.draw()
         pressed_keys = pygame.key.get_pressed()
@@ -82,9 +96,9 @@ def main():
         if pressed_keys[pygame.K_RIGHT]:
             starfish.x = starfish.x + 5
 
-        for waterbottle in Starfish.waterbottles:
-                if waterbottle.hit_by(starfish):
-                        # scoreboard.score = scoreboard.score + 5
+        # for waterbottle in Starfish.waterbottles:
+        #         if waterbottle.hit_by(starfish):
+        #                 # scoreboard.score = scoreboard.score + 5
 
 
 
