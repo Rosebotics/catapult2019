@@ -7,6 +7,8 @@ class Head:
         self.screen = screen
         self.x = x
         self.y = y
+        self.image = pygame.image.load('')
+        self.image.set_colorkey(pygame.Color('White'))
 
 class Fish:
 
