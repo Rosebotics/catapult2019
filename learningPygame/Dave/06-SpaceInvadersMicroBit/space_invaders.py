@@ -158,11 +158,11 @@ def main():
         serial_data = ser.read()
         if serial_data:
             message = serial_data.decode('utf-8')
-            if message == 'L' and fighter.x > -50:
+            if message == '1' and fighter.x > -50:
                 fighter.x = fighter.x - 25
-            if message == 'R' and fighter.x < 590:
+            if message == '2' and fighter.x < 590:
                 fighter.x = fighter.x + 25
-            if message == 'F' and fighter.x < 590:
+            if message == '3' and fighter.x < 590:
                 fighter.fire()
 
         screen.fill((0, 0, 0))
