@@ -85,7 +85,7 @@ def main():
         blueright.move()
         blueright.draw()
 
-        if badguy.hit_by(missile):
+        if :
             hpbar.score = hpbar.score - 100
             badguy.dead = True
             missile.exploded = True
