@@ -10,6 +10,11 @@ class WaterBottle:
     def draw(self):
         self.screen.blit(self.image, (self.x, self.y))
 
+    def hit_by(self, starfish):
+        # Return True if a 70x45 rectangle at this Badguy's current position
+        #   collides with the xy point of the given missile.
+        # Return False otherwise.
+        return pygame.Rect(self.x, self.y, 67, 50).collidepoint(starfish.x, starfish.y)
 
 class Starfish:
     def __init__(self, screen, x, y,):
@@ -51,7 +56,7 @@ def main():
     screen = pygame.display.set_mode((900, 900))
     level1_image = pygame.image.load('level_1.png')
 
-    starfish = Starfish(screen, x, y)
+    starfish = Starfish(screen, 55, 60)
 
     waterbottles = []
     for x in range(50):
@@ -70,6 +75,16 @@ def main():
         pressed_keys = pygame.key.get_pressed()
         if pressed_keys[pygame.K_UP]:
             starfish.y = starfish.y - 5
+        if pressed_keys[pygame.K_DOWN]:
+            starfish.y = starfish.y + 5
+        if pressed_keys[pygame.K_LEFT]:
+            starfish.x = starfish.x - 5
+        if pressed_keys[pygame.K_RIGHT]:
+            starfish.x = starfish.x + 5
+
+        for waterbottle in Starfish.waterbottles:
+                if waterbottle.hit_by(starfish):
+                        # scoreboard.score = scoreboard.score + 5
 
 
 
