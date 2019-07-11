@@ -196,9 +196,6 @@ def main():
                     screen.blit(gameover_image, (170, 200))
                     pygame.display.update()
                     is_game_over = True
+                    
 
 main()
-
-
-# TODO: After the core game is complete we will implement these tasks:
-#   Update the display one final time with that image then never again.
