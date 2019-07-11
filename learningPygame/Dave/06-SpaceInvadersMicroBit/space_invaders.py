@@ -1,6 +1,6 @@
 import pygame, sys, random, time
 from pygame.locals import *
-
+import serial
 
 class Missile:
     def __init__(self, screen, x):
@@ -132,6 +132,10 @@ class Scoreboard:
 
 
 def main():
+
+    ser = serial.Serial('/dev/cu.usbmodem14202', 115200, timeout=0)
+    serial_buffer = ''
+
     pygame.init()
     clock = pygame.time.Clock()
     pygame.display.set_caption("SPACE INVADERS!!!")
@@ -152,6 +156,23 @@ def main():
                 sys.exit()
             if pressed_keys[K_SPACE] and event.type == KEYDOWN:
                 fighter.fire()
+
+        serial_data = ser.read()
+        while serial_data:
+            serial_buffer += serial_data.decode('utf-8')
+            if '\r\n' in serial_buffer:
+                # print(serial_buffer)
+                if 'L' in serial_buffer and fighter.x > -50:
+                    fighter.x = fighter.x - 25
+                    # print("l", end='')
+                if 'R' in serial_buffer and fighter.x < 590:
+                    fighter.x = fighter.x + 25
+                    # print("r", end='')
+                if 'F' in serial_buffer and fighter.x < 590:
+                    fighter.fire()
+                    # print("f")
+                serial_buffer = ''
+            serial_data = ser.read()
 
         screen.fill((0, 0, 0))
         pressed_keys = pygame.key.get_pressed()
