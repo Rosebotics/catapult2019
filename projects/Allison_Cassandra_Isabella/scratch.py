@@ -2,16 +2,37 @@ import pygame
 import sys
 
 class Dancer:
+    def __init__(self, screen, x, y):
+        self.screen = screen
+        self.x = x
+        self.y = y
+
+    def draw(self):
 
 
 class Blueright:
+    def __init__(self, screen, x, y):
+        self.screen = screen
+        self.x = x
+        self.y = y
 
+    def draw(self):
 
 class Pinkleft:
+    def __init__(self, screen, x, y):
+        self.screen = screen
+        self.x = x
+        self.y = y
 
+    def draw(self):
 
 class Greendown:
+    def __init__(self, screen, x, y):
+        self.screen = screen
+        self.x = x
+        self.y = y
 
+    def draw(self):
 
 class Yellowup:
 
