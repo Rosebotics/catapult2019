@@ -5,7 +5,7 @@ class WaterBottle:
         self.screen = screen
         self.x = x
         self.y = y
-        self.image = pygame.image.load('waterbottle.png')
+        self.image = pygame.image.load('water_bottle.png')
 
     def draw(self):
         self.screen.blit(self.image, (self.x, self.y))
@@ -26,8 +26,20 @@ class Head:
 class Fish:
     pass
 
-class Body:
-    pass
+class Board:
+    def __init__(self):
+        self.board = [['.' for _ in range(25)] for _ in range(25)]
+
+    def check_for_game_over(self):
+        lines = []
+        lines.append(self.board[0][0] + self.board[0][1] + self.board[0][2])
+        lines.append(self.board[1][0] + self.board[1][1] + self.board[1][2])
+        lines.append(self.board[2][0] + self.board[2][1] + self.board[2][2])
+        lines.append(self.board[0][0] + self.board[1][0] + self.board[2][0])
+        lines.append(self.board[0][1] + self.board[1][1] + self.board[2][1])
+        lines.append(self.board[0][2] + self.board[1][2] + self.board[2][2])
+        lines.append(self.board[0][0] + self.board[1][1] + self.board[2][2])
+        lines.append(self.board[0][2] + self.board[1][1] + self.board[2][0])
 
 class Scoreboard:
     pass
@@ -44,7 +56,7 @@ def main():
     waterbottles = []
 
     for x in range(6):
-        waterbottle = WaterBottle(screen, random.randint(20, 880), random.randint(20, 880))
+        waterbottle = WaterBottle(screen, random.randint(20, 850), random.randint(20, 850))
         waterbottles.append(waterbottle)
 
     while True:
