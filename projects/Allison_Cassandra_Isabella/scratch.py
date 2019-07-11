@@ -43,5 +43,18 @@ class HPBar:
         self.score = 1000
         self.font = pygame.font.Font(None, 30)
     def draw(self):
-        text_as_image = self.font.render("Score:" + str(self.score), True, (230, 28, 203))
+        text_as_image = self.font.render("Health:" + str(self.score), True, (155, 75, 160))
         self.screen.blit(text_as_image, (5, 5))
+
+def main():
+
+
+    while True:
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit()
+
+    screen.fill(0, 0, 0)
+
+    scoreboard.draw()
