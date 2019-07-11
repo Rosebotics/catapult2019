@@ -18,7 +18,7 @@ class Blueright:
         self.y = y
 
     def draw(self):
-
+        pygame.draw.circle(self.screen, (10, 165, 225), (self.x, self.y), 40)
 
 class Pinkleft:
     def __init__(self, screen, x, y):
@@ -26,7 +26,7 @@ class Pinkleft:
         self.x = x
         self.y = y
     def draw(self):
-
+        pygame.draw.circle(self.screen, (230, 10, 150), (self.x, self.y), 40)
 
 class Greendown:
     def __init__(self, screen, x, y):
@@ -34,7 +34,7 @@ class Greendown:
         self.x = x
         self.y = y
     def draw(self):
-
+        pygame.draw.circle(self.screen, (25, 255, 70), (self.x, self.y), 40)
 
 class Yellowup:
     def __init__(self, screen, x, y):
@@ -42,7 +42,7 @@ class Yellowup:
         self.x = x
         self.y = y
     def draw(self):
-
+        pygame.draw.circle(self.screen, (255, 240, 0), (self.x, self.y), 40)
 
 
 class HPBar:
