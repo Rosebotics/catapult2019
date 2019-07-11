@@ -123,7 +123,7 @@ def main():
 
 
 
-        #------------out of for loop-------------------------------------------------------------------out of for event loop
+        #------------out of for loop--------------------------------------------------------------------out of for event loop
         screen.fill((220, 181, 121))
         pressed_keys = pygame.key.get_pressed()
 
