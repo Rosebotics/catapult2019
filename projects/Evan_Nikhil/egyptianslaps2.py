@@ -26,25 +26,22 @@ class CenterPile:
     def add_card(self, new_card):
         self.cards.append(new_card)
         self.is_slap_allowed = False
-        print(self.cards)
         if len(self.cards) > 1:
             if self.cards[-1] == self.cards[-2]:
-                print("Slap is allowed")
                 self.is_slap_allowed = True
 
         if len(self.cards) > 2:
             if self.cards[-1] == self.cards[-3]:
-                print("Slap is allowed")
                 self.is_slap_allowed = True
+        print(self.cards)
 
     def bury_card(self, new_card):
         self.cards.insert(0, new_card)
-
+        print(self.cards)
 
     def get_top_card(self):
         if len(self.cards) > 0:
             return self.cards[-1]
-
 
 
 class TurnController:
@@ -58,7 +55,6 @@ class TurnController:
     def set_turn_to(self, new_player_turn):
         self.previous_turn = self.current_turn
         self.current_turn = new_player_turn
-        print("Turn set to ", new_player_turn)
 
     def next_turn(self):
         self.previous_turn = self.current_turn
@@ -77,7 +73,6 @@ class TurnController:
                 self.current_turn = 1
             else:
                 self.current_turn = 2
-        print("Turn moved to ", self.current_turn)
 
     def get_current_player(self):
         if self.current_turn == 1:
@@ -136,12 +131,11 @@ class ChallengeController:
             self.turn_controller.next_turn()
 
     def attempt(self):
-        print('before')
-        print("   self.is_challenge_active", self.is_challenge_active)
-        print("   self.tries", self.tries)
-        print("   self.challenger.player_number", self.challenger.player_number)
-        print("   self.challengee.player_number", self.challengee.player_number)
-
+        # print('before')
+        # print("   self.is_challenge_active", self.is_challenge_active)
+        # print("   self.tries", self.tries)
+        # print("   self.challenger.player_number", self.challenger.player_number)
+        # print("   self.challengee.player_number", self.challengee.player_number)
 
         # assumes a card has just been played during an active challenge and resolves the challenge or continues it.
         top_card = self.center_pile.get_top_card()
@@ -160,45 +154,33 @@ class ChallengeController:
                 self.turn_controller.next_turn()
                 self.challengee = self.turn_controller.get_current_player()
 
+        # print('after')
+        # print("   self.is_challenge_active", self.is_challenge_active)
+        # print("   self.tries", self.tries)
+        # print("   self.challenger.player_number", self.challenger.player_number)
+        # print("   self.challengee.player_number", self.challengee.player_number)
 
-        print('after')
-        print("   self.is_challenge_active", self.is_challenge_active)
-        print("   self.tries", self.tries)
-        print("   self.challenger.player_number", self.challenger.player_number)
-        print("   self.challengee.player_number", self.challengee.player_number)
-
-#TODO Consider giving people a chance to slap while challenge is going on.
-
-
-
-
+    # TODO Consider giving people a chance to slap while challenge is going on.
 
 
 # #----------------------------------------------------------------------------- functions
 
 def slap(player, center_pile, turn_controller, challenge_controller):
-    print("slap by ", player.player_number)
-    print(player.deck)
-    print(center_pile.cards)
     if not player.is_playing:
         if not (challenge_controller.is_challenge_active and challenge_controller.challenger.player_number == player.player_number):
-            print('player is out')
             return
     if center_pile.is_slap_allowed:
         player.deck = player.deck + center_pile.cards
         center_pile.cards = []
         turn_controller.set_turn_to(player.player_number)
+        print(center_pile.cards)
     else:
         if len(center_pile.cards) > 1 and player.is_playing:
             player.discard_card(center_pile)
 
 
-    print(player.deck)
-    print(center_pile.cards)
-
 def play_card(player, center_pile, turn_controller, challenge_controller):
     if turn_controller.current_turn == player.player_number:
-        print("Player", player.player_number, "play card")
         player.place_card(center_pile)
         if challenge_controller.is_challenge_active:
             challenge_controller.attempt()
@@ -206,6 +188,7 @@ def play_card(player, center_pile, turn_controller, challenge_controller):
             challenge_controller.possible_challenge()
     else:
         print("It is not this player's turn")
+
 
 def check_for_game_over(challenge_controller):
     is_game_over = True
@@ -227,13 +210,13 @@ def check_for_game_over(challenge_controller):
     elif challenge_controller.is_challenge_active and challenge_controller.challenger.player_number == 3:
         is_player_3_active = True
 
-    if is_player_1_active:
-        print('1', end='')
-    if is_player_2_active:
-        print('2', end='')
-    if is_player_3_active:
-        print('3', end='')
-    print()
+    # if is_player_1_active:
+    #     print('1', end='')
+    # if is_player_2_active:
+    #     print('2', end='')
+    # if is_player_3_active:
+    #     print('3', end='')
+    # print()
 
     if is_player_1_active and is_player_2_active:
         is_game_over = False
@@ -259,21 +242,21 @@ def main():
     new_deck = [2,2,2,2,3,3,3,3,4,4,4,4,5,5,5,5,6,6,6,6,7,7,7,7,8,8,8,8,9,9,9,9,10,10,10,10,'J','J','J','J','Q','Q','Q','Q','K','K','K','K','A','A','A','A']
     temp_deck = []
     random.shuffle(new_deck)
-    for i in range(8):
+    for i in range(18):
         temp_deck.append(new_deck[0])
         new_deck.pop(0)
     player1 = Player(temp_deck, 1)
     temp_deck = []
 
     #player2
-    for i in range(7):
+    for i in range(17):
         temp_deck.append(new_deck[0])
         new_deck.pop(0)
     player2 = Player(temp_deck, 2)
     temp_deck = []
 
     #player3
-    for i in range(7):
+    for i in range(17):
         temp_deck.append(new_deck[0])
         new_deck.pop(0)
     player3 = Player(temp_deck, 3)
@@ -324,6 +307,7 @@ def main():
                 print('player1:', player1.deck)
                 print('player2:', player2.deck)
                 print('player3:', player3.deck)
+                print('current_turn:', turn_controller.current_turn)
 
         #------------out of for loop--------------------------------------------------------------------out of for event loop
         screen.fill((220, 181, 121))
