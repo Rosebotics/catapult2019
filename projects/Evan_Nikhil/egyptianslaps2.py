@@ -37,6 +37,10 @@ class CenterPile:
                 print("Slap is allowed")
                 self.is_slap_allowed = True
 
+    def bury_card(self, new_card):
+        self.cards.insert(0, new_card)
+        
+
     def get_top_card(self):
         if len(self.cards) > 0:
             return self.cards[-1]
@@ -148,7 +152,8 @@ class ChallengeController:
             self.tries = self.tries - 1
             if self.tries == 0:
                 self.challenger.deck = self.challenger.deck + self.center_pile.cards
-                self.turn_controller.new_player_turn(self.challenger.player_number)
+                self.center_pile.cards = []
+                self.turn_controller.set_turn_to(self.challenger.player_number)
                 self.is_challenge_active = False
 
         print('after')
@@ -170,10 +175,13 @@ def slap(player, center_pile, turn_controller):
     print("slap by ", player.player_number)
     print(player.deck)
     print(center_pile.cards)
+    if not player.is_playing:
+        print('player is out')
+        return
     if center_pile.is_slap_allowed:
         player.deck = player.deck + center_pile.cards
         center_pile.cards = []
-        turn_controller.new_player_turn(player.player_number)
+        turn_controller.set_turn_to(player.player_number)
     else:
         if len(center_pile.cards) > 1:
             player.discard_card(center_pile)
