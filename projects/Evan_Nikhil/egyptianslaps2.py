@@ -9,7 +9,12 @@ class Player:
 
     #add top card of deck to pot then remove card from deck
     def place_card(self, center_pile):
-        center_pile.add_card( self.deck.pop(0))
+        center_pile.add_card(self.deck.pop(0))
+        self.is_playing = len(self.deck) > 0
+
+    def discard_card(self, center_pile):
+        center_pile.bury_card(self.deck.pop(0))
+        self.is_playing = len(self.deck) > 0
 
 #---------------------------------------------------------------------------------------CenterPile
 class CenterPile:
@@ -58,7 +63,28 @@ class TurnController:
             else:
                 self.current_turn = 2
 
-        
+    def get_current_player(self):
+        if self.current_turn == 1:
+            return self.player1
+
+        if self.current_turn == 2:
+            return self.player2
+
+        if self.current_turn == 3:
+            return self.player3
+
+
+    def get_previous_player(self):
+        if self.previous_turn == 1:
+            return self.player1
+
+        if self.previous_turn == 2:
+            return self.player2
+
+        if self.previous_turn == 3:
+            return self.player3
+
+
 
 
 # #----------------------------------------------------------------------------- reset functions
@@ -70,6 +96,10 @@ def slap(player, center_pile):
     if center_pile.is_slap_allowed:
         player.deck = player.deck + center_pile.cards
         center_pile.cards = []
+
+    else:
+        player.discard_card(center_pile)
+
 
     print(player.deck)
     print(center_pile.cards)
@@ -137,22 +167,34 @@ def main():
                     print("It is not player 1's turn")
 
 
+
+
             if pressed_keys[pygame.K_1]:
                 print('1')
                 slap(player1, center_pile)
 
             if pressed_keys[pygame.K_v]:
                 print('v')
-                print("Player 2 play card")
-                player2.place_card(center_pile)
+                if turn_controller.current_turn == 2:
+                    print("Player 2 play card")
+                    turn_controller.next_turn()
+                    player2.place_card(center_pile)
+                else:
+                    print("It is not player 2's turn.")
+
             if pressed_keys[pygame.K_b]:
                 print('b')
 
 
             if pressed_keys[pygame.K_o]:
                 print('o')
-                print("Player 3 play card")
-                player3.place_card(center_pile)
+                if turn_controller.current_turn == 3:
+                    print("Player 3 play card")
+                    turn_controller.next_turn()
+                    player3.place_card(center_pile)
+                else:
+                    print("It is not player 3's turn.")
+
             if pressed_keys[pygame.K_p]:
                 print('p')
 
