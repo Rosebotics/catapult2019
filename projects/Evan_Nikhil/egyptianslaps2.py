@@ -155,6 +155,11 @@ class ChallengeController:
                 self.center_pile.cards = []
                 self.turn_controller.set_turn_to(self.challenger.player_number)
                 self.is_challenge_active = False
+            elif not self.challengee.is_playing:
+                print('challengee ran out of cards')
+                self.turn_controller.next_turn()
+                self.challengee = self.turn_controller.get_current_player()
+            
 
         print('after')
         print("   self.is_challenge_active", self.is_challenge_active)
@@ -171,13 +176,14 @@ class ChallengeController:
 
 # #----------------------------------------------------------------------------- functions
 
-def slap(player, center_pile, turn_controller):
+def slap(player, center_pile, turn_controller, challenge_controller):
     print("slap by ", player.player_number)
     print(player.deck)
     print(center_pile.cards)
     if not player.is_playing:
-        print('player is out')
-        return
+        if not (challenge_controller.is_challenge_active and challenge_controller.challenger.player_number == player.player_number):
+            print('player is out')
+            return
     if center_pile.is_slap_allowed:
         player.deck = player.deck + center_pile.cards
         center_pile.cards = []
@@ -259,15 +265,15 @@ def main():
             if pressed_keys[pygame.K_BACKQUOTE]:
                 play_card(player1, center_pile, turn_controller, challenge_controller)
             if pressed_keys[pygame.K_1]:
-                slap(player1, center_pile, turn_controller)
+                slap(player1, center_pile, turn_controller, challenge_controller)
             if pressed_keys[pygame.K_v]:
                 play_card(player2, center_pile, turn_controller, challenge_controller)
             if pressed_keys[pygame.K_b]:
-                slap(player2, center_pile, turn_controller)
+                slap(player2, center_pile, turn_controller, challenge_controller)
             if pressed_keys[pygame.K_o]:
                 play_card(player3, center_pile, turn_controller, challenge_controller)
             if pressed_keys[pygame.K_p]:
-                slap(player3, center_pile, turn_controller)
+                slap(player3, center_pile, turn_controller, challenge_controller)
             if pressed_keys[pygame.K_SPACE]:
                 print('Centerpile.cards:', center_pile.cards)
                 print('player1:', player1.deck)
