@@ -4,16 +4,48 @@ from threading import Lock
 
 #-------------------------------------------------------------------------------Challenge
 class Challenge:
-    def __init__(self):
-        pass
+    def __init__(self,centerPile,turn_controler):
+        self.top_card = centerPile.card[-1]
+        self.trys = 0
+        self.turn_controler = turn_controler
+
 
 #detect to set up tries remaining
     def card_detector(self):
-        pass
+        #seeing if a chalang is played and what type
+        if self.top_card == 'J':
+            self.trys = 1
+            #self.battle
+            return True
+
+        elif self.top_card == 'Q':
+            self.trys = 2
+            return True
+        elif self.top_card == 'K':
+            self.trys = 3
+            return True
+        elif self.top_card == 'A':
+            self.trys = 4
+            return True
+        else:
+            return False
+
 
 #detect if card placed after challenge card is another challenge card
-    def battle(self):
+    def battle(self,player,turn):
         pass
+        # if the chalenger secseeds
+        if self.card_detector():
+            pass
+            #next players turn
+        #if they fail and still have trys
+        elif not self.trys == 0:
+            self.trys -= 1
+        # if they fail and have no trys left
+        else:
+            #previus player reword
+            #reset round
+            pass
 
 #-----------------------------------------------------------------------------------Detection
 class Detection:
@@ -82,7 +114,10 @@ class CenterPile:
         pass
 
 
-# #----------------------------------------------------------------------------- reset functions
+# #----------------------------------------------------------------------------- draw bourd
+class DrawBoard:
+    def __init__(self,):
+        pass
 
 
 
@@ -91,16 +126,33 @@ def main():
     pygame.init()
     clock = pygame.time.Clock()
     pygame.display.set_caption("this is a test")
-    screen = pygame.display.set_mode((500, 500))
+    screen = pygame.display.set_mode((1000, 750))
 
     #---------------set up----------------------------------------------------------------------------set up
+    slap_sound = pygame.mixer.Sound("slap.wav")
+    slap_hand = pygame.image.load('slap_hand2..png')
+    slap_hand.set_colorkey(pygame.Color('WHITE'))
+    card_image = pygame.image.load('card.jpeg')
+    card_image = pygame.transform.scale(card_image, (100, 133))
+
+    #challenge = Challenge(turn_controller.current_turn)
+
+
+
+
+
+
+
+
+
+
     turn = 1
     last5cards = [0,0,0,0,0]
     pot = []
     first_player_pressed = False
     centerpile = CenterPile()
 
-    challenge = Challenge()
+
 
 
 
@@ -147,6 +199,13 @@ def main():
     while True:
         clock.tick(60)
         pressed_keys = pygame.key.get_pressed()
+        screen.fill((220, 181, 121))
+
+        screen.blit(card_image, ((screen.get_width() // 2), screen.get_height() // 2))
+        pygame.draw.rect(screen, (255,255,255), (((screen.get_width() // 2)-20), (screen.get_height() // 2)-20),(140, 173))
+        screen.blit(slap_hand, (0,0))
+
+
 
 
         for event in pygame.event.get():
@@ -206,7 +265,7 @@ def main():
 
 
         #------------out of for loop--------------------------------------------------------------------out of for event loop
-        screen.fill((220, 181, 121))
+
         pressed_keys = pygame.key.get_pressed()
 
 

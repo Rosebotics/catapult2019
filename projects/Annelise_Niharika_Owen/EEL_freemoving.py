@@ -19,7 +19,9 @@ class Starfish:
         self.x = x
         self.y = y
         self.image = pygame.image.load('starfish.png')
-        self.dead = False
+        # self.dead = False
+
+
 
     def draw(self):
         self.screen.blit(self.image, (self.x, self.y))
@@ -42,27 +44,48 @@ class Eel:
         self.x = x
         self.y = y
         self.image = pygame.image.load('eel.png')
+        pass
 
     def draw(self):
         self.screen.blit(self.image, (self.x, self.y))
+        pass
 
 class Pearl:
-    def __init__(self, screen, x, y, ):
+    def __init__(self, screen, x, y):
         self.screen = screen
         self.x = x
         self.y = y
         self.image = pygame.image.load('pearl.png')
+        self.collected = False
+
         # self.rect = self.image.get_rect()
         # self.rect[0] = self.x
         # self.rect[1] = self.y
-
 
     def draw(self):
         self.screen.blit(self.image, (self.x, self.y))
 
 
+    def hit_by(self, starfish):
+        return pygame.Rect(self.x, self.y, 40, 30).collidepoint(starfish.x + 33.5, starfish.y + 25)
+
+class PearlFleet:
+    def __init__(self, screen):
+        # Already done.  Prepares the list of Badguys.
+        self.pearls = []
+        for x in range(3):
+            pearl = Pearl(screen, random.randint(60, 850), random.randint(20, 850))
+            self.pearls.append(pearl)
+
+    def remove_collected_pearls(self):
+        for k in range(len(self.pearls) - 1, -1, -1):
+            if self.pearls[k].collected:
+                del self.pearls[k]
+
 class Scoreboard:
-    pass
+    def __init__(self):
+
+
 
 def main():
     pygame.init()
@@ -71,19 +94,17 @@ def main():
     screen = pygame.display.set_mode((900, 900))
     gameover_image2 = pygame.image.load('gameover_image2.png')
     level1_image = pygame.image.load('level_1.png')
+    score = 0
 
     is_game_over = False
 
-    starfish = Starfish(screen, 55, 60)
+    starfish = Starfish(screen, 50, 60)
 
-    pearls = []
-    for x in range(3):
-        pearl = Pearl(screen, random.randint(60, 850), random.randint(60, 850))
-        # pearls.append(pearl)
+    pearl_fleet = PearlFleet(screen)
 
     waterbottles = []
     for x in range(50):
-        waterbottle = WaterBottle(screen, random.randint(60, 850), random.randint(60, 850))
+        waterbottle = WaterBottle(screen, random.randint(70, 850), random.randint(20, 850))
         waterbottles.append(waterbottle)
 
     while True:
@@ -108,9 +129,15 @@ def main():
                 if waterbottle.hit_by(starfish):
                     is_game_over = True
 
+        for pearl in pearl_fleet.pearls:
+            if pearl.hit_by(starfish):
+                pearl.collected = True
+                pearl_fleet.remove_collected_pearls()
+
         for waterbottle in waterbottles:
             waterbottle.draw()
-        for pearl in pearls:
+
+        for pearl in pearl_fleet.pearls:
             pearl.draw()
         starfish.move()
         starfish.draw()
