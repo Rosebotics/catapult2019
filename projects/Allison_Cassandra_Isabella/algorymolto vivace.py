@@ -23,26 +23,34 @@ class Orb:
         self.x = x
         self.y = y
         self.color = (0, 0, 0)
+        self.xspeed = 0
+        self.yspeed = 0
         if direction == 'up':
             self.color = (255, 240, 0)
+            self.yspeed = -5    # TODO: set speeds to something
         elif direction == 'down':
             self.color = (191, 0, 254)
+            self.yspeed = 5
         elif direction == 'left':
             self.color = (230, 10, 150)
+            self.xspeed = -5
         elif direction == 'right':
             self.color = (0, 255, 225)
+            self.xspeed = 5
 
     def draw(self):
         pygame.draw.circle(self.screen, self.color, (self.x, self.y), 30)
 
-    def hit_by(self, missile):
+    def hit_by(self, missile):      # TODO: make this work
         # Return True if a 70x45 rectangle at this Badguy's current position
         #   collides with the xy point of the given missile.
         # Return False otherwise.
-       #return pygame.Rect(self.x, self.y, 70, 45).collidepoint((missile.x, missile.y)) #TODO: Fix "missile"
+       #return pygame.Rect(self.x, self.y, 70, 45).collidepoint((missile.x, missile.y))
         pass
+
     def move(self):
-        pass
+        self.x += self.xspeed
+        self.y += self.yspeed
 
 class HPBar:
     def __init__(self, screen):
@@ -59,10 +67,10 @@ def main():
     pygame.init()
     screen = pygame.display.set_mode((640, 640))
 
-    pinkleft = Pinkleft(screen, 50, 50) # TODO: Change temporary Xs and Ys
-    purpledown = Purpledown(screen, 60, 60)
-    yellowup = Yellowup(screen, 70, 70)
-    blueright = Blueright(screen, 80, 80)
+    pinkleft = Orb(screen, 50, 50, 'left') # TODO: Change temporary Xs and Ys
+    purpledown = Orb(screen, 60, 60, 'down')
+    yellowup = Orb(screen, 70, 70, 'up')
+    blueright = Orb(screen, 80, 80, 'up')
     hpbar = HPBar(screen)
     dancer = Dancer(screen, 90, 90)
     pygame.mixer.music.load("albatraoz.mp3")
@@ -73,16 +81,7 @@ def main():
             if event.type == pygame.QUIT:
                 sys.exit()
         hpbar.draw()
-        dancer.move()
-        dancer.draw()
-        pinkleft.move()
-        pinkleft.draw()
-        purpledown.move()
-        purpledown.draw()
-        yellowup.move()
-        yellowup.draw()
-        blueright.move()
-        blueright.draw()
+
         # if pinkleft.hit_by:
         #     pinkleft.dead = True
         # if purpledown.hit_by:
