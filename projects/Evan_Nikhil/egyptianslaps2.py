@@ -133,6 +133,7 @@ def main():
                 else:
                     print("It is not player 1's turn")
 
+
             if pressed_keys[pygame.K_1]:
                 print('1')
                 slap(player1, center_pile)
