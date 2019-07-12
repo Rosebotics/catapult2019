@@ -4,19 +4,19 @@ import sys
 class Dancer:
     def __init__(self, screen, x, y):
         self.screen = screen
-        self.x = x
-        self.y = y
+        self.x = 204
+        self.y = 170
 
         self.image_idle = pygame.image.load('dancer_idle.png')
-        self.image_idle = pygame.transform.scale(self.image_idle, (250, 300))
+        self.image_idle = pygame.transform.scale(self.image_idle, (233, 300))
         self.image_leftpunch = pygame.image.load('dancer_leftpunch.png')
-        self.image_leftpunch = pygame.transform.scale(self.image_leftpunch, (250, 300))
+        self.image_leftpunch = pygame.transform.scale(self.image_leftpunch, (233, 300))
         self.image_rightpunch = pygame.image.load('dancer_rightpunch.png')
-        self.image_rightpunch = pygame.transform.scale(self.image_rightpunch, (250, 300))
+        self.image_rightpunch = pygame.transform.scale(self.image_rightpunch, (233, 300))
         self.image_uppunch = pygame.image.load('dancer_uppunch.png')
-        self.image_uppunch = pygame.transform.scale(self.image_uppunch, (250, 300))
-        # self.image_downpunch = pygame.image.load('dancer_downpunch.png')
-        # self.image_downpunch = pygame.transform.scale(self.image_downpunch, (250, 300))
+        self.image_uppunch = pygame.transform.scale(self.image_uppunch, (233, 300))
+        self.image_downpunch = pygame.image.load('dancer_downpunch.png')
+        self.image_downpunch = pygame.transform.scale(self.image_downpunch, (233, 300))
 
     def draw(self):
         self.screen.blit(self.image_idle, (self.x, self.y))
@@ -31,7 +31,7 @@ class Dancer:
         self.screen.blit(self.image_uppunch, (self.x, self.y))
 
     def punch_down(self):
-        pass
+        self.screen.blit(self.image_downpunch, (self.x, self.y+100))
 
 class Orb:
     def __init__(self, screen, x, y, direction):

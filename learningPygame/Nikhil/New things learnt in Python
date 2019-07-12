@@ -1,0 +1,27 @@
+Things learnt:
+
+Moving smile:
+- drawing circle
+    pygame.draw.circle(screen, (225, 225, 0), (320, 240), 150)
+    pygame.draw.circle(screen, (0, 0, 0), (260, 200), 10, 5)
+    pygame.draw.circle(screen, (0, 0, 0), (380, 200), 10, 5)
+    pygame.draw.circle(screen, (0, 0, 0), (324, 250), 10, 5)
+
+- drawing rectangle
+    pygame.draw.rect(screen, (0, 0, 0), (260, 310, 120, 50))
+
+- uploading an image
+dog_image = pygame.image.load("2dogs.JPG")
+
+- placing the image
+screen.blit(dog_image, (0, 0))
+
+- Entering the text
+caption = caption_font.render("2 Dogs", True, BLACK)
+
+- getting the font and font size.
+caption_font = pygame.font.Font(None, 28)
+
+- loading a sound into the program
+pygame.mixer.music.load("bark.mp3")
+
