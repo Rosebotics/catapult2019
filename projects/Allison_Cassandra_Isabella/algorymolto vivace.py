@@ -84,6 +84,15 @@ def main():
                 sys.exit()
         hpbar.draw()
 
+        pressed_keys = pygame.key.get_pressed()
+        if pressed_keys[pygame.K_DOWN]:
+
+        if pressed_keys[pygame.K_UP]:
+
+        if pressed_keys[pygame.K_LEFT]:
+
+        if pressed_keys[pygame.K_RIGHT]:
+
         # if pinkleft.hit_by:
         #     pinkleft.dead = True
         # if purpledown.hit_by:
