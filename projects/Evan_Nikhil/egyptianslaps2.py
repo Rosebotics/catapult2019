@@ -39,7 +39,7 @@ class CenterPile:
 
     def bury_card(self, new_card):
         self.cards.insert(0, new_card)
-        
+
 
     def get_top_card(self):
         if len(self.cards) > 0:
@@ -155,6 +155,11 @@ class ChallengeController:
                 self.center_pile.cards = []
                 self.turn_controller.set_turn_to(self.challenger.player_number)
                 self.is_challenge_active = False
+            elif not self.challengee.is_playing:
+                print('challengee ran out of cards')
+                self.turn_controller.next_turn()
+                self.challengee = self.turn_controller.get_current_player()
+
 
         print('after')
         print("   self.is_challenge_active", self.is_challenge_active)
@@ -171,19 +176,20 @@ class ChallengeController:
 
 # #----------------------------------------------------------------------------- functions
 
-def slap(player, center_pile, turn_controller):
+def slap(player, center_pile, turn_controller, challenge_controller):
     print("slap by ", player.player_number)
     print(player.deck)
     print(center_pile.cards)
     if not player.is_playing:
-        print('player is out')
-        return
+        if not (challenge_controller.is_challenge_active and challenge_controller.challenger.player_number == player.player_number):
+            print('player is out')
+            return
     if center_pile.is_slap_allowed:
         player.deck = player.deck + center_pile.cards
         center_pile.cards = []
         turn_controller.set_turn_to(player.player_number)
     else:
-        if len(center_pile.cards) > 1:
+        if len(center_pile.cards) > 1 and player.is_playing:
             player.discard_card(center_pile)
 
 
@@ -201,6 +207,43 @@ def play_card(player, center_pile, turn_controller, challenge_controller):
     else:
         print("It is not this player's turn")
 
+def check_for_game_over(challenge_controller):
+    is_game_over = True
+    is_player_1_active = False
+    is_player_2_active = False
+    is_player_3_active = False
+    if challenge_controller.player1.is_playing:
+        is_player_1_active = True
+    elif challenge_controller.is_challenge_active and challenge_controller.challenger.player_number == 1:
+        is_player_1_active = True
+
+    if challenge_controller.player2.is_playing:
+        is_player_2_active = True
+    elif challenge_controller.is_challenge_active and challenge_controller.challenger.player_number == 2:
+        is_player_2_active = True
+
+    if challenge_controller.player3.is_playing:
+        is_player_3_active = True
+    elif challenge_controller.is_challenge_active and challenge_controller.challenger.player_number == 3:
+        is_player_3_active = True
+
+    if is_player_1_active:
+        print('1', end='')
+    if is_player_2_active:
+        print('2', end='')
+    if is_player_3_active:
+        print('3', end='')
+    print()
+
+    if is_player_1_active and is_player_2_active:
+        is_game_over = False
+    if is_player_2_active and is_player_3_active:
+        is_game_over = False
+    if is_player_3_active and is_player_1_active:
+        is_game_over = False
+
+    return is_game_over
+
 
 
 #----------------------------------------------------------------------------------------
@@ -216,21 +259,21 @@ def main():
     new_deck = [2,2,2,2,3,3,3,3,4,4,4,4,5,5,5,5,6,6,6,6,7,7,7,7,8,8,8,8,9,9,9,9,10,10,10,10,'J','J','J','J','Q','Q','Q','Q','K','K','K','K','A','A','A','A']
     temp_deck = []
     random.shuffle(new_deck)
-    for i in range(18):
+    for i in range(8):
         temp_deck.append(new_deck[0])
         new_deck.pop(0)
     player1 = Player(temp_deck, 1)
     temp_deck = []
 
     #player2
-    for i in range(17):
+    for i in range(7):
         temp_deck.append(new_deck[0])
         new_deck.pop(0)
     player2 = Player(temp_deck, 2)
     temp_deck = []
 
     #player3
-    for i in range(17):
+    for i in range(7):
         temp_deck.append(new_deck[0])
         new_deck.pop(0)
     player3 = Player(temp_deck, 3)
@@ -248,6 +291,8 @@ def main():
 
 
     #-----------------------------------------------------------------------------------------------------------
+    is_game_over = False
+    has_displayed_game_over = False
 
     while True:
         clock.tick(60)
@@ -258,20 +303,36 @@ def main():
                 sys.exit()
             if pressed_keys[pygame.K_BACKQUOTE]:
                 play_card(player1, center_pile, turn_controller, challenge_controller)
+                is_game_over = check_for_game_over(challenge_controller)
             if pressed_keys[pygame.K_1]:
-                slap(player1, center_pile, turn_controller)
+                slap(player1, center_pile, turn_controller, challenge_controller)
+                is_game_over = check_for_game_over(challenge_controller)
             if pressed_keys[pygame.K_v]:
                 play_card(player2, center_pile, turn_controller, challenge_controller)
+                is_game_over = check_for_game_over(challenge_controller)
             if pressed_keys[pygame.K_b]:
-                slap(player2, center_pile, turn_controller)
+                slap(player2, center_pile, turn_controller, challenge_controller)
+                is_game_over = check_for_game_over(challenge_controller)
             if pressed_keys[pygame.K_o]:
                 play_card(player3, center_pile, turn_controller, challenge_controller)
+                is_game_over = check_for_game_over(challenge_controller)
             if pressed_keys[pygame.K_p]:
-                slap(player3, center_pile, turn_controller)
+                slap(player3, center_pile, turn_controller, challenge_controller)
+                is_game_over = check_for_game_over(challenge_controller)
+            if pressed_keys[pygame.K_SPACE]:
+                print('Centerpile.cards:', center_pile.cards)
+                print('player1:', player1.deck)
+                print('player2:', player2.deck)
+                print('player3:', player3.deck)
 
         #------------out of for loop--------------------------------------------------------------------out of for event loop
         screen.fill((220, 181, 121))
-
-        pygame.display.update()
+        if not is_game_over:
+            pygame.display.update()
+        else:
+            if not has_displayed_game_over:
+                has_displayed_game_over = True
+                #TODO display game over here!
+                print('game over')
 
 main()
