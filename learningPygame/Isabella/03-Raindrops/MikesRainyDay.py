@@ -115,7 +115,6 @@ def main():
     clock = pygame.time.Clock()
     # Done: As a temporary test, make a new Raindrop called test_drop at x=320 y=10
     # Done 15: Make a Hero, named mike, with appropriate images, starting at position x=300 y=400.
-    mike = Hero(screen, 300, 400, "Mike_umbrella.png", "Mike.png")
     # Done 23: Make a Cloud, named cloud, with appropriate images, starting at position x=300 y=50.
     cloud = Cloud(screen, 300, 50, "cloud.png")
 
