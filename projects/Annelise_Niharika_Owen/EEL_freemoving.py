@@ -42,9 +42,11 @@ class Eel:
         self.x = x
         self.y = y
         self.image = pygame.image.load('eel.png')
+        pass
 
     def draw(self):
         self.screen.blit(self.image, (self.x, self.y))
+        pass
 
 class Pearl:
     def __init__(self, screen, x, y, ):
@@ -56,9 +58,13 @@ class Pearl:
         # self.rect[0] = self.x
         # self.rect[1] = self.y
 
-
     def draw(self):
         self.screen.blit(self.image, (self.x, self.y))
+
+    def remove_dead_pearl(self):
+        for k in range(len(self.pearls) - 1, -1, -1):
+            if self.pearls[k].dead:
+                del self.pearls[k]
 
 
 class Scoreboard:
@@ -74,16 +80,16 @@ def main():
 
     is_game_over = False
 
-    starfish = Starfish(screen, 55, 60)
+    starfish = Starfish(screen, 50, 60)
 
     pearls = []
     for x in range(3):
-        pearl = Pearl(screen, random.randint(60, 850), random.randint(60, 850))
-        # pearls.append(pearl)
+        pearl = Pearl(screen, random.randint(60, 850), random.randint(20, 850))
+        pearls.append(pearl)
 
     waterbottles = []
     for x in range(50):
-        waterbottle = WaterBottle(screen, random.randint(60, 850), random.randint(60, 850))
+        waterbottle = WaterBottle(screen, random.randint(70, 850), random.randint(20, 850))
         waterbottles.append(waterbottle)
 
     while True:
@@ -107,6 +113,10 @@ def main():
             for waterbottle in waterbottles:
                 if waterbottle.hit_by(starfish):
                     is_game_over = True
+
+            for pearl in pearls:
+                if pearl.hit_by(starfish):
+# bchange
 
         for waterbottle in waterbottles:
             waterbottle.draw()
