@@ -122,7 +122,7 @@ def main():
 
 
 
-        #TODO when start clicked
+        #TODO when start clicke
         pressed_keys = pygame.key.get_pressed()
         if pressed_keys[pygame.K_DOWN]:
             dancer.punch_down()
