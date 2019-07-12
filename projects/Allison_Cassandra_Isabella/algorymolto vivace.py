@@ -7,14 +7,14 @@ class Dancer:
         self.x = x
         self.y = y
 
-        # self.image_idle = pygame.image.load("dancer_idle.png")
-        # self.image_leftpunch = pygame.image.load("dancer_leftpunch.png")
-        # self.image_rightpunch = pygame.image.load("dancer_rightpunch.png")
-        # self.image_uppunch = pygame.image.load("dancer_uppunch.png")
-        # self.image_downpunch = pygame.image.load("dancer_downpunch.png")
+        self.image_idle = pygame.image.load('dancer_idle.png')
+        self.image_leftpunch = pygame.image.load('dancer_leftpunch.png')
+        self.image_rightpunch = pygame.image.load('dancer_rightpunch.png')
+        # self.image_uppunch = pygame.image.load('dancer_uppunch.png')
+        # self.image_downpunch = pygame.image.load('dancer_downpunch.png')
 
     def draw(self):
-        self.screen.blit(image_idle, (self.x, self.y))
+        self.screen.blit(self.image_idle, (self.x, self.y))
 
     def punch_left(self):
         pass
@@ -111,6 +111,7 @@ def main():
         #     hpbar.score = hpbar.score - 100
         #if hp
         hpbar.draw()
+        dancer.draw()
         pinkleft.move()
         purpledown.move()
         yellowup.move()
