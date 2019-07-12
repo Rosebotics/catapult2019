@@ -17,9 +17,9 @@ class Dancer:
         self.screen.blit(self.image_idle, (self.x, self.y))
 
     def punch_left(self):
-        pass
+        self.screen.blit(self.image_leftpunch, (self.x, self.y))
     def punch_right(self):
-        pass
+        self.screen.blit(self.image_rightpunch, (self.x, self.y))
     def punch_up(self):
         pass
     def punch_down(self):
