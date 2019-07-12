@@ -2,7 +2,7 @@ import pygame
 import sys
 
 class Dancer:
-    def __init__(self, screen, x, y, ):
+    def __init__(self, screen, x, y):
         self.screen = screen
         self.x = x
         self.y = y
@@ -10,7 +10,7 @@ class Dancer:
         self.image_idle = pygame.image.load('dancer_idle.png')
         self.image_leftpunch = pygame.image.load('dancer_leftpunch.png')
         self.image_rightpunch = pygame.image.load('dancer_rightpunch.png')
-        # self.image_uppunch = pygame.image.load('dancer_uppunch.png')
+        self.image_uppunch = pygame.image.load('dancer_uppunch.png')
         # self.image_downpunch = pygame.image.load('dancer_downpunch.png')
 
     def draw(self):
@@ -18,10 +18,13 @@ class Dancer:
 
     def punch_left(self):
         self.screen.blit(self.image_leftpunch, (self.x, self.y))
+
     def punch_right(self):
         self.screen.blit(self.image_rightpunch, (self.x, self.y))
+
     def punch_up(self):
-        pass
+        self.screen.blit(self.image_uppunch, (self.x, self.y))
+
     def punch_down(self):
         pass
 
@@ -99,6 +102,8 @@ def main():
             dancer.punch_left()
         if pressed_keys[pygame.K_RIGHT]:
             dancer.punch_right()
+        if not pressed_keys[pygame.K_DOWN] and not pressed_keys[pygame.K_UP] and not pressed_keys[pygame.K_LEFT] and not pressed_keys[pygame.K_RIGHT]:
+            dancer.draw()
         # if pinkleft.hit_by:
         #     pinkleft.dead = True
         # if purpledown.hit_by:
@@ -111,7 +116,6 @@ def main():
         #     hpbar.score = hpbar.score - 100
         #if hp
         hpbar.draw()
-        dancer.draw()
         pinkleft.move()
         purpledown.move()
         yellowup.move()
