@@ -7,16 +7,22 @@ class Dancer:
         self.x = x
         self.y = y
 
-        self.image_idle = pygame.image.load("dancer_idle.png")
-        self.image_leftpunch = pygame.image.load("dancer_leftpunch.png")
-        self.image_rightpunch = pygame.image.load("dancer_rightpunch.png")
-        self.image_uppunch = pygame.image.load("dancer_uppunch.png")
-        self.image_downpunch = pygame.image.load("dancer_downpunch.png")
+        # self.image_idle = pygame.image.load("dancer_idle.png")
+        # self.image_leftpunch = pygame.image.load("dancer_leftpunch.png")
+        # self.image_rightpunch = pygame.image.load("dancer_rightpunch.png")
+        # self.image_uppunch = pygame.image.load("dancer_uppunch.png")
+        # self.image_downpunch = pygame.image.load("dancer_downpunch.png")
 
     def draw(self):
         self.screen.blit(image_idle, (self.x, self.y))
 
-    def move(self):
+    def punch_left(self):
+        pass
+    def punch_right(self):
+        pass
+    def punch_up(self):
+        pass
+    def punch_down(self):
         pass
 
 class Orb:
@@ -29,16 +35,16 @@ class Orb:
         self.yspeed = 0
         if direction == 'up':
             self.color = (255, 240, 0)
-            self.yspeed = -5    # TODO: set speeds to something
+            self.yspeed = -1    # TODO: set speeds to something
         elif direction == 'down':
             self.color = (191, 0, 254)
-            self.yspeed = 5
+            self.yspeed = 1
         elif direction == 'left':
             self.color = (230, 10, 150)
-            self.xspeed = -5
+            self.xspeed = -1
         elif direction == 'right':
             self.color = (0, 255, 225)
-            self.xspeed = 5
+            self.xspeed = 1
 
     def draw(self):
         pygame.draw.circle(self.screen, self.color, (self.x, self.y), 30)
@@ -69,10 +75,10 @@ def main():
     pygame.init()
     screen = pygame.display.set_mode((640, 640))
 
-    pinkleft = Orb(screen, 50, 50, 'left') # TODO: Change temporary Xs and Ys
-    purpledown = Orb(screen, 60, 60, 'down')
-    yellowup = Orb(screen, 70, 70, 'up')
-    blueright = Orb(screen, 80, 80, 'up')
+    pinkleft = Orb(screen, 300, 300, 'left') # TODO: Change temporary Xs and Ys
+    purpledown = Orb(screen, 300, 300, 'down')
+    yellowup = Orb(screen, 300, 300, 'up')
+    blueright = Orb(screen, 300, 300, 'right')
     hpbar = HPBar(screen)
     dancer = Dancer(screen, 90, 90)
     pygame.mixer.music.load("albatraoz.mp3")
@@ -86,13 +92,13 @@ def main():
 
         pressed_keys = pygame.key.get_pressed()
         if pressed_keys[pygame.K_DOWN]:
-
+            dancer.punch_down()
         if pressed_keys[pygame.K_UP]:
-
+            dancer.punch_up()
         if pressed_keys[pygame.K_LEFT]:
-
+            dancer.punch_left()
         if pressed_keys[pygame.K_RIGHT]:
-
+            dancer.punch_right()
         # if pinkleft.hit_by:
         #     pinkleft.dead = True
         # if purpledown.hit_by:
@@ -105,6 +111,24 @@ def main():
         #     hpbar.score = hpbar.score - 100
         #if hp
         hpbar.draw()
+        pinkleft.move()
+        purpledown.move()
+        yellowup.move()
+        blueright.move()
+        pinkleft.draw()
+        purpledown.draw()
+        yellowup.draw()
+        blueright.draw()
+
+        if pressed_keys[pygame.K_SPACE]:
+            pinkleft.x = 300
+            purpledown.x = 300
+            yellowup.x = 300
+            blueright.x = 300
+            pinkleft.y = 300
+            purpledown.y = 300
+            yellowup.y = 300
+            blueright.y = 300
         pygame.display.update()
 
 
