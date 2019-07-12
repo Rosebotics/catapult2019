@@ -11,7 +11,7 @@ class WaterBottle:
         self.screen.blit(self.image, (self.x, self.y))
 
     def hit_by(self, starfish):
-        return pygame.Rect(self.x, self.y, 67, 50).collidepoint(starfish.x, starfish.y)
+        return pygame.Rect(self.x, self.y, 40, 50).collidepoint(starfish.x + 33.5, starfish.y + 25)
 
 class Starfish:
     def __init__(self, screen, x, y,):
@@ -57,9 +57,8 @@ def main():
     clock = pygame.time.Clock()
     pygame.display.set_caption("EEL!")
     screen = pygame.display.set_mode((900, 900))
+    gameover_image = pygame.image.load('gameover_image2.png')
     level1_image = pygame.image.load('level_1.png')
-
-    gameover_image = pygame.image.load('gameover_image.png')
 
     is_game_over = False
 
@@ -83,36 +82,39 @@ def main():
             if event.type == pygame.QUIT:
                 sys.exit()
         screen.blit(level1_image, (0, 0))
+
+        if not is_game_over:
+            # Check for game key presses
+            pressed_keys = pygame.key.get_pressed()
+            if pressed_keys[pygame.K_UP]:
+                starfish.y = starfish.y - 5
+            if pressed_keys[pygame.K_DOWN]:
+                starfish.y = starfish.y + 5
+            if pressed_keys[pygame.K_LEFT]:
+                starfish.x = starfish.x - 5
+            if pressed_keys[pygame.K_RIGHT]:
+                starfish.x = starfish.x + 5
+            # Check if the game is over
+            for waterbottle in waterbottles:
+                if waterbottle.hit_by(starfish):
+                    is_game_over = True
+
         for waterbottle in waterbottles:
             waterbottle.draw()
         for pearl in pearls:
             pearl.draw()
-
         starfish.draw()
-        pressed_keys = pygame.key.get_pressed()
-        if pressed_keys[pygame.K_UP]:
-            starfish.y = starfish.y - 5
-        if pressed_keys[pygame.K_DOWN]:
-            starfish.y = starfish.y + 5
-        if pressed_keys[pygame.K_LEFT]:
-            starfish.x = starfish.x - 5
-        if pressed_keys[pygame.K_RIGHT]:
-            starfish.x = starfish.x + 5
 
-        for waterbottle in waterbottles:
-            if waterbottle.hit_by(starfish):
-                starfish.dead = True
-                is_game_over = True
-            # TODO: Define dead
+        if is_game_over:
+            screen.blit(gameover_image2, (0, 0))
+        # for waterbottle in waterbottles:
+        #     if waterbottle.hit_by(starfish):
+        #         starfish.dead = True
+        #         is_game_over = True
+        #     # TODO: Define dead
 
+        pygame.display.update()
         clock.tick(60)
-        if not is_game_over:
-            pygame.display.update()
 
-            for waterbottle in waterbottles:
-                if waterbottle.hit_by(starfish) = True:
-                    screen.blit(gameover_image, (450, 450))
-                    pygame.display.update()
-                    is_game_over = True
 
 main()
