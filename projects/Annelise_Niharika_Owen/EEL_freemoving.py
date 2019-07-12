@@ -7,7 +7,7 @@ class WaterBottle:
         self.x = x
         self.y = y
         self.image = pygame.image.load('water_bottle.png')
-
+ #owen
     def draw(self):
         self.screen.blit(self.image, (self.x, self.y))
 
