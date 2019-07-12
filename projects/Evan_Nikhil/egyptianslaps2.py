@@ -42,20 +42,23 @@ class TurnController:
 
     def next_turn(self):
         self.previous_turn = self.current_turn
-        if self.current_turn == 1 and self.player2.is_playing:
-            self.current_turn = 2
-        else:
-            self.current_turn = 3
+        if self.current_turn == 1:
+            if self.player2.is_playing:
+                self.current_turn = 2
+            else:
+                self.current_turn = 3
+        elif self.current_turn == 2:
+            if self.player3.is_playing:
+                self.current_turn = 3
+            else:
+                self.current_turn = 1
+        elif self.current_turn == 3:
+            if self.player1.is_playing:
+                self.current_turn = 1
+            else:
+                self.current_turn = 2
 
-        if self.current_turn == 2 and self.player3.is_playing:
-            self.current_turn = 3
-        else:
-            self.current_turn = 1
-
-        if self.current_turn == 3 and self.player1.is_playing:
-            self.current_turn = 1
-        else:
-            self.current_turn = 2
+        
 
 
 # #----------------------------------------------------------------------------- reset functions
