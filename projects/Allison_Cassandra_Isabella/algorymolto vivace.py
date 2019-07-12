@@ -1,6 +1,6 @@
 import pygame
-import time
 import sys
+import time
 
 class Dancer:
     def __init__(self, screen, x, y):
@@ -35,34 +35,38 @@ class Dancer:
         self.screen.blit(self.image_downpunch, (self.x, self.y+100))
 
 class Orb:
-    def __init__(self, screen, x, y, direction):
+    def __init__(self, screen, direction):
         self.screen = screen
-        self.x = x
-        self.y = y
+        self.screen_width = screen.get_rect().width
+        self.screen_height = screen.get_rect().height
         self.color = (0, 0, 0)
         self.xspeed = 0
         self.yspeed = 0
         if direction == 'up':
+            self.x = self.screen_width // 2
+            self.y = self.screen_height + 30
             self.color = (255, 240, 0)
-            self.yspeed = -1    # TODO: set speeds to something
+            self.yspeed = -1
         elif direction == 'down':
+            self.x = self.screen_width // 2
+            self.y = -30
             self.color = (191, 0, 254)
             self.yspeed = 1
         elif direction == 'left':
+            self.x = -30
+            self.y = self.screen_height // 2
             self.color = (230, 10, 150)
-            self.xspeed = -1
-        elif direction == 'right':
-            self.color = (0, 255, 225)
             self.xspeed = 1
+        elif direction == 'right':
+            self.x = self.screen_width + 30
+            self.y = self.screen_height // 2
+            self.color = (0, 255, 225)
+            self.xspeed = -1
 
     def draw(self):
         pygame.draw.circle(self.screen, self.color, (self.x, self.y), 30)
 
     def hit_by(self, missile):      # TODO: make this work
-        # Return True if a 70x45 rectangle at this Badguy's current position
-        #   collides with the xy point of the given missile.
-        # Return False otherwise.
-       #return pygame.Rect(self.x, self.y, 70, 45).collidepoint((missile.x, missile.y))
         pass
 
     def move(self):
@@ -84,14 +88,28 @@ def main():
     pygame.init()
     screen = pygame.display.set_mode((640, 640))
 
-    pinkleft = Orb(screen, 300, 300, 'left') # TODO: Change temporary Xs and Ys
-    purpledown = Orb(screen, 300, 300, 'down')
-    yellowup = Orb(screen, 300, 300, 'up')
-    blueright = Orb(screen, 300, 300, 'right')
+    pinkleft = Orb(screen,'left') # TODO: Change temporary Xs and Ys
+    purpledown = Orb(screen, 'down')
+    yellowup = Orb(screen, 'up')
+    blueright = Orb(screen, 'right')
     hpbar = HPBar(screen)
     dancer = Dancer(screen, 90, 90)
     pygame.mixer.music.load("albatraoz.mp3")
 
+    timeline_dict = {}
+    with open("albatraoz.txt") as file:
+        for line in file:
+            current_line = line.split(',')
+            time_ms = int(current_line[0])
+            action = current_line[1]
+            timeline_dict[time_ms] = action
+    for t in timeline_dict.keys():
+        print("Time: %d, action: %s" % (t, timeline_dict[t]))
+
+
+    is_game_over = False
+
+    start_milli_time = int(round(time.time() * 1000))
     while True:
         screen.fill((0, 0, 0))
         for event in pygame.event.get():
@@ -99,29 +117,38 @@ def main():
                 sys.exit()
         hpbar.draw()
 
+        current_milli_time = int(round(time.time() * 1000))
+        time_since_start = current_milli_time - start_milli_time
+
+
+
         #TODO when start clicked
-            pressed_keys = pygame.key.get_pressed()
-            if pressed_keys[pygame.K_DOWN]:
-                dancer.punch_down()
-            if pressed_keys[pygame.K_UP]:
-                dancer.punch_up()
-            if pressed_keys[pygame.K_LEFT]:
-                dancer.punch_left()
-            if pressed_keys[pygame.K_RIGHT]:
-                dancer.punch_right()
-            if not pressed_keys[pygame.K_DOWN] and not pressed_keys[pygame.K_UP] and not pressed_keys[pygame.K_LEFT] and not pressed_keys[pygame.K_RIGHT]:
-                dancer.draw()
-        # if pinkleft.hit_by:
-        #     pinkleft.dead = True
-        # if purpledown.hit_by:
-        #     purpledown.dead = True
-        # if yellowup.hit_by:
-        #     yellowup.dead = True
-        # if blueright.hit_by:
-        #     blueright.dead = True
-        # if dancer.hit_by:
+        pressed_keys = pygame.key.get_pressed()
+        if pressed_keys[pygame.K_DOWN]:
+            dancer.punch_down()
+        if pressed_keys[pygame.K_UP]:
+            dancer.punch_up()
+        if pressed_keys[pygame.K_LEFT]:
+            dancer.punch_left()
+        if pressed_keys[pygame.K_RIGHT]:
+            dancer.punch_right()
+        if not pressed_keys[pygame.K_DOWN] and not pressed_keys[pygame.K_UP] and not pressed_keys[pygame.K_LEFT] and not pressed_keys[pygame.K_RIGHT]:
+            dancer.draw()
+
+        # if dancer.hit_by: #TODO
         #     hpbar.score = hpbar.score - 100
-        #if hp
+
+        if hpbar == 0:
+            is_game_over = True
+
+        if pinkleft.hit_by:
+            pinkleft.dead = True
+        if purpledown.hit_by:
+            purpledown.dead = True
+        if yellowup.hit_by:
+            yellowup.dead = True
+        if blueright.hit_by:
+            blueright.dead = True
 
         hpbar.draw()
         pinkleft.move()
