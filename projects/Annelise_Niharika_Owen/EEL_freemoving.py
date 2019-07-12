@@ -24,6 +24,18 @@ class Starfish:
     def draw(self):
         self.screen.blit(self.image, (self.x, self.y))
 
+    def move(self):
+        if self.x > 900:
+            self.x = -50
+        elif self.x < -60:
+            self.x = 850
+
+        if self.y > 900:
+            self.y = -50
+        elif self.y < -60:
+            self.y = 850
+
+
 class Eel:
     def __init__(self, screen, x, y, ):
         self.screen = screen
@@ -40,9 +52,9 @@ class Pearl:
         self.x = x
         self.y = y
         self.image = pygame.image.load('pearl.png')
-        self.rect = self.image.get_rect()
-        self.rect[0] = self.x
-        self.rect[1] = self.y
+        # self.rect = self.image.get_rect()
+        # self.rect[0] = self.x
+        # self.rect[1] = self.y
 
 
     def draw(self):
@@ -69,13 +81,10 @@ def main():
         pearl = Pearl(screen, random.randint(60, 850), random.randint(60, 850))
         # pearls.append(pearl)
 
-
     waterbottles = []
     for x in range(50):
         waterbottle = WaterBottle(screen, random.randint(60, 850), random.randint(60, 850))
         waterbottles.append(waterbottle)
-
-    # .collidepoint
 
     while True:
         for event in pygame.event.get():
@@ -103,15 +112,11 @@ def main():
             waterbottle.draw()
         for pearl in pearls:
             pearl.draw()
+        starfish.move()
         starfish.draw()
 
         if is_game_over:
             screen.blit(gameover_image2, (0, 0))
-        # for waterbottle in waterbottles:
-        #     if waterbottle.hit_by(starfish):
-        #         starfish.dead = True
-        #         is_game_over = True
-        #     # TODO: Define dead
 
         pygame.display.update()
         clock.tick(60)
