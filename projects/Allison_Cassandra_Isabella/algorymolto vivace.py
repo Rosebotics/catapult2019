@@ -2,13 +2,17 @@ import pygame
 import sys
 
 class Dancer:
-    def __init__(self, screen, x, y):
+    def __init__(self, screen, x, y, with_umbrella_filename, without_umbrella_filename):
         self.screen = screen
         self.x = x
         self.y = y
 
-    def draw(self):
-        pass
+    self.image_umbrella = pygame.image.load(with_umbrella_filename)
+    self.image_no_umbrella = pygame.image.load(without_umbrella_filename)
+
+def draw(self):
+    # Draw this Fighter, using its image at its current (x, y) position.
+    self.screen.blit(self.image, (self.x, self.y))
 
     def move(self):
         pass
@@ -62,6 +66,7 @@ def main():
     hpbar = HPBar(screen)
     dancer = Dancer(screen, 90, 90)
     pygame.mixer.music.load("albatraoz.mp3")
+
     while True:
         screen.fill((0, 0, 0))
         for event in pygame.event.get():
