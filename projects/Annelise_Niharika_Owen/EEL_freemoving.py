@@ -57,7 +57,7 @@ def main():
     clock = pygame.time.Clock()
     pygame.display.set_caption("EEL!")
     screen = pygame.display.set_mode((900, 900))
-    gameover_image = pygame.image.load('gameover_image.png')
+    gameover_image = pygame.image.load('gameover_image2.png')
     level1_image = pygame.image.load('level_1.png')
 
     is_game_over = False
@@ -106,7 +106,7 @@ def main():
         starfish.draw()
 
         if is_game_over:
-            screen.blit(gameover_image, (0, 0))
+            screen.blit(gameover_image2, (0, 0))
         # for waterbottle in waterbottles:
         #     if waterbottle.hit_by(starfish):
         #         starfish.dead = True
