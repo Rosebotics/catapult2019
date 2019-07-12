@@ -114,30 +114,64 @@ class CenterPile:
         pass
 
 
-# #----------------------------------------------------------------------------- draw bourd
-class DrawBoard:
-    def __init__(self,):
-        pass
+# #---------------------------------------------------------------------------------------------- board controller
+class BoardController:
+    def __init__(self,screen,card_image,hand_image,caption_font):
+        self.screen = screen
+        self.card_image = card_image
+        self.hand_image1 = pygame.transform.rotate(hand_image, 270)
+        self.hand_image2 = pygame.transform.rotate(hand_image, 0)
+        self.hand_image3 = pygame.transform.rotate(hand_image, 90)
+        self.hand_location = [(300,230),(395,270),(450,230)]
+        self.card_location = [[50,289],[430,578],[810,289],[310,289],[340,289],[370,289],[400,289],[430,289]]
+        self.show_cards = caption_font.render("429A10", True, (0,0,0))
+        self.caption_font = caption_font
+        self.temp_storage = 0
+
+
+    def set_up_board(self,deck,hands):
+        self.screen.fill((220, 181, 121))
+
+
+        for i in range(8):
+            pygame.draw.rect(self.screen, (0, 0, 0),((self.card_location[i][0] - 22, self.card_location[i][1] - 22), (144, 177)))
+            pygame.draw.rect(self.screen, (252, 252, 252), ((self.card_location[i][0] - 20,self.card_location[i][1] - 20), (140, 173)))
+            self.screen.blit(self.card_image, (self.card_location[i][0],self.card_location[i][1]))
+        for i in range(5):
+            self.show_cards = self.caption_font.render(str(deck[(i+1)*-1]), True, (0, 0, 0))
+            self.screen.blit(self.show_cards,(self.card_location[i+3][0] - 18,self.card_location[i+3][1] - 20))
+
+        self.screen.blit(self.hand_image1, self.hand_location[0])
+        self.screen.blit(self.hand_image2, self.hand_location[1])
+        self.screen.blit(self.hand_image3, self.hand_location[2])
+
+        for i in range(3):
+            self.temp_storage = self.caption_font.render("cards in hand:" + str(hands[i]), True, (0, 0, 0))
+            self.screen.blit(self.temp_storage,(self.card_location[i][0]-25 ,self.card_location[i][1] - 40))
+
+
+
 
 
 
 #----------------------------------------------------------------------------------------
 def main():
     pygame.init()
+    pygame.font.init()
     clock = pygame.time.Clock()
     pygame.display.set_caption("this is a test")
     screen = pygame.display.set_mode((1000, 750))
 
-    #---------------set up----------------------------------------------------------------------------set up
+    #---------------set up---------------------------------------------------------------------------------------------------------------set up
     slap_sound = pygame.mixer.Sound("slap.wav")
     slap_hand = pygame.image.load('slap_hand2..png')
     slap_hand.set_colorkey(pygame.Color('WHITE'))
     card_image = pygame.image.load('card.jpeg')
     card_image = pygame.transform.scale(card_image, (100, 133))
-
+    caption_font = pygame.font.Font(None, 28)
     #challenge = Challenge(turn_controller.current_turn)
 
-
+    board_controller = BoardController(screen,card_image,slap_hand,caption_font)
 
 
 
@@ -194,16 +228,18 @@ def main():
 
 
 
-    #-----------------------------------------------------------------------------------------------------------
+    #--------------------------------------------------------------------------------------------------------------------------
 
     while True:
         clock.tick(60)
         pressed_keys = pygame.key.get_pressed()
-        screen.fill((220, 181, 121))
+       # screen.fill((220, 181, 121))
+        #pygame.draw.rect(screen, (252, 252, 252), ((200, 200), (140,173 )))
+        #screen.blit(card_image, ((screen.get_width() // 2), screen.get_height() // 2))
+       # screen.blit(card_image, (220,220))
 
-        screen.blit(card_image, ((screen.get_width() // 2), screen.get_height() // 2))
-        pygame.draw.rect(screen, (255,255,255), (((screen.get_width() // 2)-20), (screen.get_height() // 2)-20),(140, 173))
-        screen.blit(slap_hand, (0,0))
+       # screen.blit(slap_hand, (0,0))
+        board_controller.set_up_board([1,2,3,4,5,"A", 4, 9],[40,10,50])
 
 
 
