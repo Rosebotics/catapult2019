@@ -11,9 +11,6 @@ class WaterBottle:
         self.screen.blit(self.image, (self.x, self.y))
 
     def hit_by(self, starfish):
-        # Return True if a 70x45 rectangle at this Badguy's current position
-        #   collides with the xy point of the given missile.
-        # Return False otherwise.
         return pygame.Rect(self.x, self.y, 67, 50).collidepoint(starfish.x, starfish.y)
 
 class Starfish:
@@ -22,6 +19,7 @@ class Starfish:
         self.x = x
         self.y = y
         self.image = pygame.image.load('starfish.png')
+        self.dead = False
 
     def draw(self):
         self.screen.blit(self.image, (self.x, self.y))
@@ -61,6 +59,10 @@ def main():
     screen = pygame.display.set_mode((900, 900))
     level1_image = pygame.image.load('level_1.png')
 
+    gameover_image = pygame.image.load('gameover_image.png')
+
+    is_game_over = False
+
     starfish = Starfish(screen, 55, 60)
 
     pearls = []
@@ -74,7 +76,7 @@ def main():
         waterbottle = WaterBottle(screen, random.randint(60, 850), random.randint(60, 850))
         waterbottles.append(waterbottle)
 
-    .collidepoint
+    # .collidepoint
 
     while True:
         for event in pygame.event.get():
@@ -97,13 +99,20 @@ def main():
         if pressed_keys[pygame.K_RIGHT]:
             starfish.x = starfish.x + 5
 
-        # for waterbottle in Starfish.waterbottles:
-        #         if waterbottle.hit_by(starfish):
-        #                 # scoreboard.score = scoreboard.score + 5
-
-
+        for waterbottle in waterbottles:
+            if waterbottle.hit_by(starfish):
+                starfish.dead = True
+                is_game_over = True
+            # TODO: Define dead
 
         clock.tick(60)
-        pygame.display.update()
+        if not is_game_over:
+            pygame.display.update()
+
+            for waterbottle in waterbottles:
+                if waterbottle.hit_by(starfish) = True:
+                    screen.blit(gameover_image, (450, 450))
+                    pygame.display.update()
+                    is_game_over = True
 
 main()
