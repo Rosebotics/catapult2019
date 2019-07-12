@@ -129,11 +129,11 @@ class BoardController:
         self.temp_storage = 0
         self.who_slapped = [0,0,0]
         self.slap_sound =  slap_sound
-
+#there are sooooooo many variables that this needs, this is crazy it is 12 btw
 
     def set_up_board(self,deck,hands):
         self.screen.fill((220, 181, 121))
-# setting up the rules to the game so that the players know what to do 
+# setting up the rules to the game so that the players know what to do---------------------------------------------------------
         self.temp_storage = self.caption_font.render("rule of the game: player one slaps with ` and places a card with 1 ", True, (0, 0, 0))
         self.screen.blit(self.temp_storage, (10,10))
         self.temp_storage = self.caption_font.render("player two slaps with v and places a card with b", True, (0, 0, 0))
@@ -181,9 +181,13 @@ class BoardController:
             self.screen.blit(self.temp_storage,(self.card_location[i][0]-25 ,self.card_location[i][1] - 40))
 
 # seting up slapping vishuwal and sounds
+    #todo add this to the begining and end of the slap lines
     def hand_slap(self,player_number):
         self.slap_sound.play(1)
-        self.who_slapped[player_number-1] = 1
+        if self.who_slapped[player_number-1] == 0:
+            self.who_slapped[player_number-1] = 1
+        else:
+            self.who_slapped[player_number - 1] = 0
 
 #----------------------------------------------------------------------------------------
 def main():
