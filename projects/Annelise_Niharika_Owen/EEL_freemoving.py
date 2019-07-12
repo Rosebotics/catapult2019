@@ -59,6 +59,8 @@ def main():
     screen = pygame.display.set_mode((900, 900))
     level1_image = pygame.image.load('level_1.png')
 
+    gameover_image = pygame.image.load('gameover_image.png')
+
     is_game_over = False
 
     starfish = Starfish(screen, 55, 60)
