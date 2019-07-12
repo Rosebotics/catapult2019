@@ -39,7 +39,7 @@ class CenterPile:
 
     def bury_card(self, new_card):
         self.cards.insert(0, new_card)
-        
+
 
     def get_top_card(self):
         if len(self.cards) > 0:
@@ -216,21 +216,21 @@ def main():
     new_deck = [2,2,2,2,3,3,3,3,4,4,4,4,5,5,5,5,6,6,6,6,7,7,7,7,8,8,8,8,9,9,9,9,10,10,10,10,'J','J','J','J','Q','Q','Q','Q','K','K','K','K','A','A','A','A']
     temp_deck = []
     random.shuffle(new_deck)
-    for i in range(18):
+    for i in range(8):
         temp_deck.append(new_deck[0])
         new_deck.pop(0)
     player1 = Player(temp_deck, 1)
     temp_deck = []
 
     #player2
-    for i in range(17):
+    for i in range(7):
         temp_deck.append(new_deck[0])
         new_deck.pop(0)
     player2 = Player(temp_deck, 2)
     temp_deck = []
 
     #player3
-    for i in range(17):
+    for i in range(7):
         temp_deck.append(new_deck[0])
         new_deck.pop(0)
     player3 = Player(temp_deck, 3)
@@ -268,6 +268,11 @@ def main():
                 play_card(player3, center_pile, turn_controller, challenge_controller)
             if pressed_keys[pygame.K_p]:
                 slap(player3, center_pile, turn_controller)
+            if pressed_keys[pygame.K_SPACE]:
+                print('Centerpile.cards:', center_pile.cards)
+                print('player1:', player1.deck)
+                print('player2:', player2.deck)
+                print('player3:', player3.deck)
 
         #------------out of for loop--------------------------------------------------------------------out of for event loop
         screen.fill((220, 181, 121))
