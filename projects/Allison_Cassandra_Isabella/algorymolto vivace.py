@@ -13,14 +13,23 @@ class Dancer:
     def move(self):
         pass
 
-class Blueright:
-    def __init__(self, screen, x, y):
+class Orb:
+    def __init__(self, screen, x, y, direction):
         self.screen = screen
         self.x = x
         self.y = y
+        self.color = (0, 0, 0)
+        if direction == 'up':
+            self.color = (255, 240, 0)
+        elif direction == 'down':
+            self.color = (191, 0, 254)
+        elif direction == 'left':
+            self.color = (230, 10, 150)
+        elif direction == 'right':
+            self.color = (0, 255, 225)
 
     def draw(self):
-        pygame.draw.circle(self.screen, (0, 255, 225), (self.x, self.y), 30)
+        pygame.draw.circle(self.screen, self.color, (self.x, self.y), 30)
 
     def hit_by(self, missile):
         # Return True if a 70x45 rectangle at this Badguy's current position
@@ -31,57 +40,6 @@ class Blueright:
     def move(self):
         pass
 
-class Pinkleft:
-    def __init__(self, screen, x, y):
-        self.screen = screen
-        self.x = x
-        self.y = y
-    def draw(self):
-        pygame.draw.circle(self.screen, (230, 10, 150), (self.x, self.y), 30)
-
-    def hit_by(self, missile):
-        # Return True if a 70x45 rectangle at this Badguy's current position
-        #   collides with the xy point of the given missile.
-        # Return False otherwise.
-        #return pygame.Rect(self.x, self.y, 70, 45).collidepoint((missile.x, missile.y)) #TODO: Fix "missile"
-        pass
-    def move(self):
-        pass
-
-class Purpledown:
-    def __init__(self, screen, x, y):
-        self.screen = screen
-        self.x = x
-        self.y = y
-    def draw(self):
-        pygame.draw.circle(self.screen, (191, 0, 254), (self.x, self.y), 30)
-
-    def hit_by(self, missile):
-        # Return True if a 70x45 rectangle at this Badguy's current position
-        #   collides with the xy point of the given missile.
-        # Return False otherwise.
-        #return pygame.Rect(self.x, self.y, 70, 45).collidepoint((missile.x, missile.y)) #TODO: Fix "missile"
-        pass
-
-    def move(self):
-        pass
-class Yellowup:
-    def __init__(self, screen, x, y):
-        self.screen = screen
-        self.x = x
-        self.y = y
-    def draw(self):
-        pygame.draw.circle(self.screen, (255, 240, 0), (self.x, self.y), 30)
-
-    def hit_by(self, missile):
-        # Return True if a 70x45 rectangle at this Badguy's current position
-        #   collides with the xy point of the given missile.
-        # Return False otherwise.
-        #return pygame.Rect(self.x, self.y, 70, 45).collidepoint((missile.x, missile.y)) #TODO: Fix "missile"
-        pass
-
-    def move(self):
-        pass
 class HPBar:
     def __init__(self, screen):
         self.screen = screen
@@ -110,8 +68,8 @@ def main():
             if event.type == pygame.QUIT:
                 sys.exit()
         hpbar.draw()
-        dancer.draw()
         dancer.move()
+        dancer.draw()
         pinkleft.move()
         pinkleft.draw()
         purpledown.move()
