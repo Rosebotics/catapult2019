@@ -68,7 +68,7 @@ starting points for images is in the top left
 
 00-moving face that is creepy --------------------------------------------------------------------------------------------------
 thing that i can use
-    pygame.draw.rect(screen, collor, (start),(with lange)
+    pygame.draw.rect(screen, collor, (start),(with, lange)
     pygame.draw.circle(screen, color, position(x,y), radius, with)
 
 lisses to key presses with ,  this line needs to be in the begining of the loop, this will reupbate what the last event was
@@ -163,6 +163,5 @@ more practice with classes
 
   if top card == 'j' or top card == 'q' or top card == 'k' or top card == 'a'
 
-
-
-if
+indexis work as
+'-' will look at the back

@@ -1,6 +1,6 @@
 import pygame
-import sys
 import time
+import sys
 
 class Dancer:
     def __init__(self, screen, x, y):
@@ -86,6 +86,7 @@ class HPBar:
 
 def main():
     pygame.init()
+    clock = pygame.time.Clock()
     screen = pygame.display.set_mode((640, 640))
 
     pinkleft = Orb(screen,'left') # TODO: Change temporary Xs and Ys
@@ -111,7 +112,11 @@ def main():
 
     start_milli_time = int(round(time.time() * 1000))
     while True:
+
+        clock.tick(60)
         screen.fill((0, 0, 0))
+        punchbox = (54, 20, 533, 600)
+        pygame.draw.rect(screen, (255, 0, 5), punchbox)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()

@@ -45,13 +45,13 @@ class Player:
             pass
 
     def drawShield(self):
-        pygame.draw.polygon(self.screen, self.color,
-                            [(self.x - 10, self.y - 76), (self.x + 75, self.y - 130), (self.x + 160, self.y - 76),
-                             (self.x + 75, self.y - 120)], 2)
-        # if self.direction:
-        #     pygame.draw.polygon(self.screen, self.color, [(self.x - 10, self.y - 76), (self.x + 75, self.y - 130), (self.x + 160, self.y - 76), (self.x + 75, self.y - 120)], 2)
-        # else:
-        #     pygame.draw.polygon(self.screen, self.color, [(self.x - 10, self.y - 76), (self.x + 75, self.y - 44), (self.x + 160, self.y - 76), (self.x + 75, self.y - 54)], 2)
+        # pygame.draw.polygon(self.screen, self.color,
+        #                     [(self.x - 10, self.y - 76), (self.x + 75, self.y - 130), (self.x + 160, self.y - 76),
+        #                      (self.x + 75, self.y - 120)], 2)
+        if self.direction:
+            pygame.draw.polygon(self.screen, self.color, [(self.x - 10, self.y - 76), (self.x + 75, self.y - 130), (self.x + 160, self.y - 76), (self.x + 75, self.y - 120)], 2)
+        else:
+            pygame.draw.polygon(self.screen, self.color, [(self.x - 10, self.y - 76), (self.x + 75, self.y - 44), (self.x + 160, self.y - 76), (self.x + 75, self.y - 54)], 2)
 
 
 
@@ -131,8 +131,11 @@ def main():
     down_hit = pygame.mixer.Sound("shield_hit.wav")
     font = pygame.font.Font(None, 50)
     column = Column(screen)
+    ticks = 0
+    shieldClock = ticks
     while True:
         clock.tick(60)
+        ticks += 1
         for event in pygame.event.get():
             # -SWITCH PLAYER DIRECTION-
             pressed_keys = pygame.key.get_pressed()
@@ -153,16 +156,21 @@ def main():
                 player.column -= 1
             elif pressed_keys[K_RIGHT] and not player.column == 2:
                 player.column += 1
+            # -ACTIVATE SHIELD-
+            if pressed_keys[K_SPACE] and shieldClock + 100 < ticks:
+                print("executed")
+                player.drawShield()
+                shieldClock = ticks
 
             # -EXIT-
             if event.type == pygame.QUIT:
                 sys.exit()
 
-
-
         if player.lives < 1:
             text_as_image = font.render("Game Over!", False, (255, 255, 255))
             screen.blit(text_as_image, (200, 400))
+            if pressed_keys[K_SPACE]:
+                main()
         else:
             player.x = column.getX(player.column)
             if gameclock + 2 < time.time():
@@ -184,7 +192,6 @@ def main():
             enemy_list.isAtBottom(player)
             screen.fill(pygame.Color("Black"))
             player.draw()
-            player.drawShield()
             player.drawHealth()
             enemy_list.draw()
             column.draw()
