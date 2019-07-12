@@ -57,7 +57,7 @@ def main():
     clock = pygame.time.Clock()
     pygame.display.set_caption("EEL!")
     screen = pygame.display.set_mode((900, 900))
-    gameover_image = pygame.image.load('gameover_image2.png')
+    gameover_image2 = pygame.image.load('gameover_image2.png')
     level1_image = pygame.image.load('level_1.png')
 
     is_game_over = False
