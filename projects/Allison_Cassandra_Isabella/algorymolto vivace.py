@@ -1,4 +1,5 @@
 import pygame
+import time
 import sys
 
 class Dancer:
@@ -98,17 +99,18 @@ def main():
                 sys.exit()
         hpbar.draw()
 
-        pressed_keys = pygame.key.get_pressed()
-        if pressed_keys[pygame.K_DOWN]:
-            dancer.punch_down()
-        if pressed_keys[pygame.K_UP]:
-            dancer.punch_up()
-        if pressed_keys[pygame.K_LEFT]:
-            dancer.punch_left()
-        if pressed_keys[pygame.K_RIGHT]:
-            dancer.punch_right()
-        if not pressed_keys[pygame.K_DOWN] and not pressed_keys[pygame.K_UP] and not pressed_keys[pygame.K_LEFT] and not pressed_keys[pygame.K_RIGHT]:
-            dancer.draw()
+        #TODO when start clicked
+            pressed_keys = pygame.key.get_pressed()
+            if pressed_keys[pygame.K_DOWN]:
+                dancer.punch_down()
+            if pressed_keys[pygame.K_UP]:
+                dancer.punch_up()
+            if pressed_keys[pygame.K_LEFT]:
+                dancer.punch_left()
+            if pressed_keys[pygame.K_RIGHT]:
+                dancer.punch_right()
+            if not pressed_keys[pygame.K_DOWN] and not pressed_keys[pygame.K_UP] and not pressed_keys[pygame.K_LEFT] and not pressed_keys[pygame.K_RIGHT]:
+                dancer.draw()
         # if pinkleft.hit_by:
         #     pinkleft.dead = True
         # if purpledown.hit_by:
