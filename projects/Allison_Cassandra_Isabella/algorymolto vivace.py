@@ -2,17 +2,19 @@ import pygame
 import sys
 
 class Dancer:
-    def __init__(self, screen, x, y, with_umbrella_filename, without_umbrella_filename):
+    def __init__(self, screen, x, y, ):
         self.screen = screen
         self.x = x
         self.y = y
 
-    self.image_umbrella = pygame.image.load(with_umbrella_filename)
-    self.image_no_umbrella = pygame.image.load(without_umbrella_filename)
+        self.image_idle = pygame.image.load("dancer_idle.png")
+        self.image_leftpunch = pygame.image.load("dancer_leftpunch.png")
+        self.image_rightpunch = pygame.image.load("dancer_rightpunch.png")
+        self.image_uppunch = pygame.image.load("dancer_uppunch.png")
+        self.image_downpunch = pygame.image.load("dancer_downpunch.png")
 
-def draw(self):
-    # Draw this Fighter, using its image at its current (x, y) position.
-    self.screen.blit(self.image, (self.x, self.y))
+    def draw(self):
+        self.screen.blit(image_idle, (self.x, self.y))
 
     def move(self):
         pass
