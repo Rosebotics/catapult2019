@@ -20,11 +20,16 @@ class CenterPile:
     def add_card(self, new_card):
         self.cards.append(new_card)
         self.is_slap_allowed = False
+        print(self.cards)
         if len(self.cards) > 1:
-            if self.cards[-1] == self.cards[-2]
+            if self.cards[-1] == self.cards[-2]:
                 print("Slap is allowed")
                 self.is_slap_allowed = True
 
+        if len(self.cards) > 2:
+            if self.cards[-1] == self.cards[-3]:
+                print("Slap is allowed")
+                self.is_slap_allowed = True
 
 
 # #----------------------------------------------------------------------------- reset functions
@@ -91,11 +96,16 @@ def main():
 
             if pressed_keys[pygame.K_v]:
                 print('v')
+                print("Player 2 play card")
+                player2.place_card(center_pile)
             if pressed_keys[pygame.K_b]:
                 print('b')
 
+
             if pressed_keys[pygame.K_o]:
                 print('o')
+                print("Player 3 play card")
+                player3.place_card(center_pile)
             if pressed_keys[pygame.K_p]:
                 print('p')
 
