@@ -108,6 +108,7 @@ def main():
     hpbar = HPBar(screen)
     dancer = Dancer(screen, 90, 90)
     pygame.mixer.music.load("albatraoz.mp3")
+
     while True:
         screen.fill((0, 0, 0))
         for event in pygame.event.get():
