@@ -1,6 +1,5 @@
 import pygame, sys, random, time
 
-
 class WaterBottle:
     def __init__(self, screen, x, y,):
         self.screen = screen
@@ -14,7 +13,6 @@ class WaterBottle:
     def hit_by(self, starfish):
         return pygame.Rect(self.x, self.y, 40, 50).collidepoint(starfish.x + 33.5, starfish.y + 25)
 
-
 class Starfish:
     def __init__(self, screen, x, y,):
         self.screen = screen
@@ -22,6 +20,8 @@ class Starfish:
         self.y = y
         self.image = pygame.image.load('starfish.png')
         # self.dead = False
+
+
 
     def draw(self):
         self.screen.blit(self.image, (self.x, self.y))
@@ -50,7 +50,6 @@ class Eel:
         self.screen.blit(self.image, (self.x, self.y))
         pass
 
-
 class Pearl:
     def __init__(self, screen, x, y):
         self.screen = screen
@@ -66,9 +65,9 @@ class Pearl:
     def draw(self):
         self.screen.blit(self.image, (self.x, self.y))
 
+
     def hit_by(self, starfish):
         return pygame.Rect(self.x, self.y, 40, 30).collidepoint(starfish.x + 33.5, starfish.y + 25)
-
 
 class PearlFleet:
     def __init__(self, screen):
@@ -83,18 +82,9 @@ class PearlFleet:
             if self.pearls[k].collected:
                 del self.pearls[k]
 
+# class Scoreboard:
+#     def __init__(self):
 
-class Scoreboard:
-    def __init__(self, screen):
-        self.screen = screen
-        self.x = 5
-        self.y = 5
-        self.score = 0
-        self.font = pygame.font.Font(None, 30)
-
-    def draw(self):
-        text_as_image = self.font.render("Score: " + str(self.score), True, (255, 255, 255), (0, 0, 0))
-        self.screen.blit(text_as_image, (5, 5))
 
 
 def main():
@@ -104,8 +94,7 @@ def main():
     screen = pygame.display.set_mode((900, 900))
     gameover_image2 = pygame.image.load('gameover_image2.png')
     level1_image = pygame.image.load('level_1.png')
-
-    scoreboard = Scoreboard(screen)
+    score = 0
 
     is_game_over = False
 
@@ -143,7 +132,6 @@ def main():
         for pearl in pearl_fleet.pearls:
             if pearl.hit_by(starfish):
                 pearl.collected = True
-                scoreboard.score = scoreboard.score + 5
                 pearl_fleet.remove_collected_pearls()
 
         for waterbottle in waterbottles:
@@ -153,7 +141,6 @@ def main():
             pearl.draw()
         starfish.move()
         starfish.draw()
-        scoreboard.draw()
 
         if is_game_over:
             screen.blit(gameover_image2, (0, 0))
