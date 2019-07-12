@@ -219,7 +219,7 @@ def main():
 main()
 
 
-# TODO: After the core game is complete we will implement these tasks:
+# Done: After the core game is complete we will implement these tasks:
 # Create a Scoreboard class (from scratch)
 #   Instance variables: screen, x, y, score, and font (size 30)
 #   Methods: draw (and __init__)
