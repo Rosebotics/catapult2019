@@ -116,7 +116,7 @@ class CenterPile:
 
 # #---------------------------------------------------------------------------------------------- board controller
 class BoardController:
-    def __init__(self,screen,card_image,hand_image,caption_font):
+    def __init__(self,screen,card_image,hand_image,caption_font, slap_sound):
         self.screen = screen
         self.card_image = card_image
         self.hand_image1 = pygame.transform.rotate(hand_image, 270)
@@ -127,32 +127,46 @@ class BoardController:
         self.show_cards = caption_font.render("429A10", True, (0,0,0))
         self.caption_font = caption_font
         self.temp_storage = 0
+        self.who_slapped = [0,0,0]
+        self.slap_sound =  slap_sound
 
 
     def set_up_board(self,deck,hands):
         self.screen.fill((220, 181, 121))
 
-
+        # set up where the cards are placed
         for i in range(8):
             pygame.draw.rect(self.screen, (0, 0, 0),((self.card_location[i][0] - 22, self.card_location[i][1] - 22), (144, 177)))
             pygame.draw.rect(self.screen, (252, 252, 252), ((self.card_location[i][0] - 20,self.card_location[i][1] - 20), (140, 173)))
             self.screen.blit(self.card_image, (self.card_location[i][0],self.card_location[i][1]))
-        for i in range(5):
-            self.show_cards = self.caption_font.render(str(deck[(i+1)*-1]), True, (0, 0, 0))
-            self.screen.blit(self.show_cards,(self.card_location[i+3][0] - 18,self.card_location[i+3][1] - 20))
-
-        self.screen.blit(self.hand_image1, self.hand_location[0])
-        self.screen.blit(self.hand_image2, self.hand_location[1])
-        self.screen.blit(self.hand_image3, self.hand_location[2])
-
+        #set up the numbers on the cards
+        if len(deck) < 5:
+            # this is for if the deck is less then 5
+            for i in range(len(deck)):
+                self.show_cards = self.caption_font.render(str(deck[(-1*(len(deck))+i)]), True, (0, 0, 0))
+                self.screen.blit(self.show_cards,(self.card_location[i+(8-len(deck))][0] - 18,self.card_location[i+(8-len(deck))][1] - 20))
+        else:
+            #this if for if the deck is 5 or more
+            for i in range(5):
+                self.show_cards = self.caption_font.render(str(deck[(-5 + i)]), True, (0, 0, 0))
+                self.screen.blit(self.show_cards,(self.card_location[i + 3][0] - 18, self.card_location[i + 3][1] - 20))
+# the hands
+        # todo set up a thing to have slaps
+        if self.who_slapped[0] == 1:
+            self.screen.blit(self.hand_image1, self.hand_location[0])
+        if self.who_slapped[1] == 1:
+            self.screen.blit(self.hand_image2, self.hand_location[1])
+        if self.who_slapped[2] == 1:
+            self.screen.blit(self.hand_image3, self.hand_location[2])
+# saying how many cards everyone has
         for i in range(3):
             self.temp_storage = self.caption_font.render("cards in hand:" + str(hands[i]), True, (0, 0, 0))
             self.screen.blit(self.temp_storage,(self.card_location[i][0]-25 ,self.card_location[i][1] - 40))
 
-
-
-
-
+# seting up slapping vishuwal and sounds
+    def hand_slap(self,player_number):
+        self.slap_sound.play(1)
+        self.who_slapped[player_number-1] = 1
 
 #----------------------------------------------------------------------------------------
 def main():
@@ -171,7 +185,7 @@ def main():
     caption_font = pygame.font.Font(None, 28)
     #challenge = Challenge(turn_controller.current_turn)
 
-    board_controller = BoardController(screen,card_image,slap_hand,caption_font)
+    board_controller = BoardController(screen,card_image,slap_hand,caption_font, slap_sound)
 
 
 
@@ -239,7 +253,8 @@ def main():
        # screen.blit(card_image, (220,220))
 
        # screen.blit(slap_hand, (0,0))
-        board_controller.set_up_board([1,2,3,4,5,"A", 4, 9],[40,10,50])
+        board_controller.set_up_board([5,"A", 4],[40,10,50])
+        #board_controller.set_up_board(center_pile.deck, [player1.deck, player2.deck, player3.deck])
 
 
 
