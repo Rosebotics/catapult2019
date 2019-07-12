@@ -12,10 +12,9 @@ class Dancer:
         self.image_leftpunch = pygame.image.load('dancer_leftpunch.png')
         self.image_leftpunch = pygame.transform.scale(self.image_leftpunch, (250, 300))
         self.image_rightpunch = pygame.image.load('dancer_rightpunch.png')
-        self.image_uppunch = pygame.image.load('dancer_uppunch.png')
         self.image_rightpunch = pygame.transform.scale(self.image_rightpunch, (250, 300))
-        # self.image_uppunch = pygame.image.load('dancer_uppunch.png')
-        # self.image_uppunch = pygame.transform.scale(self.image_uppunch, (250, 300))
+        self.image_uppunch = pygame.image.load('dancer_uppunch.png')
+        self.image_uppunch = pygame.transform.scale(self.image_uppunch, (250, 300))
         # self.image_downpunch = pygame.image.load('dancer_downpunch.png')
         # self.image_downpunch = pygame.transform.scale(self.image_downpunch, (250, 300))
 
