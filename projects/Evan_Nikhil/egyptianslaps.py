@@ -18,7 +18,7 @@ class Challenge:
 #-----------------------------------------------------------------------------------Detection
 class Detection:
     def __init__(self,player1,player2,player3):
-        self.order_of_slaps = [1]
+        self.order_of_slaps = []
         self.round_winner = 0
         self.player1 = player1
         self.player2 = player2
@@ -41,9 +41,10 @@ class Detection:
         if winner == 1:
             self.player1.deck.append(pot)
             print("i did not die")
+        self.order_of_slaps = []
 
 
-    def new_round():
+    def new_round(self):
         pass
 
 #-----------------------------------------------------------------------------Player
@@ -91,11 +92,12 @@ def main():
     clock = pygame.time.Clock()
     pygame.display.set_caption("this is a test")
     screen = pygame.display.set_mode((500, 500))
-    lock = Lock()
+
     #---------------set up----------------------------------------------------------------------------set up
     turn = 1
     last5cards = [0,0,0,0,0]
     pot = []
+    first_player_pressed = False
     centerpile = CenterPile()
 
     challenge = Challenge()
@@ -146,51 +148,60 @@ def main():
         clock.tick(60)
         pressed_keys = pygame.key.get_pressed()
 
+
         for event in pygame.event.get():
             if event.type == QUIT:
                 sys.exit()
             #-----in for loop------------------------------------------------------------------------------in for event loop
            #done remove prints
             # this is button detection for card placement
-            if pressed_keys[pygame.K_BACKQUOTE] and turn == 1:
-                #print(new_deck)
-                turn = 2
-                player1.place_card(pot,last5cards)
+            #todo set up next turn
+            if not first_player_pressed:
+                if pressed_keys[pygame.K_BACKQUOTE] and turn == 1:
+                    print(new_deck)
+                    turn = 2
+                    player1.place_card(pot,last5cards)
 
-            if pressed_keys[pygame.K_v] and turn == 2:
-               # print(new_deck)
-                turn = 3
-                player2.place_card(pot,last5cards)
+                if pressed_keys[pygame.K_v] and turn == 2:
+                   # print(new_deck)
+                    turn = 3
+                    player2.place_card(pot,last5cards)
 
-            if pressed_keys[pygame.K_o] and turn == 3:
-                #print(new_deck)
-                turn = 1
-                player3.place_card(pot,last5cards)
-            #button presses for slapping
-            #todo remove Prints
-            if pressed_keys[pygame.K_1]:
-                print('1')
-                player1.slap()
-                detection.order_of_slaps.append(1)
-                # Lock to make sure this is the only function executing at the time
-                lock.acquire()
-                try:
+                if pressed_keys[pygame.K_o] and turn == 3:
+                    #print(new_deck)
+                    turn = 1
+                    player3.place_card(pot,last5cards)
+                #button presses for slapping
+                #todo remove Prints
+                #todo set up player 2 and 3 slap
+                if pressed_keys[pygame.K_1]:
+                    print('begin long sleep')
+                    first_player_pressed = True
+                    time.sleep(2)
+                    player1.slap()
+                    detection.order_of_slaps.append(1)
                     detection.slap(time.time(),last5cards,pot)
-                finally:
-                    lock.release()
+                    first_player_pressed = False
 
 
-            if pressed_keys[pygame.K_b]:
-              #  print('b')
-                player2.slap()
-                detection.order_of_slaps.append(2)
+                if pressed_keys[pygame.K_b]:
+                    print('b')
+                    first_player_pressed = True
+                    time.sleep(2)
+                    player2.slap()
+                    detection.order_of_slaps.append(2)
+                    detection.slap(time.time(), last5cards, pot)
+                    first_player_pressed = False
 
-            if pressed_keys[pygame.K_p]:
-               # print('p')
-                player3.slap()
-                detection.order_of_slaps.append(3)
-              #  print(detection.order_of_slaps)
-
+                if pressed_keys[pygame.K_p]:
+                    print('p')
+                    first_player_pressed = True
+                    time.sleep(2)
+                    player3.slap()
+                    detection.order_of_slaps.append(3)
+                  #  print(detection.order_of_slaps)
+                    detection.slap(time.time(), last5cards, pot)
+                    first_player_pressed = False
 
 
 
