@@ -2,26 +2,34 @@ import pygame
 import sys
 
 class Dancer:
-    def __init__(self, screen, x, y, ):
+    def __init__(self, screen, x, y):
         self.screen = screen
         self.x = x
         self.y = y
 
         self.image_idle = pygame.image.load('dancer_idle.png')
+        self.image_idle = pygame.transform.scale(self.image_idle, (250, 300))
         self.image_leftpunch = pygame.image.load('dancer_leftpunch.png')
+        self.image_leftpunch = pygame.transform.scale(self.image_leftpunch, (250, 300))
         self.image_rightpunch = pygame.image.load('dancer_rightpunch.png')
-        # self.image_uppunch = pygame.image.load('dancer_uppunch.png')
+        self.image_rightpunch = pygame.transform.scale(self.image_rightpunch, (250, 300))
+        self.image_uppunch = pygame.image.load('dancer_uppunch.png')
+        self.image_uppunch = pygame.transform.scale(self.image_uppunch, (250, 300))
         # self.image_downpunch = pygame.image.load('dancer_downpunch.png')
+        # self.image_downpunch = pygame.transform.scale(self.image_downpunch, (250, 300))
 
     def draw(self):
         self.screen.blit(self.image_idle, (self.x, self.y))
 
     def punch_left(self):
-        pass
+        self.screen.blit(self.image_leftpunch, (self.x, self.y))
+
     def punch_right(self):
-        pass
+        self.screen.blit(self.image_rightpunch, (self.x, self.y))
+
     def punch_up(self):
-        pass
+        self.screen.blit(self.image_uppunch, (self.x, self.y))
+
     def punch_down(self):
         pass
 
@@ -99,6 +107,8 @@ def main():
             dancer.punch_left()
         if pressed_keys[pygame.K_RIGHT]:
             dancer.punch_right()
+        if not pressed_keys[pygame.K_DOWN] and not pressed_keys[pygame.K_UP] and not pressed_keys[pygame.K_LEFT] and not pressed_keys[pygame.K_RIGHT]:
+            dancer.draw()
         # if pinkleft.hit_by:
         #     pinkleft.dead = True
         # if purpledown.hit_by:
@@ -110,8 +120,8 @@ def main():
         # if dancer.hit_by:
         #     hpbar.score = hpbar.score - 100
         #if hp
+
         hpbar.draw()
-        dancer.draw()
         pinkleft.move()
         purpledown.move()
         yellowup.move()
