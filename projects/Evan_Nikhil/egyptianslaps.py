@@ -177,7 +177,9 @@ class BoardController:
             self.screen.blit(self.hand_image3, self.hand_location[2])
 # saying how many cards everyone has-------------------------------------------------------------------
         for i in range(3):
-            self.temp_storage = self.caption_font.render("cards in hand:" + str(hands[i]), True, (0, 0, 0))
+            self.temp_storage = self.caption_font.render("Player " + str(i+1), True, (0, 0, 0))
+            self.screen.blit(self.temp_storage, (self.card_location[i][0] - 20, self.card_location[i][1] - 60))
+            self.temp_storage = self.caption_font.render("Cards in hand:" + str(hands[i]), True, (0, 0, 0))
             self.screen.blit(self.temp_storage,(self.card_location[i][0]-25 ,self.card_location[i][1] - 40))
 
 # seting up slapping vishuwal and sounds
