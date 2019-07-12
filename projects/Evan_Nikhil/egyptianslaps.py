@@ -116,7 +116,7 @@ class CenterPile:
 
 # #---------------------------------------------------------------------------------------------- board controller
 class BoardController:
-    def __init__(self,screen,card_image,hand_image,caption_font, slap_sound):
+    def __init__(self,screen,card_image,card_back_image,hand_image,caption_font, slap_sound):
         self.screen = screen
         self.card_image = card_image
         self.hand_image1 = pygame.transform.rotate(hand_image, 270)
@@ -129,12 +129,14 @@ class BoardController:
         self.temp_storage = 0
         self.who_slapped = [0,0,0]
         self.slap_sound =  slap_sound
+        self.card_back_image = card_back_image
+
 #there are sooooooo many variables that this needs, this is crazy it is 12 btw
 
     def set_up_board(self,deck,hands):
         self.screen.fill((220, 181, 121))
 # setting up the rules to the game so that the players know what to do---------------------------------------------------------
-        self.temp_storage = self.caption_font.render("rule of the game: player one slaps with ` and places a card with 1 ", True, (0, 0, 0))
+        self.temp_storage = self.caption_font.render("rule of the game: player one slaps with ~ and places a card with 1 ", True, (0, 0, 0))
         self.screen.blit(self.temp_storage, (10,10))
         self.temp_storage = self.caption_font.render("player two slaps with v and places a card with b", True, (0, 0, 0))
         self.screen.blit(self.temp_storage, (172, 30))
@@ -152,10 +154,14 @@ class BoardController:
         self.screen.blit(self.temp_storage, (172, 150))
 
         # set up where the cards are placed-------------------------------------------------------------------
-        for i in range(8):
+        for i in range(3):
             pygame.draw.rect(self.screen, (0, 0, 0),((self.card_location[i][0] - 22, self.card_location[i][1] - 22), (144, 177)))
             pygame.draw.rect(self.screen, (252, 252, 252), ((self.card_location[i][0] - 20,self.card_location[i][1] - 20), (140, 173)))
             self.screen.blit(self.card_image, (self.card_location[i][0],self.card_location[i][1]))
+        for i in range(5):
+            pygame.draw.rect(self.screen, (0, 0, 0),((self.card_location[3+i][0] - 22, self.card_location[3+i][1] - 22), (144, 177)))
+            pygame.draw.rect(self.screen, (252, 252, 252), ((self.card_location[3+i][0] - 20,self.card_location[3+i][1] - 20), (140, 173)))
+            self.screen.blit(self.card_back_image, (self.card_location[3+i][0],self.card_location[3+i][1]))
         #set up the numbers on the cards-------------------------------------------------------------------
         if len(deck) < 5:
             # this is for if the deck is less then 5
@@ -177,7 +183,9 @@ class BoardController:
             self.screen.blit(self.hand_image3, self.hand_location[2])
 # saying how many cards everyone has-------------------------------------------------------------------
         for i in range(3):
-            self.temp_storage = self.caption_font.render("cards in hand:" + str(hands[i]), True, (0, 0, 0))
+            self.temp_storage = self.caption_font.render("Player " + str(i+1), True, (0, 0, 0))
+            self.screen.blit(self.temp_storage, (self.card_location[i][0] - 20, self.card_location[i][1] - 60))
+            self.temp_storage = self.caption_font.render("Cards in hand:" + str(hands[i]), True, (0, 0, 0))
             self.screen.blit(self.temp_storage,(self.card_location[i][0]-25 ,self.card_location[i][1] - 40))
 
 # seting up slapping vishuwal and sounds
@@ -204,9 +212,11 @@ def main():
     card_image = pygame.image.load('card.jpeg')
     card_image = pygame.transform.scale(card_image, (100, 133))
     caption_font = pygame.font.Font(None, 28)
+    card_back_image = pygame.image.load('card_back.jpg')
+    card_back_image = pygame.transform.scale(card_back_image, (100, 133))
     #challenge = Challenge(turn_controller.current_turn)
 
-    board_controller = BoardController(screen,card_image,slap_hand,caption_font, slap_sound)
+    board_controller = BoardController(screen,card_image,card_back_image, slap_hand,caption_font, slap_sound)
 
 
 
