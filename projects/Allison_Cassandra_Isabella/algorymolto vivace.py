@@ -39,9 +39,6 @@ class Dancer:
     def punch_down(self):
         self.screen.blit(self.image_downpunch, (self.x, self.y+100))
 
-    def hurt(self):
-        pass
-
 class Orb:
     def __init__(self, screen, direction):
         self.screen = screen
@@ -54,15 +51,12 @@ class Orb:
         self.y = 0
         self.direction = direction
         self.isdead = False
-
-        print(self.direction)
-
-        if self.direction == 'up':
+        if self.direction == 'down':
             self.x = self.screen_width // 2
             self.y = self.screen_height + 30
             self.color = (255, 240, 0)
             self.yspeed = -1
-        elif self.direction == 'down':
+        elif self.direction == 'up':
             self.x = self.screen_width // 2
             self.y = -30
             self.color = (191, 0, 254)
@@ -77,7 +71,6 @@ class Orb:
             self.y = self.screen_height // 2
             self.color = (0, 255, 225)
             self.xspeed = -1
-        print("New Orb:", self.direction)
 
     def draw(self):
         pygame.draw.circle(self.screen, self.color, (self.x, self.y), 30)
@@ -126,15 +119,6 @@ def main():
     pygame.mixer.music.play()
     start_milli_time = int(round(time.time() * 1000))
     while True:
-        # pressed_keys = pygame.key.get_pressed()
-        # if pressed_keys[pygame.K_w]:
-        #     orblist.append(Orb(screen, 'up'))
-        # if pressed_keys[pygame.K_w]:
-        #     orblist.append(Orb(screen, 'down'))
-        # if pressed_keys[pygame.K_w]:
-        #     orblist.append(Orb(screen, 'left'))
-        # if pressed_keys[pygame.K_w]:
-        #     orblist.append(Orb(screen, 'right'))
 
         clock.tick(250)
         screen.fill((0, 0, 0))
@@ -149,9 +133,8 @@ def main():
         time_since_start = current_milli_time - start_milli_time
         rounded_time = time_since_start - time_since_start % 5
 
-        # print(rounded_time)
-        if rounded_time in timeline_dict:
-            action = timeline_dict[rounded_time]
+        if time_since_start in timeline_dict:
+            action = timeline_dict[time_since_start]
             orb = Orb(screen, action)
             orblist.append(orb)
             print("+++Time: %d, action: %s" % (rounded_time, action))
@@ -212,13 +195,17 @@ def main():
         for orb in orblist:
             orb.move()
             orb.draw()
+            if pygame.Rect(hurtbox).collidepoint((orb.x, orb.y)):
+                hpbar.score -= 100
+                orb.isdead = True
             if orb.hit_by(punchway):
                 orb.isdead = True
-
         pygame.display.update()
         for orb in orblist:
             if orb.isdead:
                 orblist.remove(orb)
+        if hpbar.score <= 0:
+            pass # TODO : make game end
 
 
 main()

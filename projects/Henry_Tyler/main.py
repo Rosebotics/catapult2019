@@ -1,7 +1,8 @@
 import pygame, sys, random, time
 from pygame.locals import *
 
-class Column: # Returns  the x value for a column, draws lines on the screen
+
+class Column:  # Returns  the x value for a column, draws lines on the screen
     def __init__(self, screen):
         self.screen = screen
 
@@ -11,7 +12,8 @@ class Column: # Returns  the x value for a column, draws lines on the screen
         pygame.draw.line(self.screen, (100, 100, 100), (200, 10), (200, 790), 2)
         pygame.draw.line(self.screen, (100, 100, 100), (400, 10), (400, 790), 2)
 
-class Player: # The player. Draws, detects if itself is hit, draws health bar.
+
+class Player:  # The player. Draws, detects if itself is hit, draws health bar.
     def __init__(self, screen, x, column, direction, color):
         self.screen = screen
         self.column = column
@@ -35,7 +37,8 @@ class Player: # The player. Draws, detects if itself is hit, draws health bar.
         for i in range(self.lives):
             pygame.draw.rect(self.screen, self.color, (self.screen.get_width() - (20 + i*15), 10, 10, 10), 2)
 
-class Shield: # Generates Player's shield. Draws and detects if it's hit
+
+class Shield:  # Generates Player's shield. Draws and detects if it's hit
     def __init__(self):
         self.time_deployed = pygame.time.get_ticks()
         self.current_time = pygame.time.get_ticks()
@@ -51,11 +54,11 @@ class Shield: # Generates Player's shield. Draws and detects if it's hit
         return self.isDeployed and pygame.Rect(player.x, player.y - 76, 150, 30).collidepoint(enemy.x, enemy.y)
 
     def should_be_deployed(self):
-        print(self.time_deployed)
-        print(self.current_time)
-        return self.current_time - self.time_deployed > 500 and self.isDeployed == False
+        return self.current_time - self.time_deployed > 500 and not self.isDeployed
+
     def should_be_retracted(self):
-        return self.time_deployed + 300 < self.current_time and self.isDeployed == True
+        return self.time_deployed + 300 < self.current_time and self.isDeployed
+
 
 class Enemy:
     def __init__(self, screen, column, y, speed):
@@ -77,13 +80,14 @@ class Enemy:
     def move(self):
         self.y += self.speed
 
+
 class EnemyList:
     def __init__(self, screen):
         self.screen = screen
         self.enemy_list = []
 
-    def spawn(self):
-        self.enemy_list.append(Enemy(self.screen, random.randint(0, 2), 0, 5))
+    def spawn(self, speed):
+        self.enemy_list.append(Enemy(self.screen, random.randint(0, 2), 0, speed))
 
     def draw(self):
         for enemy in self.enemy_list:
@@ -107,6 +111,7 @@ class EnemyList:
                 self.enemy_list.remove(enemy)
                 player.lives -= 1
 
+
 class Score:
     def __init__(self, screen):
         self.screen = screen
@@ -121,14 +126,13 @@ class Score:
 def main():
     pygame.init()
     clock = pygame.time.Clock()
-    pygame.display.set_caption("cool gaem")
+    pygame.display.set_caption("On Point")
     screen = pygame.display.set_mode((600, 800))
 
     player = Player(screen, 1, 0, True, (255, 0, 0))
     enemy_list = EnemyList(screen)
     gameclock = time.time()
     score = Score(screen)
-    enemy_list.spawn()
     up_hit = pygame.mixer.Sound("sword_hit.wav")
     down_hit = pygame.mixer.Sound("shield_hit.wav")
     font = pygame.font.Font(None, 50)
@@ -183,8 +187,8 @@ def main():
                 shield.isDeployed = False
 
             # -SPAWN ENEMIES
-            if gameclock + 2 < time.time():
-                enemy_list.spawn()
+            if gameclock + 2 - score.score * .0001 < time.time():
+                enemy_list.spawn(3 + score.score * .0001)
                 gameclock = time.time()
 
             for enemy in enemy_list.enemy_list:
