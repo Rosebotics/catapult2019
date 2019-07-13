@@ -44,34 +44,33 @@ class Dancer:
 
 class Orb:
     def __init__(self, screen, direction):
-        self.isdead = False
         self.screen = screen
-        self.x = 0
-        self.y = 0
+        self.screen_width = screen.get_rect().width
+        self.screen_height = screen.get_rect().height
         self.color = (0, 0, 0)
         self.xspeed = 0
         self.yspeed = 0
         self.direction = direction
         if direction == 'up':
-            self.x = 320
-            self.y = -30
+            self.x = self.screen_width // 2
+            self.y = self.screen_height + 30
             self.color = (255, 240, 0)
-            self.yspeed = 5    # TODO: set speeds to something
+            self.yspeed = -1
         elif direction == 'down':
-            self.x = 320
-            self.y = 670
+            self.x = self.screen_width // 2
+            self.y = -30
             self.color = (191, 0, 254)
-            self.yspeed = -5
+            self.yspeed = 1
         elif direction == 'left':
             self.x = -30
-            self.y = 260
+            self.y = self.screen_height // 2
             self.color = (230, 10, 150)
-            self.xspeed = 5
+            self.xspeed = 1
         elif direction == 'right':
-            self.x = 670
-            self.y = 260
+            self.x = self.screen_width + 30
+            self.y = self.screen_height // 2
             self.color = (0, 255, 225)
-            self.xspeed = -5
+            self.xspeed = -1
 
     def draw(self):
         pygame.draw.circle(self.screen, self.color, (self.x, self.y), 30)
@@ -104,6 +103,22 @@ def main():
     punchbox = (94, 60, 453, 520)
     hurtbox = (204, 170, 233, 300)
     orblist = []
+
+    timeline_dict = {}
+    with open("albatraoz.txt") as file:
+        for line in file:
+            current_line = line.split(',')
+            time_ms = int(current_line[0])
+            action = current_line[1]
+            timeline_dict[time_ms] = action
+    for t in timeline_dict.keys():
+        print("Time: %d, action: %s" % (t, timeline_dict[t]))
+
+
+    is_game_over = False
+
+    pygame.mixer.music.play()
+    start_milli_time = int(round(time.time() * 1000))
     while True:
         pressed_keys = pygame.key.get_pressed()
         if pressed_keys[pygame.K_w]:
@@ -124,9 +139,15 @@ def main():
                 sys.exit()
         hpbar.draw()
 
-        #TODO when start clicked
-        #TODO: activate hurtbox
+        current_milli_time = int(round(time.time() * 1000))
+        time_since_start = current_milli_time - start_milli_time
+
+        if time_since_start in timeline_dict:
+            action = timeline_dict[time_since_start]
+            orb = Orb(screen, action)
+
         punchway = ''
+        #TODO when start clicke
         pressed_keys = pygame.key.get_pressed()
         if pressed_keys[pygame.K_DOWN]:
             dancer.punch_down()
@@ -142,6 +163,41 @@ def main():
             punchway = 'right'
         else:
             dancer.draw()
+
+        # if dancer.hit_by: #TODO
+        #     hpbar.score = hpbar.score - 100
+
+        if hpbar == 0:
+            is_game_over = True
+
+        # if pinkleft.hit_by:
+        #     pinkleft.dead = True
+        # if purpledown.hit_by:
+        #     purpledown.dead = True
+        # if yellowup.hit_by:
+        #     yellowup.dead = True
+        # if blueright.hit_by:
+        #     blueright.dead = True
+        #
+        # hpbar.draw()
+        # pinkleft.move()
+        # purpledown.move()
+        # yellowup.move()
+        # blueright.move()
+        # pinkleft.draw()
+        # purpledown.draw()
+        # yellowup.draw()
+        # blueright.draw()
+        #
+        # if pressed_keys[pygame.K_SPACE]:
+        #     pinkleft.x = 300
+        #     purpledown.x = 300
+        #     yellowup.x = 300
+        #     blueright.x = 300
+        #     pinkleft.y = 300
+        #     purpledown.y = 300
+        #     yellowup.y = 300
+        #     blueright.y = 300
 
         for orb in orblist:
             orb.move()
