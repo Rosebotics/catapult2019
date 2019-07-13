@@ -1,17 +1,17 @@
 import pygame, sys, random, time
 from pygame.locals import *
 
-class Column:
+class Column: # Returns  the x value for a column, draws lines on the screen
     def __init__(self, screen):
         self.screen = screen
 
-    def getX(self, column):
+    def getX(self, column): # Returns x value for given column
         return (column * int(self.screen.get_width()/3)) + 25
-    def draw(self):
+    def draw(self): # Draws lines on screen
         pygame.draw.line(self.screen, (100, 100, 100), (200, 10), (200, 790), 2)
         pygame.draw.line(self.screen, (100, 100, 100), (400, 10), (400, 790), 2)
 
-class Player:
+class Player: # The player. Draws, detects if itself is hit, draws health bar.
     def __init__(self, screen, x, column, direction, color):
         self.screen = screen
         self.column = column
@@ -20,40 +20,42 @@ class Player:
         self.canBlock = False
         self.direction = direction
         self.color = color
-        self.lives = 3
+        self.lives = 20
 
-    def draw(self):
+    def draw(self): # Draws the player
         if self.direction:
             pygame.draw.polygon(self.screen, self.color, [(self.x, self.y), (self.x, self.y - 66), (self.x + 75, self.y - 100), (self.x + 150, self.y - 66), (self.x + 150, self.y), (self.x + 75, self.y - 33)], 2)
         else:
             pygame.draw.polygon(self.screen, self.color, [(self.x, self.y), (self.x, self.y - 66), (self.x + 75, self.y - 33), (self.x + 150, self.y - 66), (self.x + 150, self.y), (self.x + 75, self.y + 33)], 2)
-    def move(self):
-        pass
-    def isHit(self, enemy):
-        return pygame.Rect(self.x, self.y - 33, self.x +150, self.y+100).collidepoint(enemy.x, enemy.y)
-    def drawHealth(self):
-        if self.lives == 3:
-            pygame.draw.rect(self.screen, self.color, (self.screen.get_width() - 20, 10, 10, 10), 2)
-            pygame.draw.rect(self.screen, self.color, (self.screen.get_width() - 35, 10, 10, 10), 2)
-            pygame.draw.rect(self.screen, self.color, (self.screen.get_width() - 50, 10, 10, 10), 2)
-        elif self.lives == 2:
-            pygame.draw.rect(self.screen, self.color, (self.screen.get_width() - 20, 10, 10, 10), 2)
-            pygame.draw.rect(self.screen, self.color, (self.screen.get_width() - 35, 10, 10, 10), 2)
-        elif self.lives == 1:
-            pygame.draw.rect(self.screen, self.color, (self.screen.get_width() - 20, 10, 10, 10), 2)
+
+    def isHit(self, enemy): # If called, returns if it's touching the specified enemy
+        return pygame.Rect(self.x, self.y - 33, self.x +150, self.y-100).collidepoint(enemy.x, enemy.y)
+
+    def drawHealth(self): # Draws the health bar
+        for i in range(self.lives):
+            pygame.draw.rect(self.screen, self.color, (self.screen.get_width() - (20 + i*15), 10, 10, 10), 2)
+
+class Shield: # Generates Player's shield. Draws and detects if it's hit
+    def __init__(self):
+        self.time_deployed = pygame.time.get_ticks()
+        self.current_time = pygame.time.get_ticks()
+        self.isDeployed = False
+
+    def draw(self, player): # Draws the shield
+        if player.direction:
+            pygame.draw.polygon(player.screen, player.color, [(player.x - 10, player.y - 76), (player.x + 75, player.y - 130), (player.x + 160, player.y - 76), (player.x + 75, player.y - 120)], 2)
         else:
-            pass
+            pygame.draw.polygon(player.screen, player.color, [(player.x - 10, player.y - 76), (player.x + 75, player.y - 44), (player.x + 160, player.y - 76), (player.x + 75, player.y - 54)], 2)
 
-    def drawShield(self):
-        # pygame.draw.polygon(self.screen, self.color,
-        #                     [(self.x - 10, self.y - 76), (self.x + 75, self.y - 130), (self.x + 160, self.y - 76),
-        #                      (self.x + 75, self.y - 120)], 2)
-        if self.direction:
-            pygame.draw.polygon(self.screen, self.color, [(self.x - 10, self.y - 76), (self.x + 75, self.y - 130), (self.x + 160, self.y - 76), (self.x + 75, self.y - 120)], 2)
-        else:
-            pygame.draw.polygon(self.screen, self.color, [(self.x - 10, self.y - 76), (self.x + 75, self.y - 44), (self.x + 160, self.y - 76), (self.x + 75, self.y - 54)], 2)
+    def isHit(self, enemy, player): # Detects if it's hit
+        return self.isDeployed and pygame.Rect(player.x, player.y - 76, 150, 30).collidepoint(enemy.x, enemy.y)
 
-
+    def should_be_deployed(self):
+        print(self.time_deployed)
+        print(self.current_time)
+        return self.current_time - self.time_deployed > 500 and self.isDeployed == False
+    def should_be_retracted(self):
+        return self.time_deployed + 300 < self.current_time and self.isDeployed == True
 
 class Enemy:
     def __init__(self, screen, column, y, speed):
@@ -131,18 +133,25 @@ def main():
     down_hit = pygame.mixer.Sound("shield_hit.wav")
     font = pygame.font.Font(None, 50)
     column = Column(screen)
-    ticks = 0
-    shieldClock = ticks
+
+    shield = Shield()
     while True:
         clock.tick(60)
-        ticks += 1
+        shield.current_time = pygame.time.get_ticks()
         for event in pygame.event.get():
-            # -SWITCH PLAYER DIRECTION-
             pressed_keys = pygame.key.get_pressed()
+
+            # -SWITCH PLAYER DIRECTION-
             if pressed_keys[K_UP] and player.direction == False:
                 player.direction = True
             elif pressed_keys[K_DOWN] and player.direction == True:
                 player.direction = False
+
+            # -SET PLAYER COLUMN-
+            if pressed_keys[K_LEFT] and not player.column == 0:
+                player.column -= 1
+            elif pressed_keys[K_RIGHT] and not player.column == 2:
+                player.column += 1
 
             # -SWITCH PLAYER COLOR-
             if pressed_keys[K_a]:
@@ -151,16 +160,11 @@ def main():
                 player.color = (0, 255, 0)
             elif pressed_keys[K_d]:
                 player.color = (0, 0, 255)
-            # -SET PLAYER COLUMN-
-            if pressed_keys[K_LEFT] and not player.column == 0:
-                player.column -= 1
-            elif pressed_keys[K_RIGHT] and not player.column == 2:
-                player.column += 1
-            # -ACTIVATE SHIELD-
-            if pressed_keys[K_SPACE] and shieldClock + 100 < ticks:
-                print("executed")
-                player.drawShield()
-                shieldClock = ticks
+
+            # -DEPLOYS SHIELD-
+            if pressed_keys[K_SPACE] and shield.should_be_deployed():
+                shield.isDeployed = True
+                shield.time_deployed = pygame.time.get_ticks()
 
             # -EXIT-
             if event.type == pygame.QUIT:
@@ -173,21 +177,29 @@ def main():
                 main()
         else:
             player.x = column.getX(player.column)
+
+            # -RETRACTS SHIELD-
+            if shield.should_be_retracted():
+                shield.isDeployed = False
+
+            # -SPAWN ENEMIES
             if gameclock + 2 < time.time():
                 enemy_list.spawn()
                 gameclock = time.time()
+
             for enemy in enemy_list.enemy_list:
                 enemy.x = column.getX(enemy.column)
-                if player.isHit(enemy) and player.direction == enemy.direction and player.color == enemy.color:
+                if player.isHit(enemy):
+                    enemy.is_hit = True
+                    player.lives -= 1
+                if shield.isHit(enemy, player) and player.direction == enemy.direction and player.color == enemy.color:
                     if player.direction:
                         pygame.mixer.Sound.play(up_hit)
                     else:
                         pygame.mixer.Sound.play(down_hit)
                     enemy.is_hit = True
                     score.score += 100
-                elif player.isHit(enemy):
-                    enemy.is_hit = True
-                    player.lives -= 1
+
             enemy_list.removeHitEnemies()
             enemy_list.isAtBottom(player)
             screen.fill(pygame.Color("Black"))
@@ -195,6 +207,8 @@ def main():
             player.drawHealth()
             enemy_list.draw()
             column.draw()
+            if shield.isDeployed:
+                shield.draw(player)
             enemy_list.move()
             score.draw()
         pygame.display.update()
