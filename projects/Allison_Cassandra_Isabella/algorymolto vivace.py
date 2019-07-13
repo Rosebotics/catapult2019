@@ -64,12 +64,12 @@ class Orb:
             self.yspeed = -5
         elif direction == 'left':
             self.x = -30
-            self.y = 320
+            self.y = 260
             self.color = (230, 10, 150)
             self.xspeed = 5
         elif direction == 'right':
             self.x = 670
-            self.y = 320
+            self.y = 260
             self.color = (0, 255, 225)
             self.xspeed = -5
 
@@ -104,11 +104,16 @@ def main():
     punchbox = (94, 60, 453, 520)
     hurtbox = (204, 170, 233, 300)
     orblist = []
-    orblist.append(Orb(screen, 'up'))
-    orblist.append(Orb(screen, 'down'))
-    orblist.append(Orb(screen, 'left'))
-    orblist.append(Orb(screen, 'right'))
     while True:
+        pressed_keys = pygame.key.get_pressed()
+        if pressed_keys[pygame.K_w]:
+            orblist.append(Orb(screen, 'up'))
+        if pressed_keys[pygame.K_w]:
+            orblist.append(Orb(screen, 'down'))
+        if pressed_keys[pygame.K_w]:
+            orblist.append(Orb(screen, 'left'))
+        if pressed_keys[pygame.K_w]:
+            orblist.append(Orb(screen, 'right'))
 
         clock.tick(60)
         screen.fill((0, 0, 0))
