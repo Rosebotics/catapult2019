@@ -14,7 +14,23 @@ class WaterBottle:
     def hit_by(self, starfish):
         return pygame.Rect(self.x, self.y, 40, 50).collidepoint(starfish.x + 33.5, starfish.y + 25)
 
-#hi
+class Soda:
+    def __init__(self, screen, x, y,):
+        self.screen = screen
+        self.x = x
+        self.y = y
+        self.image = pygame.image.load('soda.png')
+
+    def draw(self):
+        self.screen.blit(self.image, (self.x, self.y))
+
+    def move(self):
+        # Make self.y 5 smaller than it was (which will cause the Missile to move UP).
+        self.x = self.x - 5
+
+    def hit_by(self, starfish):
+        return pygame.Rect(self.x, self.y, 40, 50).collidepoint(starfish.x + 33.5, starfish.y + 25)
+
 class Starfish:
     def __init__(self, screen, x, y,):
         self.screen = screen
@@ -37,20 +53,6 @@ class Starfish:
         elif self.y < -60:
             self.y = 850
 
-
-class Eel:
-    def __init__(self, screen, x, y, ):
-        self.screen = screen
-        self.x = x
-        self.y = y
-        self.image = pygame.image.load('eel.png')
-        pass
-
-    def draw(self):
-        self.screen.blit(self.image, (self.x, self.y))
-        pass
-
-
 class Pearl:
     def __init__(self, screen, x, y):
         self.screen = screen
@@ -68,7 +70,6 @@ class Pearl:
 
     def hit_by(self, starfish):
         return pygame.Rect(self.x, self.y, 40, 30).collidepoint(starfish.x + 33.5, starfish.y + 25)
-
 
 class PearlFleet:
     def __init__(self, screen):
@@ -100,7 +101,7 @@ class Scoreboard:
 def main():
     pygame.init()
     clock = pygame.time.Clock()
-    pygame.display.set_caption("EEL!")
+    pygame.display.set_caption("STARFISH!")
     screen = pygame.display.set_mode((900, 900))
     gameover_image2 = pygame.image.load('gameover_image2.png')
     level1_image = pygame.image.load('level_1.png')
@@ -126,6 +127,10 @@ def main():
         waterbottle = WaterBottle(screen, random.randint(90, 900), random.randint(0, 900))
         waterbottles.append(waterbottle)
 
+    sodas = []
+    for x in range(3):
+        soda = Soda(screen, random.randint(0, 80), random.randint(55, 900))
+        waterbottles.append(soda)
 
     while True:
         for event in pygame.event.get():
@@ -157,6 +162,10 @@ def main():
 
         for waterbottle in waterbottles:
             waterbottle.draw()
+
+        for soda in sodas:
+            soda.move()
+            soda.draw()
 
         for pearl in pearl_fleet.pearls:
             pearl.draw()
