@@ -114,7 +114,7 @@ class CenterPile:
         pass
 
 
-# #---------------------------------------------------------------------------------------------- board controller
+#---------------------------------------------------------------------------------------------- board controller
 class BoardController:
     def __init__(self,screen,card_image,card_back_image,hand_image,caption_font, slap_sound):
         self.screen = screen
