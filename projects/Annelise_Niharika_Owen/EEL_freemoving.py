@@ -19,14 +19,29 @@ class Soda:
         self.screen = screen
         self.x = x
         self.y = y
+        self.x_speed = random.randint(-10, 10)
+        self.y_speed = random.randint(-10, 10)
+        if self.x_speed == 0:
+            self.x_speed = 2
+        if self.y_speed == 0:
+            self.y_speed = 2
         self.image = pygame.image.load('soda.png')
 
     def draw(self):
         self.screen.blit(self.image, (self.x, self.y))
 
     def move(self):
-        # Make self.y 5 smaller than it was (which will cause the Missile to move UP).
-        self.x = self.x - 5
+        self.x = self.x + self.x_speed
+        self.y = self.y + self.y_speed
+        if self.x > 900:
+            self.x = -50
+        elif self.x < -60:
+            self.x = 850
+
+        if self.y > 900:
+            self.y = -50
+        elif self.y < -60:
+            self.y = 850
 
     def hit_by(self, starfish):
         return pygame.Rect(self.x, self.y, 40, 50).collidepoint(starfish.x + 33.5, starfish.y + 25)
@@ -97,7 +112,6 @@ class Scoreboard:
         text_as_image = self.font.render("Score: " + str(self.score), True, (255, 255, 255), (0, 0, 0))
         self.screen.blit(text_as_image, (5, 5))
 
-
 def main():
     pygame.init()
     clock = pygame.time.Clock()
@@ -128,9 +142,11 @@ def main():
         waterbottles.append(waterbottle)
 
     sodas = []
-    for x in range(3):
+    number_of_sodas_in_region_1 = 4
+
+    for x in range(number_of_sodas_in_region_1):
         soda = Soda(screen, random.randint(0, 80), random.randint(55, 900))
-        waterbottles.append(soda)
+        sodas.append(soda)
 
     while True:
         for event in pygame.event.get():
