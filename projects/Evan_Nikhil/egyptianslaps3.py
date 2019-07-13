@@ -249,11 +249,11 @@ class BoardController:
     def set_up_board(self,deck,hands,current_turn):
         self.screen.fill((220, 181, 121))
 # setting up the rules to the game so that the players know what to do---------------------------------------------------------
-        self.temp_storage = self.caption_font.render("rule of the game: player one slaps with ~ and places a card with 1 ", True, (0, 0, 0))
+        self.temp_storage = self.caption_font.render("rule of the game: player one slaps with 1 and places a card with ~ ", True, (0, 0, 0))
         self.screen.blit(self.temp_storage, (10,10))
-        self.temp_storage = self.caption_font.render("player two slaps with v and places a card with b", True, (0, 0, 0))
+        self.temp_storage = self.caption_font.render("player two slaps with b and places a card with v", True, (0, 0, 0))
         self.screen.blit(self.temp_storage, (172, 30))
-        self.temp_storage = self.caption_font.render("player two slaps with o and places a card with p", True,(0, 0, 0))
+        self.temp_storage = self.caption_font.render("player three slaps with p and places a card with o", True,(0, 0, 0))
         self.screen.blit(self.temp_storage, (172, 50))
         self.temp_storage = self.caption_font.render("when two of a kind or two of a kind with one in the middle appears, slap to win the round", True,(0, 0, 0))
         self.screen.blit(self.temp_storage, (172, 70))
@@ -286,9 +286,9 @@ class BoardController:
             for i in range(5):
                 self.show_cards = self.caption_font.render(str(deck[(-5 + i)]), True, (0, 0, 0))
                 self.screen.blit(self.show_cards,(self.card_location[i + 3][0] - 18, self.card_location[i + 3][1] - 20))
-            #say at whos ever turn it is
+            #says whos turn it is
         self.temp_storage = self.caption_font.render("Player" + str(current_turn) + "'s turn", True, (0, 0, 0))
-        self.screen.blit(self.temp_storage, (500, 230))
+        self.screen.blit(self.temp_storage, (420, 230))
 
 # the hands---------------------------------------------------------------------------------------------
         # todo set up a thing to have slaps
@@ -307,7 +307,7 @@ class BoardController:
 
 # seting up slapping vishuwal and sounds
     #todo add this to the begining and end of the slap lines
-    def hand_slap(self,player_number):`
+    def hand_slap(self,player_number):
         if player_number == 4:
             self.who_slapped[0] = 0
             self.who_slapped[1] = 0
