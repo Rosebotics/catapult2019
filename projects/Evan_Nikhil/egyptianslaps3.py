@@ -172,6 +172,7 @@ def slap(player, center_pile, turn_controller, challenge_controller):
     if center_pile.is_slap_allowed:
         player.deck = player.deck + center_pile.cards
         center_pile.cards = []
+        challenge_controller.is_challenge_active = False
         turn_controller.set_turn_to(player.player_number)
         print(center_pile.cards)
     else:
