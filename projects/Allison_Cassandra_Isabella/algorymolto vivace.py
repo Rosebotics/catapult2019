@@ -39,9 +39,6 @@ class Dancer:
     def punch_down(self):
         self.screen.blit(self.image_downpunch, (self.x, self.y+100))
 
-    def hurt(self):
-        pass
-
 class Orb:
     def __init__(self, screen, direction):
         self.screen = screen
@@ -51,12 +48,13 @@ class Orb:
         self.xspeed = 0
         self.yspeed = 0
         self.direction = direction
-        if direction == 'up':
+        self.isdead = False
+        if direction == 'down':
             self.x = self.screen_width // 2
             self.y = self.screen_height + 30
             self.color = (255, 240, 0)
             self.yspeed = -1
-        elif direction == 'down':
+        elif direction == 'up':
             self.x = self.screen_width // 2
             self.y = -30
             self.color = (191, 0, 254)
@@ -121,11 +119,11 @@ def main():
         pressed_keys = pygame.key.get_pressed()
         if pressed_keys[pygame.K_w]:
             orblist.append(Orb(screen, 'up'))
-        if pressed_keys[pygame.K_w]:
+        if pressed_keys[pygame.K_s]:
             orblist.append(Orb(screen, 'down'))
-        if pressed_keys[pygame.K_w]:
+        if pressed_keys[pygame.K_a]:
             orblist.append(Orb(screen, 'left'))
-        if pressed_keys[pygame.K_w]:
+        if pressed_keys[pygame.K_d]:
             orblist.append(Orb(screen, 'right'))
 
         clock.tick(60)
@@ -163,12 +161,6 @@ def main():
         else:
             dancer.draw()
 
-        # if dancer.hit_by: #TODO
-        #     hpbar.score = hpbar.score - 100
-
-        if hpbar == 0:
-            is_game_over = True
-
         # if pinkleft.hit_by:
         #     pinkleft.dead = True
         # if purpledown.hit_by:
@@ -201,12 +193,17 @@ def main():
         for orb in orblist:
             orb.move()
             orb.draw()
+            if pygame.Rect(hurtbox).collidepoint((orb.x, orb.y)):
+                hpbar.score -= 100
+                orb.isdead = True
             if orb.hit_by(punchway):
                 orb.isdead = True
         pygame.display.update()
         for orb in orblist:
             if orb.isdead:
                 orblist.remove(orb)
+        if hpbar.score <= 0:
+            pass # TODO : make game end
 
 
 main()
