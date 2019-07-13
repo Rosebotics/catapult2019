@@ -109,14 +109,23 @@ def main():
 
     is_game_over = False
 
-    starfish = Starfish(screen, 50, 60)
+    starfish = Starfish(screen, 10, 35)
 
     pearl_fleet = PearlFleet(screen)
 
     waterbottles = []
-    for x in range(50):
-        waterbottle = WaterBottle(screen, random.randint(70, 850), random.randint(20, 850))
+    number_of_waterbottles_in_region_1 = random.randint(5, 10)
+
+    for x in range(number_of_waterbottles_in_region_1):
+        waterbottle = WaterBottle(screen, random.randint(0, 80), random.randint(55, 900))
         waterbottles.append(waterbottle)
+
+    number_of_waterbottles_in_region_2 = 50 - number_of_waterbottles_in_region_1
+
+    for x in range(number_of_waterbottles_in_region_2):
+        waterbottle = WaterBottle(screen, random.randint(90, 900), random.randint(0, 900))
+        waterbottles.append(waterbottle)
+
 
     while True:
         for event in pygame.event.get():
