@@ -7,4 +7,3 @@ while avoiding plastic water bottles, the wall, and the body of the eel characte
 eats more fish, it grows longer which corresponds to an increasing score.
 
 
-

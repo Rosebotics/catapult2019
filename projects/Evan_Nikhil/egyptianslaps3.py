@@ -249,19 +249,19 @@ class BoardController:
     def set_up_board(self,deck,hands,current_turn):
         self.screen.fill((220, 181, 121))
 # setting up the rules to the game so that the players know what to do---------------------------------------------------------
-        self.temp_storage = self.caption_font.render("rule of the game: player one slaps with 1 and places a card with ~ ", True, (0, 0, 0))
+        self.temp_storage = self.caption_font.render("Rule of the Game:       Player One places a card with ~ and slaps with 1 ", True, (0, 0, 0))
         self.screen.blit(self.temp_storage, (10,10))
-        self.temp_storage = self.caption_font.render("player two slaps with b and places a card with v", True, (0, 0, 0))
+        self.temp_storage = self.caption_font.render("Player Two places a card with v and slaps with b", True, (0, 0, 0))
         self.screen.blit(self.temp_storage, (172, 30))
-        self.temp_storage = self.caption_font.render("player three slaps with p and places a card with o", True,(0, 0, 0))
+        self.temp_storage = self.caption_font.render("Player Three places a card with o and slaps with p ", True,(0, 0, 0))
         self.screen.blit(self.temp_storage, (172, 50))
-        self.temp_storage = self.caption_font.render("when two of a kind or two of a kind with one in the middle appears, slap to win the round", True,(0, 0, 0))
+        self.temp_storage = self.caption_font.render("When two of a kind or two of a kind with a random card in the middle appears, slap to win the round", True,(0, 0, 0))
         self.screen.blit(self.temp_storage, (172, 70))
-        self.temp_storage = self.caption_font.render("when a J,Q,K, or A show up the next player is challenged, if you fail the chalenge the ", True,(0, 0, 0))
+        self.temp_storage = self.caption_font.render("When J,Q,K, or A show up, the next player is challenged. If you fail the challenge, the ", True,(0, 0, 0))
         self.screen.blit(self.temp_storage, (172, 90))
-        self.temp_storage = self.caption_font.render("chalenger wins, if you secseed then you chalenge the next person in line", True,(0, 0, 0))
+        self.temp_storage = self.caption_font.render("challenger wins, If you succeed, then you challenge the next person in line.", True,(0, 0, 0))
         self.screen.blit(self.temp_storage, (172, 110))
-        self.temp_storage = self.caption_font.render("to win a chalenge you need to play a J,Q,K, or A and depending on the card you get only", True,(0, 0, 0))
+        self.temp_storage = self.caption_font.render("To win a challenge you need to play a J,Q,K, or A, and depending on the card you play, only", True,(0, 0, 0))
         self.screen.blit(self.temp_storage, (172, 130))
         self.temp_storage = self.caption_font.render("so many tries. 1 for J, 2 for Q, 3 for K, and 4 for A.", True, (0, 0, 0))
         self.screen.blit(self.temp_storage, (172, 150))
@@ -316,9 +316,10 @@ class BoardController:
             self.slap_sound.play()
             self.who_slapped[player_number - 1] = 1
 
-
-
-
+# the game over screen
+    def game_over_screen(self,winner):
+        self.screen.fill((220, 181, 121))
+        pass
 #----------------------------------------------------------------------------------------
 def main():
     pygame.init()
@@ -366,7 +367,7 @@ def main():
     slap_hand.set_colorkey(pygame.Color('WHITE'))
     card_image = pygame.image.load('card.jpeg')
     card_image = pygame.transform.scale(card_image, (100, 133))
-    caption_font = pygame.font.Font(None, 28)
+    caption_font = pygame.font.Font(None, 24)
     card_back_image = pygame.image.load('card_back.jpg')
     card_back_image = pygame.transform.scale(card_back_image, (100, 133))
 
