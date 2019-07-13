@@ -43,6 +43,11 @@ class CenterPile:
     def get_top_card(self):
         if len(self.cards) > 0:
             return self.cards[-1]
+# empting deck
+    def empty_deck(self):
+        self.cards = []
+        self.is_slap_allowed = False
+
 
 #--------------------------------------------------------------------------------------turn controler
 class TurnController:
@@ -164,7 +169,7 @@ class ChallengeController:
     # TODO Consider giving people a chance to slap while challenge is going on.
     def resolve_lost_challenge(self):
         self.challenger.deck = self.challenger.deck + self.center_pile.cards
-        self.center_pile.cards = []
+        self.center_pile.empty_deck()
         self.turn_controller.set_turn_to(self.challenger.player_number)
         self.is_challenge_active = False
         self.delay_challenge_loss = -1
@@ -181,7 +186,7 @@ def slap(player, center_pile, turn_controller, challenge_controller):
     if center_pile.is_slap_allowed:
         challenge_controller.is_challenge_active = False
         player.deck = player.deck + center_pile.cards
-        center_pile.cards = []
+        center_pile.empty_deck()
         turn_controller.set_turn_to(player.player_number)
         challenge_controller.delay_challenge_loss = -1
        # print(center_pile.cards)
