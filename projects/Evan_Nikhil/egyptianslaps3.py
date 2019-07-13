@@ -249,7 +249,7 @@ class BoardController:
     def set_up_board(self,deck,hands,current_turn):
         self.screen.fill((220, 181, 121))
 # setting up the rules to the game so that the players know what to do---------------------------------------------------------
-        self.temp_storage = self.caption_font.render("Rule of the Game:       Player One places a card with ~ and slaps with 1 ", True, (0, 0, 0))
+        self.temp_storage = self.caption_font.render("Rule of the Game:      Player One places a card with ~ and slaps with 1 ", True, (0, 0, 0))
         self.screen.blit(self.temp_storage, (10,10))
         self.temp_storage = self.caption_font.render("Player Two places a card with v and slaps with b", True, (0, 0, 0))
         self.screen.blit(self.temp_storage, (172, 30))
@@ -257,15 +257,15 @@ class BoardController:
         self.screen.blit(self.temp_storage, (172, 50))
         self.temp_storage = self.caption_font.render("When two of a kind or two of a kind with a random card in the middle appears, slap to win the round", True,(0, 0, 0))
         self.screen.blit(self.temp_storage, (172, 70))
-        self.temp_storage = self.caption_font.render("When J,Q,K, or A show up, the next player is challenged. If you fail the challenge, the ", True,(0, 0, 0))
+        self.temp_storage = self.caption_font.render("When J,Q,K, or A show up, the next player is challenged. To win a challenge you need to play a J,Q,K, or A", True,(0, 0, 0))
         self.screen.blit(self.temp_storage, (172, 90))
-        self.temp_storage = self.caption_font.render("challenger wins, If you succeed, then you challenge the next person in line.", True,(0, 0, 0))
+        self.temp_storage = self.caption_font.render("and depending on the card you play, only get so many tries. 1 for J, 2 for Q, 3 for K, and 4 for A. ", True,(0, 0, 0))
         self.screen.blit(self.temp_storage, (172, 110))
-        self.temp_storage = self.caption_font.render("To win a challenge you need to play a J,Q,K, or A, and depending on the card you play, only", True,(0, 0, 0))
+        self.temp_storage = self.caption_font.render("If you fail the challenge, the challenger wins, If you succeed, then you challenge the next person in line.", True,(0, 0, 0))
         self.screen.blit(self.temp_storage, (172, 130))
-        self.temp_storage = self.caption_font.render("so many tries. 1 for J, 2 for Q, 3 for K, and 4 for A.", True, (0, 0, 0))
+        self.temp_storage = self.caption_font.render("", True, (0, 0, 0))
         self.screen.blit(self.temp_storage, (172, 150))
-
+#If you fail the challenge, the    challenger wins, If you succeed, then you challenge the next person in line.
         # set up where the cards are placed-------------------------------------------------------------------
         for i in range(3):
             pygame.draw.rect(self.screen, (0, 0, 0),((self.card_location[i][0] - 22, self.card_location[i][1] - 22), (144, 177)))
@@ -319,7 +319,9 @@ class BoardController:
 # the game over screen
     def game_over_screen(self,winner):
         self.screen.fill((220, 181, 121))
-        pass
+        self.temp_storage = self.caption_font.render('Player '+str(winner)+ " is the winner", True, (0, 0, 0))
+        self.screen.blit(self.temp_storage, (500, 375))
+
 #----------------------------------------------------------------------------------------
 def main():
     pygame.init()
@@ -422,6 +424,13 @@ def main():
         else:
             if not has_displayed_game_over:
                 has_displayed_game_over = True
+                if player1.is_playing == True:
+                    board_controller.game_over_screen(1)
+                if player2.is_playing == True:
+                    board_controller.game_over_screen(2)
+                if player3.is_playing == True:
+                    board_controller.game_over_screen(3)
+                pygame.display.update()
                 #TODO display game over here!
                 print('game over')
 
