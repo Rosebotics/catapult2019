@@ -104,6 +104,7 @@ class ChallengeController:
         self.is_challenge_active = False
         self.challenger = None
         self.challengee = None
+        self.delay_challenge_loss = -1
 
 
     def possible_challenge(self):
@@ -149,15 +150,11 @@ class ChallengeController:
             # if they fail
             self.tries = self.tries - 1
             if self.tries == 0:
-                self.challenger.deck = self.challenger.deck + self.center_pile.cards
-                self.center_pile.cards = []
-                self.turn_controller.set_turn_to(self.challenger.player_number)
-                self.is_challenge_active = False
+                self.delay_challenge_loss = 120
             elif not self.challengee.is_playing:
                # print('challengee ran out of cards')
                 self.turn_controller.next_turn()
                 self.challengee = self.turn_controller.get_current_player()
-
         # print('after')
         # print("   self.is_challenge_active", self.is_challenge_active)
         # print("   self.tries", self.tries)
@@ -165,6 +162,12 @@ class ChallengeController:
         # print("   self.challengee.player_number", self.challengee.player_number)
 
     # TODO Consider giving people a chance to slap while challenge is going on.
+    def resolve_lost_challenge(self):
+        self.challenger.deck = self.challenger.deck + self.center_pile.cards
+        self.center_pile.cards = []
+        self.turn_controller.set_turn_to(self.challenger.player_number)
+        self.is_challenge_active = False
+        self.delay_challenge_loss = -1
 
 
 # #----------------------------------------------------------------------------- functions
@@ -180,6 +183,7 @@ def slap(player, center_pile, turn_controller, challenge_controller):
         player.deck = player.deck + center_pile.cards
         center_pile.cards = []
         turn_controller.set_turn_to(player.player_number)
+        challenge_controller.delay_challenge_loss = -1
        # print(center_pile.cards)
     else:
         if len(center_pile.cards) > 1 and player.is_playing:
@@ -187,6 +191,8 @@ def slap(player, center_pile, turn_controller, challenge_controller):
 
 
 def play_card(player, center_pile, turn_controller, challenge_controller):
+    if challenge_controller.delay_challenge_loss > 0:
+        return
     if turn_controller.current_turn == player.player_number:
         player.place_card(center_pile)
         if challenge_controller.is_challenge_active:
@@ -425,6 +431,12 @@ def main():
                 print('current_turn:', turn_controller.current_turn)
 
         #------------out of for loop--------------------------------------------------------------------out of for event loop
+        if challenge_controller.delay_challenge_loss > 0:
+            challenge_controller.delay_challenge_loss -= 1
+
+        elif challenge_controller.delay_challenge_loss == 0:
+            challenge_controller.resolve_lost_challenge()
+
         board_controller.set_up_board(center_pile.cards, [len(player1.deck), len(player2.deck), len(player3.deck)],turn_controller.current_turn)
 
         if not is_game_over:
