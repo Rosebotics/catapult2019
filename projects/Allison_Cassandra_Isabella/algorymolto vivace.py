@@ -113,7 +113,6 @@ def main():
             action = current_line[1]
             timeline_dict[time_ms] = action
 
-
     is_game_over = False
 
     pygame.mixer.music.play()
@@ -133,8 +132,8 @@ def main():
         time_since_start = current_milli_time - start_milli_time
         rounded_time = time_since_start - time_since_start % 5
 
-        if time_since_start in timeline_dict:
-            action = timeline_dict[time_since_start]
+        if rounded_time in timeline_dict:
+            action = timeline_dict[rounded_time]
             orb = Orb(screen, action)
             orblist.append(orb)
             print("+++Time: %d, action: %s" % (rounded_time, action))
