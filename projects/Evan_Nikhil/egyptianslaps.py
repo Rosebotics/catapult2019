@@ -114,9 +114,9 @@ class CenterPile:
         pass
 
 
-# #---------------------------------------------------------------------------------------------- board controller
+#---------------------------------------------------------------------------------------------- board controller
 class BoardController:
-    def __init__(self,screen,card_image,hand_image,caption_font):
+    def __init__(self,screen,card_image,card_back_image,hand_image,caption_font, slap_sound):
         self.screen = screen
         self.card_image = card_image
         self.hand_image1 = pygame.transform.rotate(hand_image, 270)
@@ -127,32 +127,75 @@ class BoardController:
         self.show_cards = caption_font.render("429A10", True, (0,0,0))
         self.caption_font = caption_font
         self.temp_storage = 0
+        self.who_slapped = [0,0,0]
+        self.slap_sound =  slap_sound
+        self.card_back_image = card_back_image
 
+#there are sooooooo many variables that this needs, this is crazy it is 12 btw
 
     def set_up_board(self,deck,hands):
         self.screen.fill((220, 181, 121))
+# setting up the rules to the game so that the players know what to do---------------------------------------------------------
+        self.temp_storage = self.caption_font.render("rule of the game: player one slaps with ~ and places a card with 1 ", True, (0, 0, 0))
+        self.screen.blit(self.temp_storage, (10,10))
+        self.temp_storage = self.caption_font.render("player two slaps with v and places a card with b", True, (0, 0, 0))
+        self.screen.blit(self.temp_storage, (172, 30))
+        self.temp_storage = self.caption_font.render("player two slaps with o and places a card with p", True,(0, 0, 0))
+        self.screen.blit(self.temp_storage, (172, 50))
+        self.temp_storage = self.caption_font.render("when two of a kind or two of a kind with one in the middle appears, slap to win the round", True,(0, 0, 0))
+        self.screen.blit(self.temp_storage, (172, 70))
+        self.temp_storage = self.caption_font.render("when a J,Q,K, or A show up the next player is challenged, if you fail the chalenge the ", True,(0, 0, 0))
+        self.screen.blit(self.temp_storage, (172, 90))
+        self.temp_storage = self.caption_font.render("chalenger wins, if you secseed then you chalenge the next person in line", True,(0, 0, 0))
+        self.screen.blit(self.temp_storage, (172, 110))
+        self.temp_storage = self.caption_font.render("to win a chalenge you need to play a J,Q,K, or A and depending on the card you get only", True,(0, 0, 0))
+        self.screen.blit(self.temp_storage, (172, 130))
+        self.temp_storage = self.caption_font.render("so many tries. 1 for J, 2 for Q, 3 for K, and 4 for A.", True, (0, 0, 0))
+        self.screen.blit(self.temp_storage, (172, 150))
 
-
-        for i in range(8):
+        # set up where the cards are placed-------------------------------------------------------------------
+        for i in range(3):
             pygame.draw.rect(self.screen, (0, 0, 0),((self.card_location[i][0] - 22, self.card_location[i][1] - 22), (144, 177)))
             pygame.draw.rect(self.screen, (252, 252, 252), ((self.card_location[i][0] - 20,self.card_location[i][1] - 20), (140, 173)))
             self.screen.blit(self.card_image, (self.card_location[i][0],self.card_location[i][1]))
         for i in range(5):
-            self.show_cards = self.caption_font.render(str(deck[(i+1)*-1]), True, (0, 0, 0))
-            self.screen.blit(self.show_cards,(self.card_location[i+3][0] - 18,self.card_location[i+3][1] - 20))
-
-        self.screen.blit(self.hand_image1, self.hand_location[0])
-        self.screen.blit(self.hand_image2, self.hand_location[1])
-        self.screen.blit(self.hand_image3, self.hand_location[2])
-
+            pygame.draw.rect(self.screen, (0, 0, 0),((self.card_location[3+i][0] - 22, self.card_location[3+i][1] - 22), (144, 177)))
+            pygame.draw.rect(self.screen, (252, 252, 252), ((self.card_location[3+i][0] - 20,self.card_location[3+i][1] - 20), (140, 173)))
+            self.screen.blit(self.card_back_image, (self.card_location[3+i][0],self.card_location[3+i][1]))
+        #set up the numbers on the cards-------------------------------------------------------------------
+        if len(deck) < 5:
+            # this is for if the deck is less then 5
+            for i in range(len(deck)):
+                self.show_cards = self.caption_font.render(str(deck[(-1*(len(deck))+i)]), True, (0, 0, 0))
+                self.screen.blit(self.show_cards,(self.card_location[i+(8-len(deck))][0] - 18,self.card_location[i+(8-len(deck))][1] - 20))
+        else:
+            #this if for if the deck is 5 or more
+            for i in range(5):
+                self.show_cards = self.caption_font.render(str(deck[(-5 + i)]), True, (0, 0, 0))
+                self.screen.blit(self.show_cards,(self.card_location[i + 3][0] - 18, self.card_location[i + 3][1] - 20))
+# the hands---------------------------------------------------------------------------------------------
+        # todo set up a thing to have slaps
+        if self.who_slapped[0] == 1:
+            self.screen.blit(self.hand_image1, self.hand_location[0])
+        if self.who_slapped[1] == 1:
+            self.screen.blit(self.hand_image2, self.hand_location[1])
+        if self.who_slapped[2] == 1:
+            self.screen.blit(self.hand_image3, self.hand_location[2])
+# saying how many cards everyone has-------------------------------------------------------------------
         for i in range(3):
-            self.temp_storage = self.caption_font.render("cards in hand:" + str(hands[i]), True, (0, 0, 0))
+            self.temp_storage = self.caption_font.render("Player " + str(i+1), True, (0, 0, 0))
+            self.screen.blit(self.temp_storage, (self.card_location[i][0] - 20, self.card_location[i][1] - 60))
+            self.temp_storage = self.caption_font.render("Cards in hand:" + str(hands[i]), True, (0, 0, 0))
             self.screen.blit(self.temp_storage,(self.card_location[i][0]-25 ,self.card_location[i][1] - 40))
 
-
-
-
-
+# seting up slapping vishuwal and sounds
+    #todo add this to the begining and end of the slap lines
+    def hand_slap(self,player_number):
+        self.slap_sound.play(1)
+        if self.who_slapped[player_number-1] == 0:
+            self.who_slapped[player_number-1] = 1
+        else:
+            self.who_slapped[player_number - 1] = 0
 
 #----------------------------------------------------------------------------------------
 def main():
@@ -169,9 +212,11 @@ def main():
     card_image = pygame.image.load('card.jpeg')
     card_image = pygame.transform.scale(card_image, (100, 133))
     caption_font = pygame.font.Font(None, 28)
+    card_back_image = pygame.image.load('card_back.jpg')
+    card_back_image = pygame.transform.scale(card_back_image, (100, 133))
     #challenge = Challenge(turn_controller.current_turn)
 
-    board_controller = BoardController(screen,card_image,slap_hand,caption_font)
+    board_controller = BoardController(screen,card_image,card_back_image, slap_hand,caption_font, slap_sound)
 
 
 
@@ -233,13 +278,9 @@ def main():
     while True:
         clock.tick(60)
         pressed_keys = pygame.key.get_pressed()
-       # screen.fill((220, 181, 121))
-        #pygame.draw.rect(screen, (252, 252, 252), ((200, 200), (140,173 )))
-        #screen.blit(card_image, ((screen.get_width() // 2), screen.get_height() // 2))
-       # screen.blit(card_image, (220,220))
 
-       # screen.blit(slap_hand, (0,0))
-        board_controller.set_up_board([1,2,3,4,5,"A", 4, 9],[40,10,50])
+        board_controller.set_up_board([5,"A", 4],[40,10,50])
+        #board_controller.set_up_board(center_pile.deck, [player1.deck, player2.deck, player3.deck])
 
 
 
