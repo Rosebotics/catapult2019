@@ -111,8 +111,6 @@ def main():
             time_ms = int(current_line[0])
             action = current_line[1]
             timeline_dict[time_ms] = action
-    for t in timeline_dict.keys():
-        print("Time: %d, action: %s" % (t, timeline_dict[t]))
 
 
     is_game_over = False
@@ -145,6 +143,7 @@ def main():
         if time_since_start in timeline_dict:
             action = timeline_dict[time_since_start]
             orb = Orb(screen, action)
+            print("Time: %d, action: %s" % (time_since_start, action))
 
         punchway = ''
         #TODO when start clicke
