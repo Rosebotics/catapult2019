@@ -14,7 +14,7 @@ class WaterBottle:
     def hit_by(self, starfish):
         return pygame.Rect(self.x, self.y, 40, 50).collidepoint(starfish.x + 33.5, starfish.y + 25)
 
-
+#hi
 class Starfish:
     def __init__(self, screen, x, y,):
         self.screen = screen
