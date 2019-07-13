@@ -50,27 +50,34 @@ class Orb:
         self.color = (0, 0, 0)
         self.xspeed = 0
         self.yspeed = 0
+        self.x = 0
+        self.y = 0
         self.direction = direction
-        if direction == 'up':
+        self.isdead = False
+
+        print(self.direction)
+
+        if self.direction == 'up':
             self.x = self.screen_width // 2
             self.y = self.screen_height + 30
             self.color = (255, 240, 0)
             self.yspeed = -1
-        elif direction == 'down':
+        elif self.direction == 'down':
             self.x = self.screen_width // 2
             self.y = -30
             self.color = (191, 0, 254)
             self.yspeed = 1
-        elif direction == 'left':
+        elif self.direction == 'left':
             self.x = -30
             self.y = self.screen_height // 2
             self.color = (230, 10, 150)
             self.xspeed = 1
-        elif direction == 'right':
+        elif self.direction == 'right':
             self.x = self.screen_width + 30
             self.y = self.screen_height // 2
             self.color = (0, 255, 225)
             self.xspeed = -1
+        print("New Orb:", self.direction)
 
     def draw(self):
         pygame.draw.circle(self.screen, self.color, (self.x, self.y), 30)
@@ -105,8 +112,9 @@ def main():
     orblist = []
 
     timeline_dict = {}
-    with open("albatraoz.txt") as file:
+    with open("albatraoz_bk.txt") as file:
         for line in file:
+            line = line.rstrip('\n')
             current_line = line.split(',')
             time_ms = int(current_line[0])
             action = current_line[1]
@@ -118,17 +126,17 @@ def main():
     pygame.mixer.music.play()
     start_milli_time = int(round(time.time() * 1000))
     while True:
-        pressed_keys = pygame.key.get_pressed()
-        if pressed_keys[pygame.K_w]:
-            orblist.append(Orb(screen, 'up'))
-        if pressed_keys[pygame.K_w]:
-            orblist.append(Orb(screen, 'down'))
-        if pressed_keys[pygame.K_w]:
-            orblist.append(Orb(screen, 'left'))
-        if pressed_keys[pygame.K_w]:
-            orblist.append(Orb(screen, 'right'))
+        # pressed_keys = pygame.key.get_pressed()
+        # if pressed_keys[pygame.K_w]:
+        #     orblist.append(Orb(screen, 'up'))
+        # if pressed_keys[pygame.K_w]:
+        #     orblist.append(Orb(screen, 'down'))
+        # if pressed_keys[pygame.K_w]:
+        #     orblist.append(Orb(screen, 'left'))
+        # if pressed_keys[pygame.K_w]:
+        #     orblist.append(Orb(screen, 'right'))
 
-        clock.tick(60)
+        clock.tick(250)
         screen.fill((0, 0, 0))
         pygame.draw.rect(screen, (255, 0, 5), punchbox)
         pygame.draw.rect(screen, (0, 0, 0), hurtbox)
@@ -139,11 +147,14 @@ def main():
 
         current_milli_time = int(round(time.time() * 1000))
         time_since_start = current_milli_time - start_milli_time
+        rounded_time = time_since_start - time_since_start % 5
 
-        if time_since_start in timeline_dict:
-            action = timeline_dict[time_since_start]
+        # print(rounded_time)
+        if rounded_time in timeline_dict:
+            action = timeline_dict[rounded_time]
             orb = Orb(screen, action)
-            print("Time: %d, action: %s" % (time_since_start, action))
+            orblist.append(orb)
+            print("+++Time: %d, action: %s" % (rounded_time, action))
 
         punchway = ''
         #TODO when start clicke
@@ -203,6 +214,7 @@ def main():
             orb.draw()
             if orb.hit_by(punchway):
                 orb.isdead = True
+
         pygame.display.update()
         for orb in orblist:
             if orb.isdead:
