@@ -196,6 +196,13 @@ class BoardController:
             self.who_slapped[player_number-1] = 1
         else:
             self.who_slapped[player_number - 1] = 0
+# the game over screen 
+    def game_over_screen(self, winner):
+        self.screen.fill((220, 181, 121))
+        self.temp_storage = self.caption_font.render('Player '+str(winner)+ " is the winner", True, (0, 0, 0))
+        self.screen.blit(self.temp_storage, (10, 10))
+
+
 
 #----------------------------------------------------------------------------------------
 def main():

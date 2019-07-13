@@ -22,10 +22,11 @@ class CenterPile:
     def __init__(self):
         self.cards = []
         self.is_slap_allowed = False
-
+#add cards
     def add_card(self, new_card):
         self.cards.append(new_card)
         self.is_slap_allowed = False
+        # seeing for slaps
         if len(self.cards) > 1:
             if self.cards[-1] == self.cards[-2]:
                 self.is_slap_allowed = True
@@ -33,17 +34,17 @@ class CenterPile:
         if len(self.cards) > 2:
             if self.cards[-1] == self.cards[-3]:
                 self.is_slap_allowed = True
-        print(self.cards)
-
+       # print(self.cards)
+# punishing miss slaps
     def bury_card(self, new_card):
         self.cards.insert(0, new_card)
-        print(self.cards)
-
+       # print(self.cards)
+# seeing what the top card is
     def get_top_card(self):
         if len(self.cards) > 0:
             return self.cards[-1]
 
-
+#--------------------------------------------------------------------------------------turn controler
 class TurnController:
     def __init__(self, player1, player2, player3):
         self.player1 = player1
@@ -51,11 +52,11 @@ class TurnController:
         self.player3 = player3
         self.previous_turn = -1
         self.current_turn = 1
-
+# set whos turn it is  at first
     def set_turn_to(self, new_player_turn):
         self.previous_turn = self.current_turn
         self.current_turn = new_player_turn
-
+# setting the next turn
     def next_turn(self):
         self.previous_turn = self.current_turn
         if self.current_turn == 1:
@@ -73,7 +74,7 @@ class TurnController:
                 self.current_turn = 1
             else:
                 self.current_turn = 2
-
+# retun whos turn it is
     def get_current_player(self):
         if self.current_turn == 1:
             return self.player1
@@ -81,7 +82,7 @@ class TurnController:
             return self.player2
         if self.current_turn == 3:
             return self.player3
-
+# say who the previus player turn is
     def get_previous_player(self):
         if self.previous_turn == 1:
             return self.player1
@@ -109,6 +110,7 @@ class ChallengeController:
         # assumes a card has just been played and there is no active challenge it moves on to the next player.
         top_card = self.center_pile.get_top_card()
         is_new_challenge = False
+        # set up the trys
         if top_card == 'J':
             self.tries = 1
             is_new_challenge = True
@@ -121,7 +123,7 @@ class ChallengeController:
         elif top_card == 'A':
             self.tries = 4
             is_new_challenge = True
-
+#start up the chalange
         if is_new_challenge:
             self.is_challenge_active = True
             self.challenger = self.turn_controller.get_current_player()
@@ -139,10 +141,12 @@ class ChallengeController:
 
         # assumes a card has just been played during an active challenge and resolves the challenge or continues it.
         top_card = self.center_pile.get_top_card()
+        # if the chalengd secseeds
         if top_card == 'J' or top_card == 'Q' or top_card == 'K' or top_card == 'A':
             self.is_challenge_active = False
             self.possible_challenge()
         else:
+            # if they fail
             self.tries = self.tries - 1
             if self.tries == 0:
                 self.challenger.deck = self.challenger.deck + self.center_pile.cards
@@ -150,7 +154,7 @@ class ChallengeController:
                 self.turn_controller.set_turn_to(self.challenger.player_number)
                 self.is_challenge_active = False
             elif not self.challengee.is_playing:
-                print('challengee ran out of cards')
+               # print('challengee ran out of cards')
                 self.turn_controller.next_turn()
                 self.challengee = self.turn_controller.get_current_player()
 
@@ -166,14 +170,17 @@ class ChallengeController:
 # #----------------------------------------------------------------------------- functions
 
 def slap(player, center_pile, turn_controller, challenge_controller):
+   # not allowing people who are out to slap
     if not player.is_playing:
         if not (challenge_controller.is_challenge_active and challenge_controller.challenger.player_number == player.player_number):
             return
+    #if slap it allowed
     if center_pile.is_slap_allowed:
+        challenge_controller.is_challenge_active = False
         player.deck = player.deck + center_pile.cards
         center_pile.cards = []
         turn_controller.set_turn_to(player.player_number)
-        print(center_pile.cards)
+       # print(center_pile.cards)
     else:
         if len(center_pile.cards) > 1 and player.is_playing:
             player.discard_card(center_pile)
@@ -187,7 +194,7 @@ def play_card(player, center_pile, turn_controller, challenge_controller):
         else:
             challenge_controller.possible_challenge()
     else:
-        print("It is not this player's turn")
+       print("It is not this player's turn")
 
 
 def check_for_game_over(challenge_controller):
@@ -249,23 +256,23 @@ class BoardController:
     def set_up_board(self,deck,hands,current_turn):
         self.screen.fill((220, 181, 121))
 # setting up the rules to the game so that the players know what to do---------------------------------------------------------
-        self.temp_storage = self.caption_font.render("rule of the game: player one slaps with ~ and places a card with 1 ", True, (0, 0, 0))
+        self.temp_storage = self.caption_font.render("Rule of the Game:      Player One places a card with ~ and slaps with 1 ", True, (0, 0, 0))
         self.screen.blit(self.temp_storage, (10,10))
-        self.temp_storage = self.caption_font.render("player two slaps with v and places a card with b", True, (0, 0, 0))
+        self.temp_storage = self.caption_font.render("Player Two places a card with v and slaps with b", True, (0, 0, 0))
         self.screen.blit(self.temp_storage, (172, 30))
-        self.temp_storage = self.caption_font.render("player two slaps with o and places a card with p", True,(0, 0, 0))
+        self.temp_storage = self.caption_font.render("Player Three places a card with o and slaps with p ", True,(0, 0, 0))
         self.screen.blit(self.temp_storage, (172, 50))
-        self.temp_storage = self.caption_font.render("when two of a kind or two of a kind with one in the middle appears, slap to win the round", True,(0, 0, 0))
+        self.temp_storage = self.caption_font.render("When two of a kind or two of a kind with a random card in the middle appears, slap to win the round", True,(0, 0, 0))
         self.screen.blit(self.temp_storage, (172, 70))
-        self.temp_storage = self.caption_font.render("when a J,Q,K, or A show up the next player is challenged, if you fail the chalenge the ", True,(0, 0, 0))
+        self.temp_storage = self.caption_font.render("When J,Q,K, or A show up, the next player is challenged. To win a challenge you need to play a J,Q,K, or A", True,(0, 0, 0))
         self.screen.blit(self.temp_storage, (172, 90))
-        self.temp_storage = self.caption_font.render("chalenger wins, if you secseed then you chalenge the next person in line", True,(0, 0, 0))
+        self.temp_storage = self.caption_font.render("and depending on the card you play, only get so many tries. 1 for J, 2 for Q, 3 for K, and 4 for A. ", True,(0, 0, 0))
         self.screen.blit(self.temp_storage, (172, 110))
-        self.temp_storage = self.caption_font.render("to win a chalenge you need to play a J,Q,K, or A and depending on the card you get only", True,(0, 0, 0))
+        self.temp_storage = self.caption_font.render("If you fail the challenge, the challenger wins, If you succeed, then you challenge the next person in line.", True,(0, 0, 0))
         self.screen.blit(self.temp_storage, (172, 130))
-        self.temp_storage = self.caption_font.render("so many tries. 1 for J, 2 for Q, 3 for K, and 4 for A.", True, (0, 0, 0))
+        self.temp_storage = self.caption_font.render("", True, (0, 0, 0))
         self.screen.blit(self.temp_storage, (172, 150))
-
+#If you fail the challenge, the    challenger wins, If you succeed, then you challenge the next person in line.
         # set up where the cards are placed-------------------------------------------------------------------
         for i in range(3):
             pygame.draw.rect(self.screen, (0, 0, 0),((self.card_location[i][0] - 22, self.card_location[i][1] - 22), (144, 177)))
@@ -286,9 +293,9 @@ class BoardController:
             for i in range(5):
                 self.show_cards = self.caption_font.render(str(deck[(-5 + i)]), True, (0, 0, 0))
                 self.screen.blit(self.show_cards,(self.card_location[i + 3][0] - 18, self.card_location[i + 3][1] - 20))
-            #say at whos ever turn it is
+            #says whos turn it is
         self.temp_storage = self.caption_font.render("Player" + str(current_turn) + "'s turn", True, (0, 0, 0))
-        self.screen.blit(self.temp_storage, (500, 230))
+        self.screen.blit(self.temp_storage, (420, 230))
 
 # the hands---------------------------------------------------------------------------------------------
         # todo set up a thing to have slaps
@@ -307,7 +314,7 @@ class BoardController:
 
 # seting up slapping vishuwal and sounds
     #todo add this to the begining and end of the slap lines
-    def hand_slap(self,player_number):`
+    def hand_slap(self,player_number):
         if player_number == 4:
             self.who_slapped[0] = 0
             self.who_slapped[1] = 0
@@ -316,8 +323,11 @@ class BoardController:
             self.slap_sound.play()
             self.who_slapped[player_number - 1] = 1
 
-
-
+# the game over screen
+    def game_over_screen(self,winner):
+        self.screen.fill((220, 181, 121))
+        self.temp_storage = self.caption_font.render('Player '+str(winner)+ " is the winner", True, (0, 0, 0))
+        self.screen.blit(self.temp_storage, (500, 375))
 
 #----------------------------------------------------------------------------------------
 def main():
@@ -366,7 +376,7 @@ def main():
     slap_hand.set_colorkey(pygame.Color('WHITE'))
     card_image = pygame.image.load('card.jpeg')
     card_image = pygame.transform.scale(card_image, (100, 133))
-    caption_font = pygame.font.Font(None, 28)
+    caption_font = pygame.font.Font(None, 24)
     card_back_image = pygame.image.load('card_back.jpg')
     card_back_image = pygame.transform.scale(card_back_image, (100, 133))
 
@@ -379,7 +389,6 @@ def main():
     while True:
         clock.tick(60)
         pressed_keys = pygame.key.get_pressed()
-        board_controller.set_up_board(center_pile.cards, [len(player1.deck), len(player2.deck), len(player3.deck)],turn_controller.current_turn)
 
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -416,11 +425,20 @@ def main():
                 print('current_turn:', turn_controller.current_turn)
 
         #------------out of for loop--------------------------------------------------------------------out of for event loop
+        board_controller.set_up_board(center_pile.cards, [len(player1.deck), len(player2.deck), len(player3.deck)],turn_controller.current_turn)
+
         if not is_game_over:
             pygame.display.update()
         else:
             if not has_displayed_game_over:
                 has_displayed_game_over = True
+                if player1.is_playing == True:
+                    board_controller.game_over_screen(1)
+                if player2.is_playing == True:
+                    board_controller.game_over_screen(2)
+                if player3.is_playing == True:
+                    board_controller.game_over_screen(3)
+                pygame.display.update()
                 #TODO display game over here!
                 print('game over')
 
