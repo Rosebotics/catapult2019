@@ -89,10 +89,6 @@ def main():
     clock = pygame.time.Clock()
     screen = pygame.display.set_mode((640, 640))
 
-    pinkleft = Orb(screen,'left') # TODO: Change temporary Xs and Ys
-    purpledown = Orb(screen, 'down')
-    yellowup = Orb(screen, 'up')
-    blueright = Orb(screen, 'right')
     hpbar = HPBar(screen)
     dancer = Dancer(screen, 90, 90)
     pygame.mixer.music.load("albatraoz.mp3")
@@ -110,6 +106,7 @@ def main():
 
     is_game_over = False
 
+    pygame.mixer.music.play()
     start_milli_time = int(round(time.time() * 1000))
     while True:
 
@@ -125,7 +122,10 @@ def main():
         current_milli_time = int(round(time.time() * 1000))
         time_since_start = current_milli_time - start_milli_time
 
-
+        if time_since_start in timeline_dict:
+            action = timeline_dict[time_since_start]
+            orb = Orb(screen, action)
+            
 
         #TODO when start clicke
         pressed_keys = pygame.key.get_pressed()
@@ -146,34 +146,34 @@ def main():
         if hpbar == 0:
             is_game_over = True
 
-        if pinkleft.hit_by:
-            pinkleft.dead = True
-        if purpledown.hit_by:
-            purpledown.dead = True
-        if yellowup.hit_by:
-            yellowup.dead = True
-        if blueright.hit_by:
-            blueright.dead = True
-
-        hpbar.draw()
-        pinkleft.move()
-        purpledown.move()
-        yellowup.move()
-        blueright.move()
-        pinkleft.draw()
-        purpledown.draw()
-        yellowup.draw()
-        blueright.draw()
-
-        if pressed_keys[pygame.K_SPACE]:
-            pinkleft.x = 300
-            purpledown.x = 300
-            yellowup.x = 300
-            blueright.x = 300
-            pinkleft.y = 300
-            purpledown.y = 300
-            yellowup.y = 300
-            blueright.y = 300
+        # if pinkleft.hit_by:
+        #     pinkleft.dead = True
+        # if purpledown.hit_by:
+        #     purpledown.dead = True
+        # if yellowup.hit_by:
+        #     yellowup.dead = True
+        # if blueright.hit_by:
+        #     blueright.dead = True
+        #
+        # hpbar.draw()
+        # pinkleft.move()
+        # purpledown.move()
+        # yellowup.move()
+        # blueright.move()
+        # pinkleft.draw()
+        # purpledown.draw()
+        # yellowup.draw()
+        # blueright.draw()
+        #
+        # if pressed_keys[pygame.K_SPACE]:
+        #     pinkleft.x = 300
+        #     purpledown.x = 300
+        #     yellowup.x = 300
+        #     blueright.x = 300
+        #     pinkleft.y = 300
+        #     purpledown.y = 300
+        #     yellowup.y = 300
+        #     blueright.y = 300
         pygame.display.update()
 
 
