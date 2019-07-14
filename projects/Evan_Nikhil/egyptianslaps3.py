@@ -305,6 +305,12 @@ class BoardController:
                 self.show_cards = self.caption_font.render(str(deck[(-5 + i)]), True, (0, 0, 0))
                 self.screen.blit(self.show_cards,(self.card_location[i + 3][0] - 18, self.card_location[i + 3][1] - 20))
             #says whos turn it is
+        if current_turn == 1:
+            pygame.draw.polygon(self.screen,(0,0,0), ((410,225),(410,245),(390,235)))
+        if current_turn == 2:
+            pygame.draw.polygon(self.screen, (0, 0, 0), ((460, 245), (480, 245), (470, 265)))
+        if current_turn == 3:
+            pygame.draw.polygon(self.screen, (0, 0, 0), ((530, 225), (530, 245), (550, 235)))
         self.temp_storage = self.caption_font.render("Player" + str(current_turn) + "'s turn", True, (0, 0, 0))
         self.screen.blit(self.temp_storage, (420, 230))
 
