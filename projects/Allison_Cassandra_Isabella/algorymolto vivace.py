@@ -100,7 +100,7 @@ def main():
     hpbar = HPBar(screen)
     dancer = Dancer(screen, 90, 90)
     pygame.mixer.music.load("albatraoz.mp3")
-    punchbox = (149, 115, 343, 410)
+    punchbox = (129, 95, 383, 450)
     hurtbox = (204, 170, 233, 300)
     orblist = []
 
