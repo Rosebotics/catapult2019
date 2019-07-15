@@ -289,10 +289,20 @@ class BoardController:
         self.screen.blit(self.temp_storage, (172, 170))
 #If you fail the challenge, the    challenger wins, If you succeed, then you challenge the next person in line.
         # set up where the cards are placed-------------------------------------------------------------------
-        for i in range(3):
-            pygame.draw.rect(self.screen, (0, 0, 0),((self.card_location[i][0] - 22, self.card_location[i][1] - 22), (144, 177)))
-            pygame.draw.rect(self.screen, (252, 252, 252), ((self.card_location[i][0] - 20,self.card_location[i][1] - 20), (140, 173)))
-            self.screen.blit(self.card_image, (self.card_location[i][0],self.card_location[i][1]))
+        if not (hands[0] == 0):
+            pygame.draw.rect(self.screen, (0, 0, 0),((self.card_location[0][0] - 22, self.card_location[0][1] - 22), (144, 177)))
+            pygame.draw.rect(self.screen, (252, 252, 252), ((self.card_location[0][0] - 20,self.card_location[0][1] - 20), (140, 173)))
+            self.screen.blit(self.card_image, (self.card_location[0][0],self.card_location[0][1]))
+        if not (hands[1] == 0):
+            pygame.draw.rect(self.screen, (0, 0, 0),((self.card_location[1][0] - 22, self.card_location[1][1] - 22), (144, 177)))
+            pygame.draw.rect(self.screen, (252, 252, 252),((self.card_location[1][0] - 20, self.card_location[1][1] - 20), (140, 173)))
+            self.screen.blit(self.card_image, (self.card_location[1][0], self.card_location[1][1]))
+        if not hands[2] == 0:
+            pygame.draw.rect(self.screen, (0, 0, 0),((self.card_location[2][0] - 22, self.card_location[2][1] - 22), (144, 177)))
+            pygame.draw.rect(self.screen, (252, 252, 252),((self.card_location[2][0] - 20, self.card_location[2][1] - 20), (140, 173)))
+            self.screen.blit(self.card_image, (self.card_location[2][0], self.card_location[2][1]))
+
+
         #putting the correct amount of cards in the center
         if len(deck) < 5:
             for i in range(len(deck)):
@@ -355,9 +365,9 @@ class BoardController:
     def game_over_screen(self,winner):
         self.screen.fill((220, 181, 121))
         self.temp_storage = self.caption_font.render('Player '+str(winner)+ " is the winner", True, (0, 0, 0))
-        self.screen.blit(self.temp_storage, (480, 375))
+        self.screen.blit(self.temp_storage, (410, 335))
         self.temp_storage = self.caption_font.render("press space to restart the game", True, (0, 0, 0))
-        self.screen.blit(self.temp_storage, (460, 395))
+        self.screen.blit(self.temp_storage, (380, 355))
 
 
 # the reset code for the new game ----------------------------------------------------------------------------
