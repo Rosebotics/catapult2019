@@ -3,17 +3,20 @@ from pygame.locals import *
 
 # Team 12
 
+res_x = 600
+res_y = 1036
+
 
 class Column:  # Returns  the x value for a column, draws lines on the screen
     def __init__(self, screen):
         self.screen = screen
 
     def getX(self, column): # Returns x value for given column
-        return (column * int(self.screen.get_width()/3)) + 25
+        return (column * int(res_x/3)) + 25
 
     def draw(self): # Draws lines on screen
-        pygame.draw.line(self.screen, (100, 100, 100), (200, 10), (200, 790), 2)
-        pygame.draw.line(self.screen, (100, 100, 100), (400, 10), (400, 790), 2)
+        pygame.draw.line(self.screen, (100, 100, 100), (self.getX(1) - 25, 10), (self.getX(1) - 25, res_y - 10), 2)
+        pygame.draw.line(self.screen, (100, 100, 100), (self.getX(2) - 25, 10), (self.getX(2) - 25, res_y - 10), 2)
 
 
 class Player:  # The player. Draws, detects if itself is hit, draws health bar.
@@ -21,7 +24,7 @@ class Player:  # The player. Draws, detects if itself is hit, draws health bar.
         self.screen = screen
         self.column = column
         self.x = x
-        self.y = 760
+        self.y = res_y - 40
         self.canBlock = False
         self.direction = direction
         self.color = color
@@ -132,7 +135,7 @@ def main():
     pygame.init()
     clock = pygame.time.Clock()
     pygame.display.set_caption("On Point")
-    screen = pygame.display.set_mode((600, 800))
+    screen = pygame.display.set_mode((res_x, res_y))
 
     player = Player(screen, 1, 1, True, (255, 0, 0))
     enemy_list = EnemyList(screen)
@@ -152,9 +155,9 @@ def main():
             pressed_keys = pygame.key.get_pressed()
 
             # -SWITCH PLAYER DIRECTION-
-            if pressed_keys[K_UP] and player.direction == False:
+            if pressed_keys[K_UP] and not player.direction:
                 player.direction = True
-            elif pressed_keys[K_DOWN] and player.direction == True:
+            elif pressed_keys[K_DOWN] and player.direction:
                 player.direction = False
 
             # -SET PLAYER COLUMN-
