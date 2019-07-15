@@ -191,8 +191,9 @@ def main():
                 shield.isDeployed = False
 
             # -SPAWN ENEMIES
-            if gameclock + 2 - score.score * .0001 < time.time():
-                enemy_list.spawn(3 + score.score * .0001)
+            if gameclock + 2 - score.score * .00007 < time.time():
+                enemy_list.spawn(3 + score.score * .00004)
+                score.score += int(score.score * .01)
                 gameclock = time.time()
 
             for enemy in enemy_list.enemy_list:
@@ -217,6 +218,7 @@ def main():
             player.drawHealth()
             enemy_list.draw()
             column.draw()
+
             if shield.isDeployed:
                 shield.draw(player)
             enemy_list.move()
