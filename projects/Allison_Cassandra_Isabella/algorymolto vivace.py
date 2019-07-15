@@ -225,6 +225,8 @@ def main():
             pygame.mixer.music.stop()
             is_game_over = True
             hpbar.score = 69
+            pygame.mixer.music.load("My Heart Will Go On (terrible recorder meme).mp3")
+            pygame.mixer.music.play(1, 19)
         if is_game_over:
             screen.blit(funished, (-150, 0))
             pygame.display.update()
