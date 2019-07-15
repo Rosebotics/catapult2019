@@ -119,6 +119,15 @@ class EnemyList:
                 pygame.mixer.Sound.play(sound)
 
 
+class PlayerInfo:
+    def __init__(self, score, playername, id):
+        self.playername = playername
+        self.score = score
+        self.id = id
+
+    def __repr__(self):
+        return "%s, %d, %d" % (self.playername,self.score, self.id)
+
 class Score:
     def __init__(self, screen):
         self.screen = screen
@@ -129,14 +138,47 @@ class Score:
         text_as_image = self.font.render("Score: " + str(self.score), True, (255, 255, 255))
         self.screen.blit(text_as_image, (5, 5))
 
+class Scoreboard:
+    def __init__(self, screen, playername):
+        self.screen = screen
+        self.playername = playername
+        self.list = []
 
+
+    def record(self, score, playername, id):
+        file = open("scores.txt", "a")
+        file.write(str(score) + "," + playername + "," + str(id))
+        file.close()
+
+    def read(self):
+        file = open("scores.txt", "r")
+
+        content = file.readlines()
+        for line in content:
+            stripLine = line.strip()
+            cleanList = stripLine.split(",")
+            score = int(cleanList[0])
+            playername = cleanList[1]
+            id = int(cleanList[2])
+            playerinfo = PlayerInfo(score, playername, id)
+            self.list.append(playerinfo)
+
+        self.list = sorted(self.list, key=lambda player_info: (player_info.score, -player_info.id), reverse=True)
+        print(self.list)
+        file.close()
+
+    def draw(self):
+        pass
 def main():
+    playername = str(input("Enter Player Name:"))
+
     pygame.init()
     clock = pygame.time.Clock()
     pygame.display.set_caption("On Point")
     screen = pygame.display.set_mode((600, res_y))
 
     player = Player(screen, 1, 1, True, (255, 0, 0))
+    scoreboard = Scoreboard(screen, playername)
     enemy_list = EnemyList(screen)
     gameclock = time.time()
     score = Score(screen)
@@ -145,7 +187,6 @@ def main():
     player_hit = pygame.mixer.Sound("player_hit.wav")
     font = pygame.font.Font(None, 50)
     column = Column(screen)
-
     shield = Shield()
     while True:
         clock.tick(60)
