@@ -65,7 +65,7 @@ class Starfish:
 
         if self.y > 900:
             self.y = -50
-        elif self.y < -60:
+        elif self.y < -60: #HIGH KEY DUMB NUTTY LIT WITH IT
             self.y = 850
 
 class Pearl:
