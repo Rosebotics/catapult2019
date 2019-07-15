@@ -139,6 +139,7 @@ def main():
     screen = pygame.display.set_mode((900, 900))
     gameover_image2 = pygame.image.load('gameover_image2.png')
     level1_image = pygame.image.load('level_1.png')
+    gamewin = pygame.image.load('gamewin.png')
 
     scoreboard = Scoreboard(screen)
 
@@ -243,7 +244,7 @@ def main():
 
         if game_time >= 120:
             is_game_over = True
-            # screen.blit(gamewin, (0, 0))
+            screen.blit(gamewin, (0, 0))
 
         countdown_time = 120 - game_time
         if not is_game_over:

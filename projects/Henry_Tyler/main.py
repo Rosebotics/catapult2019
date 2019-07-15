@@ -3,7 +3,6 @@ from pygame.locals import *
 
 # Team 12
 
-res_x = 600
 res_y = 1036
 
 
@@ -12,7 +11,7 @@ class Column:  # Returns  the x value for a column, draws lines on the screen
         self.screen = screen
 
     def getX(self, column): # Returns x value for given column
-        return (column * int(res_x/3)) + 25
+        return (column * int(self.screen.get_width()/3)) + 25
 
     def draw(self): # Draws lines on screen
         pygame.draw.line(self.screen, (100, 100, 100), (self.getX(1) - 25, 10), (self.getX(1) - 25, res_y - 10), 2)
@@ -120,6 +119,15 @@ class EnemyList:
                 pygame.mixer.Sound.play(sound)
 
 
+class PlayerInfo:
+    def __init__(self, score, playername, id):
+        self.playername = playername
+        self.score = score
+        self.id = id
+
+    def __repr__(self):
+        return "%s, %d, %d" % (self.playername,self.score, self.id)
+
 class Score:
     def __init__(self, screen):
         self.screen = screen
@@ -130,14 +138,47 @@ class Score:
         text_as_image = self.font.render("Score: " + str(self.score), True, (255, 255, 255))
         self.screen.blit(text_as_image, (5, 5))
 
+class Scoreboard:
+    def __init__(self, screen, playername):
+        self.screen = screen
+        self.playername = playername
+        self.list = []
 
+
+    def record(self, score, playername, id):
+        file = open("scores.txt", "a")
+        file.write(str(score) + "," + playername + "," + str(id))
+        file.close()
+
+    def read(self):
+        file = open("scores.txt", "r")
+
+        content = file.readlines()
+        for line in content:
+            stripLine = line.strip()
+            cleanList = stripLine.split(",")
+            score = int(cleanList[0])
+            playername = cleanList[1]
+            id = int(cleanList[2])
+            playerinfo = PlayerInfo(score, playername, id)
+            self.list.append(playerinfo)
+
+        self.list = sorted(self.list, key=lambda player_info: (player_info.score, -player_info.id), reverse=True)
+        print(self.list)
+        file.close()
+
+    def draw(self):
+        pass
 def main():
+    playername = str(input("Enter Player Name:"))
+
     pygame.init()
     clock = pygame.time.Clock()
     pygame.display.set_caption("On Point")
-    screen = pygame.display.set_mode((res_x, res_y))
+    screen = pygame.display.set_mode((600, res_y))
 
     player = Player(screen, 1, 1, True, (255, 0, 0))
+    scoreboard = Scoreboard(screen, playername)
     enemy_list = EnemyList(screen)
     gameclock = time.time()
     score = Score(screen)
@@ -146,7 +187,6 @@ def main():
     player_hit = pygame.mixer.Sound("player_hit.wav")
     font = pygame.font.Font(None, 50)
     column = Column(screen)
-
     shield = Shield()
     while True:
         clock.tick(60)
@@ -185,7 +225,7 @@ def main():
 
         if player.lives < 1:
             text_as_image = font.render("Game Over!", False, (255, 255, 255))
-            screen.blit(text_as_image, (200, 400))
+            screen.blit(text_as_image, (200, res_y / 2))
             if pressed_keys[K_SPACE]:
                 main()
         else:
