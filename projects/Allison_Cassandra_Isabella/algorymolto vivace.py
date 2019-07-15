@@ -121,7 +121,7 @@ def main():
 
         clock.tick(250)
         screen.fill((0, 0, 0))
-        pygame.draw.rect(screen, (255, 0, 5), punchbox)
+        pygame.draw.rect(screen, (0, 0, 15), punchbox)
         pygame.draw.rect(screen, (0, 0, 0), hurtbox)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
