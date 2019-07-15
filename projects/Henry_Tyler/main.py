@@ -1,6 +1,8 @@
 import pygame, sys, random, time
 from pygame.locals import *
 
+# Team 12
+
 
 class Column:  # Returns  the x value for a column, draws lines on the screen
     def __init__(self, screen):
@@ -8,6 +10,7 @@ class Column:  # Returns  the x value for a column, draws lines on the screen
 
     def getX(self, column): # Returns x value for given column
         return (column * int(self.screen.get_width()/3)) + 25
+
     def draw(self): # Draws lines on screen
         pygame.draw.line(self.screen, (100, 100, 100), (200, 10), (200, 790), 2)
         pygame.draw.line(self.screen, (100, 100, 100), (400, 10), (400, 790), 2)
@@ -22,7 +25,7 @@ class Player:  # The player. Draws, detects if itself is hit, draws health bar.
         self.canBlock = False
         self.direction = direction
         self.color = color
-        self.lives = 20
+        self.lives = 5
 
     def draw(self): # Draws the player
         if self.direction:
@@ -44,13 +47,13 @@ class Shield:  # Generates Player's shield. Draws and detects if it's hit
         self.current_time = pygame.time.get_ticks()
         self.isDeployed = False
 
-    def draw(self, player): # Draws the shield
+    def draw(self, player):  # Draws the shield
         if player.direction:
             pygame.draw.polygon(player.screen, player.color, [(player.x - 10, player.y - 76), (player.x + 75, player.y - 130), (player.x + 160, player.y - 76), (player.x + 75, player.y - 120)], 2)
         else:
             pygame.draw.polygon(player.screen, player.color, [(player.x - 10, player.y - 76), (player.x + 75, player.y - 44), (player.x + 160, player.y - 76), (player.x + 75, player.y - 54)], 2)
 
-    def isHit(self, enemy, player): # Detects if it's hit
+    def isHit(self, enemy, player):  # Detects if it's hit
         return self.isDeployed and pygame.Rect(player.x, player.y - 76, 150, 30).collidepoint(enemy.x, enemy.y)
 
     def should_be_deployed(self):
@@ -102,14 +105,16 @@ class EnemyList:
             if enemy.is_hit:
                 self.enemy_list.remove(enemy)
 
-    def isAtBottom(self, player):
+    def isAtBottom(self, player, sound):
         for enemy in self.enemy_list:
             if enemy.y > self.screen.get_height():
                 self.enemy_list.remove(enemy)
                 player.lives -= 1
+                pygame.mixer.Sound.play(sound)
             elif enemy.y > self.screen.get_height() - 33 and not enemy.direction:
                 self.enemy_list.remove(enemy)
                 player.lives -= 1
+                pygame.mixer.Sound.play(sound)
 
 
 class Score:
@@ -129,12 +134,13 @@ def main():
     pygame.display.set_caption("On Point")
     screen = pygame.display.set_mode((600, 800))
 
-    player = Player(screen, 1, 0, True, (255, 0, 0))
+    player = Player(screen, 1, 1, True, (255, 0, 0))
     enemy_list = EnemyList(screen)
     gameclock = time.time()
     score = Score(screen)
     up_hit = pygame.mixer.Sound("sword_hit.wav")
     down_hit = pygame.mixer.Sound("shield_hit.wav")
+    player_hit = pygame.mixer.Sound("player_hit.wav")
     font = pygame.font.Font(None, 50)
     column = Column(screen)
 
@@ -187,8 +193,9 @@ def main():
                 shield.isDeployed = False
 
             # -SPAWN ENEMIES
-            if gameclock + 2 - score.score * .0001 < time.time():
-                enemy_list.spawn(3 + score.score * .0001)
+            if gameclock + 2 - score.score * .00007 < time.time():
+                enemy_list.spawn(3 + score.score * .00004)
+                score.score += int(score.score * .01)
                 gameclock = time.time()
 
             for enemy in enemy_list.enemy_list:
@@ -196,6 +203,8 @@ def main():
                 if player.isHit(enemy):
                     enemy.is_hit = True
                     player.lives -= 1
+                    pygame.mixer.Sound.play(player_hit)
+
                 if shield.isHit(enemy, player) and player.direction == enemy.direction and player.color == enemy.color:
                     if player.direction:
                         pygame.mixer.Sound.play(up_hit)
@@ -205,12 +214,13 @@ def main():
                     score.score += 100
 
             enemy_list.removeHitEnemies()
-            enemy_list.isAtBottom(player)
+            enemy_list.isAtBottom(player, player_hit)
             screen.fill(pygame.Color("Black"))
             player.draw()
             player.drawHealth()
             enemy_list.draw()
             column.draw()
+
             if shield.isDeployed:
                 shield.draw(player)
             enemy_list.move()
