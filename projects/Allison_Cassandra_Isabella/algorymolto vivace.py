@@ -51,26 +51,26 @@ class Orb:
         self.y = 0
         self.direction = direction
         self.isdead = False
-        if self.direction == 'down':
+        if self.direction == 'up':
             self.x = self.screen_width // 2
             self.y = self.screen_height + 30
             self.color = (255, 240, 0)
-            self.yspeed = -1
-        elif self.direction == 'up':
+            self.yspeed = -2
+        elif self.direction == 'down':
             self.x = self.screen_width // 2
             self.y = -30
             self.color = (191, 0, 254)
-            self.yspeed = 1
+            self.yspeed = 2
         elif self.direction == 'left':
             self.x = -30
             self.y = self.screen_height // 2
             self.color = (230, 10, 150)
-            self.xspeed = 1
+            self.xspeed = 2
         elif self.direction == 'right':
             self.x = self.screen_width + 30
             self.y = self.screen_height // 2
             self.color = (0, 255, 225)
-            self.xspeed = -1
+            self.xspeed = -2
 
     def draw(self):
         pygame.draw.circle(self.screen, self.color, (self.x, self.y), 30)
@@ -100,7 +100,7 @@ def main():
     hpbar = HPBar(screen)
     dancer = Dancer(screen, 90, 90)
     pygame.mixer.music.load("albatraoz.mp3")
-    punchbox = (94, 60, 453, 520)
+    punchbox = (129, 95, 383, 450)
     hurtbox = (204, 170, 233, 300)
     orblist = []
 
@@ -121,7 +121,7 @@ def main():
 
         clock.tick(250)
         screen.fill((0, 0, 0))
-        pygame.draw.rect(screen, (255, 0, 5), punchbox)
+        pygame.draw.rect(screen, (0, 0, 15), punchbox)
         pygame.draw.rect(screen, (0, 0, 0), hurtbox)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -143,10 +143,10 @@ def main():
         pressed_keys = pygame.key.get_pressed()
         if pressed_keys[pygame.K_DOWN]:
             dancer.punch_down()
-            punchway = 'down'
+            punchway = 'up'
         elif pressed_keys[pygame.K_UP]:
             dancer.punch_up()
-            punchway = 'up'
+            punchway = 'down'
         elif pressed_keys[pygame.K_LEFT]:
             dancer.punch_left()
             punchway = 'left'
