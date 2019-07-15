@@ -164,12 +164,12 @@ def main():
         soda = Soda(screen, random.randint(0, 80), random.randint(55, 900))
         sodas.append(soda)
 
-    background_sound = pygame.mixer.Sound("water_background.mp3")
+    background_sound = pygame.mixer.Sound("water_background.wav")
     background_sound.play(-1)
 
-    pearl_sound = pygame.mixer.Sound("pearl.mp3")
-    soda_sound = pygame.mixer.Sound("sodacan.mp3")
-    waterbottle_sound = pygame.mixer.Sound("bottle.mp3")
+    pearl_sound = pygame.mixer.Sound("pearl.wav")
+    soda_sound = pygame.mixer.Sound("sodacan.wav")
+    waterbottle_sound = pygame.mixer.Sound("bottle.wav")
 
     starting_time = time.time()
 
@@ -178,7 +178,7 @@ def main():
             if event.type == pygame.QUIT:
                 sys.exit()
         screen.blit(level1_image, (0, 0))
-#hi
+
         if not is_game_over:
             # Check for game key presses
             pressed_keys = pygame.key.get_pressed()
