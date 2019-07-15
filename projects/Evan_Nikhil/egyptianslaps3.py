@@ -285,14 +285,24 @@ class BoardController:
         self.screen.blit(self.temp_storage, (172, 130))
         self.temp_storage = self.caption_font.render("If you fail the challenge, the challenger wins, If you succeed, then you challenge the next person in line.", True,(0, 0, 0))
         self.screen.blit(self.temp_storage, (172, 150))
-        self.temp_storage = self.caption_font.render("", True, (0, 0, 0))
+        self.temp_storage = self.caption_font.render("press T to make the game two player", True, (0, 0, 0))
         self.screen.blit(self.temp_storage, (172, 170))
 #If you fail the challenge, the    challenger wins, If you succeed, then you challenge the next person in line.
         # set up where the cards are placed-------------------------------------------------------------------
-        for i in range(3):
-            pygame.draw.rect(self.screen, (0, 0, 0),((self.card_location[i][0] - 22, self.card_location[i][1] - 22), (144, 177)))
-            pygame.draw.rect(self.screen, (252, 252, 252), ((self.card_location[i][0] - 20,self.card_location[i][1] - 20), (140, 173)))
-            self.screen.blit(self.card_image, (self.card_location[i][0],self.card_location[i][1]))
+        if not (hands[0] == 0):
+            pygame.draw.rect(self.screen, (0, 0, 0),((self.card_location[0][0] - 22, self.card_location[0][1] - 22), (144, 177)))
+            pygame.draw.rect(self.screen, (252, 252, 252), ((self.card_location[0][0] - 20,self.card_location[0][1] - 20), (140, 173)))
+            self.screen.blit(self.card_image, (self.card_location[0][0],self.card_location[0][1]))
+        if not (hands[1] == 0):
+            pygame.draw.rect(self.screen, (0, 0, 0),((self.card_location[1][0] - 22, self.card_location[1][1] - 22), (144, 177)))
+            pygame.draw.rect(self.screen, (252, 252, 252),((self.card_location[1][0] - 20, self.card_location[1][1] - 20), (140, 173)))
+            self.screen.blit(self.card_image, (self.card_location[1][0], self.card_location[1][1]))
+        if not hands[2] == 0:
+            pygame.draw.rect(self.screen, (0, 0, 0),((self.card_location[2][0] - 22, self.card_location[2][1] - 22), (144, 177)))
+            pygame.draw.rect(self.screen, (252, 252, 252),((self.card_location[2][0] - 20, self.card_location[2][1] - 20), (140, 173)))
+            self.screen.blit(self.card_image, (self.card_location[2][0], self.card_location[2][1]))
+
+
         #putting the correct amount of cards in the center
         if len(deck) < 5:
             for i in range(len(deck)):
@@ -355,9 +365,9 @@ class BoardController:
     def game_over_screen(self,winner):
         self.screen.fill((220, 181, 121))
         self.temp_storage = self.caption_font.render('Player '+str(winner)+ " is the winner", True, (0, 0, 0))
-        self.screen.blit(self.temp_storage, (480, 375))
+        self.screen.blit(self.temp_storage, (410, 335))
         self.temp_storage = self.caption_font.render("press space to restart the game", True, (0, 0, 0))
-        self.screen.blit(self.temp_storage, (460, 395))
+        self.screen.blit(self.temp_storage, (380, 355))
 
 
 # the reset code for the new game ----------------------------------------------------------------------------
@@ -389,6 +399,19 @@ def new_game(player1,player2,player3, center_pile,challenge_controller):
     player2.is_playing = True
     player3.is_playing = True
     challenge_controller.is_challenge_active = False
+
+#--------------------------------------------------setting as two player mode
+def two_Player(player1,player2,player3):
+    give_player = 1
+    for i in range(len(player2.deck)):
+        if give_player == 1:
+            give_player = 2
+            player3.deck.append(player2.deck[0])
+            player2.deck.pop(0)
+        elif give_player == 2:
+            give_player = 1
+            player1.deck.append(player2.deck[0])
+            player2.deck.pop(0)
 
 
 #----------------------------------------------------------------------------------------
@@ -456,6 +479,9 @@ def main():
             if event.type == QUIT:
                 sys.exit()
             if not is_game_over:
+                if pressed_keys[pygame.K_t] and len(player2.deck) == 17 and len(player3.deck) == 17 and len(player1.deck) == 18:
+                    two_Player(player1,player2,player3)
+                    player2.is_playing = False
                 if pressed_keys[pygame.K_BACKQUOTE]:
                     board_controller.hand_slap(4)
                     play_card(player1, center_pile, turn_controller, challenge_controller)

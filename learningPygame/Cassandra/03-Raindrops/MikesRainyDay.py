@@ -8,10 +8,10 @@ class Raindrop:
     def __init__(self, screen, x, y):
         """ Creates a Raindrop sprite that travels down at a random speed. """
         # done 8: Initialize this Raindrop, as follows:
-        # TODO    - Store the screen.
-        # TODO    - Set the initial position of the Raindrop to x and y.
-        # TODO    - Set the initial speed to a random integer between 5 and 15.
-        # TODO  Use instance variables:   screen  x  y  speed.
+        # done    - Store the screen.
+        # done    - Set the initial position of the Raindrop to x and y.
+        # done    - Set the initial speed to a random integer between 5 and 15.
+        # done  Use instance variables:   screen  x  y  speed.
         self.screen = screen
         self.x = x
         self.y = y
@@ -26,13 +26,13 @@ class Raindrop:
     def off_screen(self):
         """ Returns true if the Raindrop y value is not shown on the screen, otherwise false. """
         # Note: this will be used for testing, but not used in the final version of the code for the sake of simplicity.
-        # TODO 13: Return  True  if the  y  position of this Raindrop is greater than 800.
+        # done 13: Return  True  if the  y  position of this Raindrop is greater than 800.
         return self.y > self.screen.get_height()
 
     def draw(self):
         """ Draws this sprite onto the screen. """
         # done 9: Draw a vertical line that is 5 pixels long, 2 pixels thick,
-        # TODO     from the current position of this Raindrop (use either a black or blue color).
+        # done     from the current position of this Raindrop (use either a black or blue color).
         pygame.draw.line(self.screen, (0,50,200), (self.x, self.y), (self.x, self.y + 5), 2)
 
 
