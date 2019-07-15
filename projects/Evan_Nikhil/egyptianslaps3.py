@@ -43,6 +43,11 @@ class CenterPile:
     def get_top_card(self):
         if len(self.cards) > 0:
             return self.cards[-1]
+# empting deck
+    def empty_deck(self):
+        self.cards = []
+        self.is_slap_allowed = False
+
 
 #--------------------------------------------------------------------------------------turn controler
 class TurnController:
@@ -164,7 +169,7 @@ class ChallengeController:
     # TODO Consider giving people a chance to slap while challenge is going on.
     def resolve_lost_challenge(self):
         self.challenger.deck = self.challenger.deck + self.center_pile.cards
-        self.center_pile.cards = []
+        self.center_pile.empty_deck()
         self.turn_controller.set_turn_to(self.challenger.player_number)
         self.is_challenge_active = False
         self.delay_challenge_loss = -1
@@ -181,13 +186,15 @@ def slap(player, center_pile, turn_controller, challenge_controller):
     if center_pile.is_slap_allowed:
         challenge_controller.is_challenge_active = False
         player.deck = player.deck + center_pile.cards
-        center_pile.cards = []
+        center_pile.empty_deck()
         turn_controller.set_turn_to(player.player_number)
         challenge_controller.delay_challenge_loss = -1
        # print(center_pile.cards)
     else:
         if len(center_pile.cards) > 1 and player.is_playing:
             player.discard_card(center_pile)
+            if not player.is_playing:
+                turn_controller.next_turn()
 
 
 def play_card(player, center_pile, turn_controller, challenge_controller):
@@ -284,22 +291,34 @@ class BoardController:
             pygame.draw.rect(self.screen, (0, 0, 0),((self.card_location[i][0] - 22, self.card_location[i][1] - 22), (144, 177)))
             pygame.draw.rect(self.screen, (252, 252, 252), ((self.card_location[i][0] - 20,self.card_location[i][1] - 20), (140, 173)))
             self.screen.blit(self.card_image, (self.card_location[i][0],self.card_location[i][1]))
-        for i in range(5):
-            pygame.draw.rect(self.screen, (0, 0, 0),((self.card_location[3+i][0] - 22, self.card_location[3+i][1] - 22), (144, 177)))
-            pygame.draw.rect(self.screen, (252, 252, 252), ((self.card_location[3+i][0] - 20,self.card_location[3+i][1] - 20), (140, 173)))
-            self.screen.blit(self.card_back_image, (self.card_location[3+i][0],self.card_location[3+i][1]))
+        if len(deck) < 5:
+            for i in range(len(deck)):
+                pygame.draw.rect(self.screen, (0, 0, 0),((self.card_location[3+i][0] - 22, self.card_location[3+i][1] - 22), (144, 177)))
+                pygame.draw.rect(self.screen, (252, 252, 252), ((self.card_location[3+i][0] - 20,self.card_location[3+i][1] - 20), (140, 173)))
+                self.screen.blit(self.card_back_image, (self.card_location[3+i][0],self.card_location[3+i][1]))
+        else:
+            for i in range(5):
+                pygame.draw.rect(self.screen, (0, 0, 0),((self.card_location[3+i][0] - 22, self.card_location[3+i][1] - 22), (144, 177)))
+                pygame.draw.rect(self.screen, (252, 252, 252), ((self.card_location[3+i][0] - 20,self.card_location[3+i][1] - 20), (140, 173)))
+                self.screen.blit(self.card_back_image, (self.card_location[3+i][0],self.card_location[3+i][1]))
         #set up the numbers on the cards-------------------------------------------------------------------
         if len(deck) < 5:
             # this is for if the deck is less then 5
             for i in range(len(deck)):
                 self.show_cards = self.caption_font.render(str(deck[(-1*(len(deck))+i)]), True, (0, 0, 0))
-                self.screen.blit(self.show_cards,(self.card_location[i+(8-len(deck))][0] - 18,self.card_location[i+(8-len(deck))][1] - 20))
+                self.screen.blit(self.show_cards,(self.card_location[i+3][0] - 18,self.card_location[i+3][1] - 18))
         else:
             #this if for if the deck is 5 or more
             for i in range(5):
                 self.show_cards = self.caption_font.render(str(deck[(-5 + i)]), True, (0, 0, 0))
-                self.screen.blit(self.show_cards,(self.card_location[i + 3][0] - 18, self.card_location[i + 3][1] - 20))
+                self.screen.blit(self.show_cards,(self.card_location[i + 3][0] - 18, self.card_location[i + 3][1] - 18))
             #says whos turn it is
+        if current_turn == 1:
+            pygame.draw.polygon(self.screen,(0,0,0), ((410,225),(410,245),(390,235)))
+        if current_turn == 2:
+            pygame.draw.polygon(self.screen, (0, 0, 0), ((460, 245), (480, 245), (470, 265)))
+        if current_turn == 3:
+            pygame.draw.polygon(self.screen, (0, 0, 0), ((530, 225), (530, 245), (550, 235)))
         self.temp_storage = self.caption_font.render("Player" + str(current_turn) + "'s turn", True, (0, 0, 0))
         self.screen.blit(self.temp_storage, (420, 230))
 
@@ -333,7 +352,41 @@ class BoardController:
     def game_over_screen(self,winner):
         self.screen.fill((220, 181, 121))
         self.temp_storage = self.caption_font.render('Player '+str(winner)+ " is the winner", True, (0, 0, 0))
-        self.screen.blit(self.temp_storage, (500, 375))
+        self.screen.blit(self.temp_storage, (480, 375))
+        self.temp_storage = self.caption_font.render("press space to restart the game", True, (0, 0, 0))
+        self.screen.blit(self.temp_storage, (460, 395))
+
+
+# the reset code for the new game ----------------------------------------------------------------------------
+def new_game(player1,player2,player3, center_pile,challenge_controller):
+    new_deck = [2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6, 7, 7, 7, 7, 8, 8, 8, 8, 9, 9, 9, 9, 10, 10, 10, 10, 'J', 'J', 'J', 'J', 'Q', 'Q', 'Q', 'Q', 'K', 'K', 'K', 'K', 'A', 'A', 'A', 'A']
+    temp_deck = []
+    random.shuffle(new_deck)
+    for i in range(18):
+        temp_deck.append(new_deck[0])
+        new_deck.pop(0)
+    player1.deck = temp_deck
+    temp_deck = []
+
+    # player2
+    for i in range(17):
+        temp_deck.append(new_deck[0])
+        new_deck.pop(0)
+    player2.deck = temp_deck
+    temp_deck = []
+
+    # player3
+    for i in range(17):
+        temp_deck.append(new_deck[0])
+        new_deck.pop(0)
+    player3.deck = temp_deck
+
+    center_pile.empty_deck()
+    player1.is_playing = True
+    player2.is_playing = True
+    player3.is_playing = True
+    challenge_controller.is_challenge_active = False
+
 
 #----------------------------------------------------------------------------------------
 def main():
@@ -399,36 +452,37 @@ def main():
         for event in pygame.event.get():
             if event.type == QUIT:
                 sys.exit()
-            if pressed_keys[pygame.K_BACKQUOTE]:
-                board_controller.hand_slap(4)
-                play_card(player1, center_pile, turn_controller, challenge_controller)
-                is_game_over = check_for_game_over(challenge_controller)
-            if pressed_keys[pygame.K_1]:
-                board_controller.hand_slap(1)
-                slap(player1, center_pile, turn_controller, challenge_controller)
-                is_game_over = check_for_game_over(challenge_controller)
-            if pressed_keys[pygame.K_v]:
-                board_controller.hand_slap(4)
-                play_card(player2, center_pile, turn_controller, challenge_controller)
-                is_game_over = check_for_game_over(challenge_controller)
-            if pressed_keys[pygame.K_b]:
-                board_controller.hand_slap(2)
-                slap(player2, center_pile, turn_controller, challenge_controller)
-                is_game_over = check_for_game_over(challenge_controller)
-            if pressed_keys[pygame.K_o]:
-                board_controller.hand_slap(4)
-                play_card(player3, center_pile, turn_controller, challenge_controller)
-                is_game_over = check_for_game_over(challenge_controller)
-            if pressed_keys[pygame.K_p]:
-                board_controller.hand_slap(3)
-                slap(player3, center_pile, turn_controller, challenge_controller)
-                is_game_over = check_for_game_over(challenge_controller)
-            if pressed_keys[pygame.K_SPACE]:
-                print('Centerpile.cards:', center_pile.cards)
-                print('player1:', player1.deck)
-                print('player2:', player2.deck)
-                print('player3:', player3.deck)
-                print('current_turn:', turn_controller.current_turn)
+            if not is_game_over:
+                if pressed_keys[pygame.K_BACKQUOTE]:
+                    board_controller.hand_slap(4)
+                    play_card(player1, center_pile, turn_controller, challenge_controller)
+                    is_game_over = check_for_game_over(challenge_controller)
+                if pressed_keys[pygame.K_1]:
+                    board_controller.hand_slap(1)
+                    slap(player1, center_pile, turn_controller, challenge_controller)
+                    is_game_over = check_for_game_over(challenge_controller)
+                if pressed_keys[pygame.K_v]:
+                    board_controller.hand_slap(4)
+                    play_card(player2, center_pile, turn_controller, challenge_controller)
+                    is_game_over = check_for_game_over(challenge_controller)
+                if pressed_keys[pygame.K_b]:
+                    board_controller.hand_slap(2)
+                    slap(player2, center_pile, turn_controller, challenge_controller)
+                    is_game_over = check_for_game_over(challenge_controller)
+                if pressed_keys[pygame.K_o]:
+                    board_controller.hand_slap(4)
+                    play_card(player3, center_pile, turn_controller, challenge_controller)
+                    is_game_over = check_for_game_over(challenge_controller)
+                if pressed_keys[pygame.K_p]:
+                    board_controller.hand_slap(3)
+                    slap(player3, center_pile, turn_controller, challenge_controller)
+                    is_game_over = check_for_game_over(challenge_controller)
+                if pressed_keys[pygame.K_SPACE]:
+                    print('Centerpile.cards:', center_pile.cards)
+                    print('player1:', player1.deck)
+                    print('player2:', player2.deck)
+                    print('player3:', player3.deck)
+                    print('current_turn:', turn_controller.current_turn)
 
         #------------out of for loop--------------------------------------------------------------------out of for event loop
         if challenge_controller.delay_challenge_loss > 0:
@@ -453,5 +507,9 @@ def main():
                 pygame.display.update()
                 #TODO display game over here!
                 print('game over')
+            if pressed_keys[pygame.K_SPACE]:
+                new_game(player1,player2,player3,center_pile,challenge_controller)
+                is_game_over = False
+                has_displayed_game_over = False
 
 main()
