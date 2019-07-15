@@ -1,4 +1,6 @@
 import pygame, sys, random, time
+from pygame.locals import *
+# import pygame, sys, random, time
 
 
 class WaterBottle:
@@ -112,6 +114,17 @@ class Scoreboard:
         text_as_image = self.font.render("Score: " + str(self.score), True, (255, 255, 255), (0, 0, 0))
         self.screen.blit(text_as_image, (5, 5))
 
+class Countdown:
+    def __init__(self, screen):
+        self.screen = screen
+        self.x = 600
+        self.y = 5
+        self.font = pygame.font.Font(None, 30)
+
+    def draw(self, countdown_time):
+        text_as_image = self.font.render("Remaining Time: " + str(countdown_time), True, (255, 255, 255), (0, 0, 0))
+        self.screen.blit(text_as_image, (self.x, self.y))
+
 def main():
     pygame.init()
     clock = pygame.time.Clock()
@@ -121,6 +134,8 @@ def main():
     level1_image = pygame.image.load('level_1.png')
 
     scoreboard = Scoreboard(screen)
+
+    countdown = Countdown(screen)
 
     is_game_over = False
 
@@ -148,6 +163,15 @@ def main():
         soda = Soda(screen, random.randint(0, 80), random.randint(55, 900))
         sodas.append(soda)
 
+    # background_sound = pygame.mixer.Sound(".wav")
+    # background_sound.play(-1)
+    #
+    # pearl_sound = pygame.mixer.Sound(".wav")
+    # soda_sound = pygame.mixer.Sound(".wav")
+    # waterbottle_sound = pygame.mixer.Sound(".wav")
+
+    starting_time = time.time()
+
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -168,10 +192,17 @@ def main():
             # Check if the game is over
             for waterbottle in waterbottles:
                 if waterbottle.hit_by(starfish):
+                    # waterbottle_sound.play()
+                    is_game_over = True
+
+            for soda in sodas:
+                if soda.hit_by(starfish):
+                    # soda_sound.play()
                     is_game_over = True
 
         for pearl in pearl_fleet.pearls:
             if pearl.hit_by(starfish):
+                # pearl_sound.play()
                 pearl.collected = True
                 scoreboard.score = scoreboard.score + 5
                 pearl_fleet.remove_collected_pearls()
@@ -191,6 +222,19 @@ def main():
 
         if is_game_over:
             screen.blit(gameover_image2, (0, 0))
+
+        pressed_keys = pygame.key.get_pressed()
+        if pressed_keys[K_SPACE]:
+            main()
+
+        current_time = time.time()
+        game_time = current_time - starting_time
+
+        if game_time >= 120:
+            is_game_over = True
+
+        countdown_time = 120 - game_time
+        countdown.draw(countdown_time)
 
         pygame.display.update()
         clock.tick(60)
