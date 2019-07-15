@@ -3,7 +3,6 @@ from pygame.locals import *
 
 # Team 12
 
-res_x = 600
 res_y = 1036
 
 
@@ -12,7 +11,7 @@ class Column:  # Returns  the x value for a column, draws lines on the screen
         self.screen = screen
 
     def getX(self, column): # Returns x value for given column
-        return (column * int(res_x/3)) + 25
+        return (column * int(self.screen.get_width()/3)) + 25
 
     def draw(self): # Draws lines on screen
         pygame.draw.line(self.screen, (100, 100, 100), (self.getX(1) - 25, 10), (self.getX(1) - 25, res_y - 10), 2)
@@ -135,7 +134,7 @@ def main():
     pygame.init()
     clock = pygame.time.Clock()
     pygame.display.set_caption("On Point")
-    screen = pygame.display.set_mode((res_x, res_y))
+    screen = pygame.display.set_mode((600, res_y))
 
     player = Player(screen, 1, 1, True, (255, 0, 0))
     enemy_list = EnemyList(screen)
@@ -185,7 +184,7 @@ def main():
 
         if player.lives < 1:
             text_as_image = font.render("Game Over!", False, (255, 255, 255))
-            screen.blit(text_as_image, (200, 400))
+            screen.blit(text_as_image, (200, res_y / 2))
             if pressed_keys[K_SPACE]:
                 main()
         else:
