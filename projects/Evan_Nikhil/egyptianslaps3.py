@@ -344,7 +344,41 @@ class BoardController:
     def game_over_screen(self,winner):
         self.screen.fill((220, 181, 121))
         self.temp_storage = self.caption_font.render('Player '+str(winner)+ " is the winner", True, (0, 0, 0))
-        self.screen.blit(self.temp_storage, (500, 375))
+        self.screen.blit(self.temp_storage, (480, 375))
+        self.temp_storage = self.caption_font.render("press space to restart the game", True, (0, 0, 0))
+        self.screen.blit(self.temp_storage, (460, 395))
+
+
+# the reset code for the new game ----------------------------------------------------------------------------
+def new_game(player1,player2,player3, center_pile,challenge_controller):
+    new_deck = [2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6, 7, 7, 7, 7, 8, 8, 8, 8, 9, 9, 9, 9, 10, 10, 10, 10, 'J', 'J', 'J', 'J', 'Q', 'Q', 'Q', 'Q', 'K', 'K', 'K', 'K', 'A', 'A', 'A', 'A']
+    temp_deck = []
+    random.shuffle(new_deck)
+    for i in range(18):
+        temp_deck.append(new_deck[0])
+        new_deck.pop(0)
+    player1.deck = temp_deck
+    temp_deck = []
+
+    # player2
+    for i in range(17):
+        temp_deck.append(new_deck[0])
+        new_deck.pop(0)
+    player2.deck = temp_deck
+    temp_deck = []
+
+    # player3
+    for i in range(17):
+        temp_deck.append(new_deck[0])
+        new_deck.pop(0)
+    player3.deck = temp_deck
+
+    center_pile.empty_deck()
+    player1.is_playing = True
+    player2.is_playing = True
+    player3.is_playing = True
+    challenge_controller.is_challenge_active = False
+
 
 #----------------------------------------------------------------------------------------
 def main():
@@ -464,5 +498,9 @@ def main():
                 pygame.display.update()
                 #TODO display game over here!
                 print('game over')
+            if pressed_keys[pygame.K_SPACE]:
+                new_game(player1,player2,player3,center_pile,challenge_controller)
+                is_game_over = False
+                has_displayed_game_over = False
 
 main()
