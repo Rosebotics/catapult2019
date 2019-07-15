@@ -93,11 +93,43 @@ class HPBar:
         self.screen.blit(text_as_image, (5, 5))
 
 
+class Face:
+    def __init__(self, screen, name):
+        self.screen = screen
+        if name == "Jared":
+            self.image = pygame.image.load("Jared.png")
+        self.position = "i"
+
+    def draw(self):
+        x = 0
+        y = 0
+        image = pygame.transform.scale(self.image, (100, 100))
+        if self.position == "i":
+            x = 240
+            y = 130
+        elif self.position == "u":
+            x = 240
+            y = 190
+            image = pygame.transform.scale(self.image, (80, 80))
+        elif self.position == "d":
+            x = 235
+            y = 300
+            image = pygame.transform.scale(self.image, (80, 80))
+        elif self.position == "r":
+            x = 230
+            y = 130
+        elif self.position == "l":
+            x = 310
+            y = 130
+        self.screen.blit(image, (x, y))
+
+
 def main():
     pygame.init()
     clock = pygame.time.Clock()
     screen = pygame.display.set_mode((640, 640))
     hpbar = HPBar(screen)
+    face = Face(screen, "Jared")
     dancer = Dancer(screen, 90, 90)
     funished = pygame.image.load("Funished.png")
     pygame.mixer.music.load("albatraoz.mp3")
@@ -144,6 +176,8 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                print(event.pos)
         hpbar.draw()
 
         current_milli_time = int(round(time.time() * 1000))
@@ -162,52 +196,29 @@ def main():
             if pressed_keys[pygame.K_DOWN]:
                 dancer.punch_down()
                 punchway = 'up'
+                face.position = "d"
             elif pressed_keys[pygame.K_UP]:
                 dancer.punch_up()
                 punchway = 'down'
+                face.position = "u"
             elif pressed_keys[pygame.K_LEFT]:
                 dancer.punch_left()
                 punchway = 'left'
+                face.position = "l"
             elif pressed_keys[pygame.K_RIGHT]:
                 dancer.punch_right()
                 punchway = 'right'
+                face.position = "r"
             else:
                 dancer.draw()
+                face.position = "i"
+            face.draw()
 
             # if dancer.hit_by: #TODO
             #     hpbar.score = hpbar.score - 100
 
             if hpbar == 0:
                 is_game_over = True
-
-            # if pinkleft.hit_by:
-            #     pinkleft.dead = True
-            # if purpledown.hit_by:
-            #     purpledown.dead = True
-            # if yellowup.hit_by:
-            #     yellowup.dead = True
-            # if blueright.hit_by:
-            #     blueright.dead = True
-            #
-            # hpbar.draw()
-            # pinkleft.move()
-            # purpledown.move()
-            # yellowup.move()
-            # blueright.move()
-            # pinkleft.draw()
-            # purpledown.draw()
-            # yellowup.draw()
-            # blueright.draw()
-            #
-            # if pressed_keys[pygame.K_SPACE]:
-            #     pinkleft.x = 300
-            #     purpledown.x = 300
-            #     yellowup.x = 300
-            #     blueright.x = 300
-            #     pinkleft.y = 300
-            #     purpledown.y = 300
-            #     yellowup.y = 300
-            #     blueright.y = 300
 
             for orb in orblist:
                 orb.move()
