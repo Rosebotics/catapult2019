@@ -99,6 +99,7 @@ def main():
     screen = pygame.display.set_mode((640, 640))
     hpbar = HPBar(screen)
     dancer = Dancer(screen, 90, 90)
+    funished = pygame.image.load("Funished.png")
     pygame.mixer.music.load("albatraoz.mp3")
     punchbox = (129, 95, 383, 450)
     hurtbox = (204, 170, 233, 300)
@@ -139,72 +140,78 @@ def main():
             print("+++Time: %d, action: %s" % (rounded_time, action))
 
         punchway = ''
-        #TODO when start clicke
-        pressed_keys = pygame.key.get_pressed()
-        if pressed_keys[pygame.K_DOWN]:
-            dancer.punch_down()
-            punchway = 'up'
-        elif pressed_keys[pygame.K_UP]:
-            dancer.punch_up()
-            punchway = 'down'
-        elif pressed_keys[pygame.K_LEFT]:
-            dancer.punch_left()
-            punchway = 'left'
-        elif pressed_keys[pygame.K_RIGHT]:
-            dancer.punch_right()
-            punchway = 'right'
-        else:
-            dancer.draw()
+        if not is_game_over:
+            pressed_keys = pygame.key.get_pressed()
+            if pressed_keys[pygame.K_DOWN]:
+                dancer.punch_down()
+                punchway = 'up'
+            elif pressed_keys[pygame.K_UP]:
+                dancer.punch_up()
+                punchway = 'down'
+            elif pressed_keys[pygame.K_LEFT]:
+                dancer.punch_left()
+                punchway = 'left'
+            elif pressed_keys[pygame.K_RIGHT]:
+                dancer.punch_right()
+                punchway = 'right'
+            else:
+                dancer.draw()
 
-        # if dancer.hit_by: #TODO
-        #     hpbar.score = hpbar.score - 100
+            # if dancer.hit_by: #TODO
+            #     hpbar.score = hpbar.score - 100
 
-        if hpbar == 0:
-            is_game_over = True
+            if hpbar == 0:
+                is_game_over = True
 
-        # if pinkleft.hit_by:
-        #     pinkleft.dead = True
-        # if purpledown.hit_by:
-        #     purpledown.dead = True
-        # if yellowup.hit_by:
-        #     yellowup.dead = True
-        # if blueright.hit_by:
-        #     blueright.dead = True
-        #
-        # hpbar.draw()
-        # pinkleft.move()
-        # purpledown.move()
-        # yellowup.move()
-        # blueright.move()
-        # pinkleft.draw()
-        # purpledown.draw()
-        # yellowup.draw()
-        # blueright.draw()
-        #
-        # if pressed_keys[pygame.K_SPACE]:
-        #     pinkleft.x = 300
-        #     purpledown.x = 300
-        #     yellowup.x = 300
-        #     blueright.x = 300
-        #     pinkleft.y = 300
-        #     purpledown.y = 300
-        #     yellowup.y = 300
-        #     blueright.y = 300
+            # if pinkleft.hit_by:
+            #     pinkleft.dead = True
+            # if purpledown.hit_by:
+            #     purpledown.dead = True
+            # if yellowup.hit_by:
+            #     yellowup.dead = True
+            # if blueright.hit_by:
+            #     blueright.dead = True
+            #
+            # hpbar.draw()
+            # pinkleft.move()
+            # purpledown.move()
+            # yellowup.move()
+            # blueright.move()
+            # pinkleft.draw()
+            # purpledown.draw()
+            # yellowup.draw()
+            # blueright.draw()
+            #
+            # if pressed_keys[pygame.K_SPACE]:
+            #     pinkleft.x = 300
+            #     purpledown.x = 300
+            #     yellowup.x = 300
+            #     blueright.x = 300
+            #     pinkleft.y = 300
+            #     purpledown.y = 300
+            #     yellowup.y = 300
+            #     blueright.y = 300
 
-        for orb in orblist:
-            orb.move()
-            orb.draw()
-            if pygame.Rect(hurtbox).collidepoint((orb.x, orb.y)):
-                hpbar.score -= 100
-                orb.isdead = True
-            if orb.hit_by(punchway):
-                orb.isdead = True
-        pygame.display.update()
-        for orb in orblist:
-            if orb.isdead:
-                orblist.remove(orb)
+            for orb in orblist:
+                orb.move()
+                orb.draw()
+                if pygame.Rect(hurtbox).collidepoint((orb.x, orb.y)):
+                    hpbar.score -= 100
+                    orb.isdead = True
+                if orb.hit_by(punchway):
+                    orb.isdead = True
+            pygame.display.update()
+            for orb in orblist:
+                if orb.isdead:
+                    orblist.remove(orb)
         if hpbar.score <= 0:
-            pass # TODO : make game end
+            pygame.mixer.music.stop()
+            is_game_over = True
+            hpbar.score = 69
+        if is_game_over:
+            screen.blit(funished, (-150, 0))
+            pygame.display.update()
+
 
 
 main()
