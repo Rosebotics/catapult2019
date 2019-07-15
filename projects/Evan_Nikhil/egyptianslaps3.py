@@ -285,7 +285,7 @@ class BoardController:
         self.screen.blit(self.temp_storage, (172, 130))
         self.temp_storage = self.caption_font.render("If you fail the challenge, the challenger wins, If you succeed, then you challenge the next person in line.", True,(0, 0, 0))
         self.screen.blit(self.temp_storage, (172, 150))
-        self.temp_storage = self.caption_font.render("", True, (0, 0, 0))
+        self.temp_storage = self.caption_font.render("press T to make the game two player", True, (0, 0, 0))
         self.screen.blit(self.temp_storage, (172, 170))
 #If you fail the challenge, the    challenger wins, If you succeed, then you challenge the next person in line.
         # set up where the cards are placed-------------------------------------------------------------------
@@ -400,6 +400,19 @@ def new_game(player1,player2,player3, center_pile,challenge_controller):
     player3.is_playing = True
     challenge_controller.is_challenge_active = False
 
+#--------------------------------------------------setting as two player mode
+def two_Player(player1,player2,player3):
+    give_player = 1
+    for i in range(len(player2.deck)):
+        if give_player == 1:
+            give_player = 2
+            player3.deck.append(player2.deck[0])
+            player2.deck.pop(0)
+        elif give_player == 2:
+            give_player = 1
+            player1.deck.append(player2.deck[0])
+            player2.deck.pop(0)
+
 
 #----------------------------------------------------------------------------------------
 def main():
@@ -466,6 +479,9 @@ def main():
             if event.type == QUIT:
                 sys.exit()
             if not is_game_over:
+                if pressed_keys[pygame.K_t] and len(player2.deck) == 17 and len(player3.deck) == 17 and len(player1.deck) == 18:
+                    two_Player(player1,player2,player3)
+                    player2.is_playing = False
                 if pressed_keys[pygame.K_BACKQUOTE]:
                     board_controller.hand_slap(4)
                     play_card(player1, center_pile, turn_controller, challenge_controller)
