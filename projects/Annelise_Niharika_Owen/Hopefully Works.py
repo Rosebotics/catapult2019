@@ -1,7 +1,5 @@
-import pygame, sys, random, time
+import pygame, sys, random, time, math
 from pygame.locals import *
-# import pygame, sys, random, time
-
 
 class WaterBottle:
     def __init__(self, screen, x, y,):
@@ -117,7 +115,7 @@ class Scoreboard:
 class Countdown:
     def __init__(self, screen):
         self.screen = screen
-        self.x = 600
+        self.x = 690
         self.y = 5
         self.font = pygame.font.Font(None, 30)
 
@@ -234,7 +232,8 @@ def main():
             is_game_over = True
 
         countdown_time = 120 - game_time
-        countdown.draw(countdown_time)
+        if not is_game_over:
+            countdown.draw(math.floor(countdown_time))
 
         pygame.display.update()
         clock.tick(60)
