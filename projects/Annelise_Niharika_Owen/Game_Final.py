@@ -1,6 +1,7 @@
 import pygame, sys, random, time, math
 from pygame.locals import *
 
+
 class WaterBottle:
     def __init__(self, screen, x, y,):
         self.screen = screen
@@ -13,6 +14,7 @@ class WaterBottle:
 
     def hit_by(self, starfish):
         return pygame.Rect(self.x, self.y, 40, 50).collidepoint(starfish.x + 33.5, starfish.y + 25)
+
 
 class Soda:
     def __init__(self, screen, x, y,):
@@ -46,6 +48,7 @@ class Soda:
     def hit_by(self, starfish):
         return pygame.Rect(self.x, self.y, 40, 50).collidepoint(starfish.x + 33.5, starfish.y + 25)
 
+
 class Starfish:
     def __init__(self, screen, x, y,):
         self.screen = screen
@@ -65,8 +68,9 @@ class Starfish:
 
         if self.y > 900:
             self.y = -50
-        elif self.y < -60: #HIGH KEY DUMB NUTTY LIT WITH IT
+        elif self.y < -60: #HI KEE DUM NUDDY LITT WIT IT'
             self.y = 850
+
 
 class Pearl:
     def __init__(self, screen, x, y):
@@ -76,15 +80,12 @@ class Pearl:
         self.image = pygame.image.load('pearl.png')
         self.collected = False
 
-        # self.rect = self.image.get_rect()
-        # self.rect[0] = self.x
-        # self.rect[1] = self.y
-
     def draw(self):
         self.screen.blit(self.image, (self.x, self.y))
 
     def hit_by(self, starfish):
         return pygame.Rect(self.x, self.y, 40, 30).collidepoint(starfish.x + 33.5, starfish.y + 25)
+
 
 class PearlFleet:
     def __init__(self, screen):
@@ -103,6 +104,7 @@ class PearlFleet:
         pearl = Pearl(self.screen, random.randint(60, 850), random.randint(20, 850))
         self.pearls.append(pearl)
 
+
 class Scoreboard:
     def __init__(self, screen):
         self.screen = screen
@@ -115,6 +117,7 @@ class Scoreboard:
         text_as_image = self.font.render("Score: " + str(self.score), True, (255, 255, 255), (0, 0, 0))
         self.screen.blit(text_as_image, (5, 5))
 
+
 class Countdown:
     def __init__(self, screen):
         self.screen = screen
@@ -126,8 +129,11 @@ class Countdown:
         text_as_image = self.font.render("Remaining Time: " + str(countdown_time), True, (255, 255, 255), (0, 0, 0))
         self.screen.blit(text_as_image, (self.x, self.y))
 
+
 def main():
     pygame.init()
+    pygame.font.init()
+    caption_font = pygame.font.Font(None, 100)
     clock = pygame.time.Clock()
     pygame.display.set_caption("STARFISH!")
     screen = pygame.display.set_mode((900, 900))
@@ -222,9 +228,11 @@ def main():
         starfish.move()
         starfish.draw()
         scoreboard.draw()
+        score_display = caption_font.render("Score: " + str(scoreboard.score), True, (255, 255, 255))
 
         if is_game_over:
             screen.blit(gameover_image2, (0, 0))
+            screen.blit(score_display, (330, 800))
 
         pressed_keys = pygame.key.get_pressed()
         if pressed_keys[K_SPACE]:
@@ -235,10 +243,12 @@ def main():
 
         if game_time >= 120:
             is_game_over = True
+            # screen.blit(gamewin, (0, 0))
 
         countdown_time = 120 - game_time
         if not is_game_over:
             countdown.draw(math.floor(countdown_time))
+
 
         pygame.display.update()
         clock.tick(60)
