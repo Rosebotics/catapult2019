@@ -88,7 +88,7 @@ class Pearl:
 
 class PearlFleet:
     def __init__(self, screen):
-        # Already done.  Prepares the list of Badguys.
+        self.screen = screen
         self.pearls = []
         for x in range(3):
             pearl = Pearl(screen, random.randint(60, 850), random.randint(20, 850))
@@ -99,6 +99,9 @@ class PearlFleet:
             if self.pearls[k].collected:
                 del self.pearls[k]
 
+    def add_pearls(self):
+        pearl = Pearl(self.screen, random.randint(60, 850), random.randint(20, 850))
+        self.pearls.append(pearl)
 
 class Scoreboard:
     def __init__(self, screen):
@@ -161,12 +164,12 @@ def main():
         soda = Soda(screen, random.randint(0, 80), random.randint(55, 900))
         sodas.append(soda)
 
-    # background_sound = pygame.mixer.Sound(".wav")
-    # background_sound.play(-1)
-    #
-    # pearl_sound = pygame.mixer.Sound(".wav")
-    # soda_sound = pygame.mixer.Sound(".wav")
-    # waterbottle_sound = pygame.mixer.Sound(".wav")
+    background_sound = pygame.mixer.Sound("water_background.mp3")
+    background_sound.play(-1)
+
+    pearl_sound = pygame.mixer.Sound("pearl.mp3")
+    soda_sound = pygame.mixer.Sound("sodacan.mp3")
+    waterbottle_sound = pygame.mixer.Sound("bottle.mp3")
 
     starting_time = time.time()
 
@@ -175,7 +178,7 @@ def main():
             if event.type == pygame.QUIT:
                 sys.exit()
         screen.blit(level1_image, (0, 0))
-
+#hi
         if not is_game_over:
             # Check for game key presses
             pressed_keys = pygame.key.get_pressed()
@@ -190,20 +193,22 @@ def main():
             # Check if the game is over
             for waterbottle in waterbottles:
                 if waterbottle.hit_by(starfish):
-                    # waterbottle_sound.play()
+                    waterbottle_sound.play()
                     is_game_over = True
 
             for soda in sodas:
                 if soda.hit_by(starfish):
-                    # soda_sound.play()
+                    soda_sound.play()
                     is_game_over = True
 
         for pearl in pearl_fleet.pearls:
             if pearl.hit_by(starfish):
-                # pearl_sound.play()
+                pearl_sound.play()
                 pearl.collected = True
                 scoreboard.score = scoreboard.score + 5
                 pearl_fleet.remove_collected_pearls()
+                pearl_fleet.add_pearls()
+
 
         for waterbottle in waterbottles:
             waterbottle.draw()

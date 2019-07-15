@@ -3,12 +3,14 @@ from pygame.locals import *
 
 # Team 12
 
+
 class Column:  # Returns  the x value for a column, draws lines on the screen
     def __init__(self, screen):
         self.screen = screen
 
     def getX(self, column): # Returns x value for given column
         return (column * int(self.screen.get_width()/3)) + 25
+
     def draw(self): # Draws lines on screen
         pygame.draw.line(self.screen, (100, 100, 100), (200, 10), (200, 790), 2)
         pygame.draw.line(self.screen, (100, 100, 100), (400, 10), (400, 790), 2)
@@ -45,13 +47,13 @@ class Shield:  # Generates Player's shield. Draws and detects if it's hit
         self.current_time = pygame.time.get_ticks()
         self.isDeployed = False
 
-    def draw(self, player): # Draws the shield
+    def draw(self, player):  # Draws the shield
         if player.direction:
             pygame.draw.polygon(player.screen, player.color, [(player.x - 10, player.y - 76), (player.x + 75, player.y - 130), (player.x + 160, player.y - 76), (player.x + 75, player.y - 120)], 2)
         else:
             pygame.draw.polygon(player.screen, player.color, [(player.x - 10, player.y - 76), (player.x + 75, player.y - 44), (player.x + 160, player.y - 76), (player.x + 75, player.y - 54)], 2)
 
-    def isHit(self, enemy, player): # Detects if it's hit
+    def isHit(self, enemy, player):  # Detects if it's hit
         return self.isDeployed and pygame.Rect(player.x, player.y - 76, 150, 30).collidepoint(enemy.x, enemy.y)
 
     def should_be_deployed(self):
@@ -132,7 +134,7 @@ def main():
     pygame.display.set_caption("On Point")
     screen = pygame.display.set_mode((600, 800))
 
-    player = Player(screen, 1, 0, True, (255, 0, 0))
+    player = Player(screen, 1, 1, True, (255, 0, 0))
     enemy_list = EnemyList(screen)
     gameclock = time.time()
     score = Score(screen)
@@ -191,8 +193,9 @@ def main():
                 shield.isDeployed = False
 
             # -SPAWN ENEMIES
-            if gameclock + 2 - score.score * .0001 < time.time():
-                enemy_list.spawn(3 + score.score * .0001)
+            if gameclock + 2 - score.score * .00007 < time.time():
+                enemy_list.spawn(3 + score.score * .00004)
+                score.score += int(score.score * .01)
                 gameclock = time.time()
 
             for enemy in enemy_list.enemy_list:
@@ -217,6 +220,7 @@ def main():
             player.drawHealth()
             enemy_list.draw()
             column.draw()
+
             if shield.isDeployed:
                 shield.draw(player)
             enemy_list.move()

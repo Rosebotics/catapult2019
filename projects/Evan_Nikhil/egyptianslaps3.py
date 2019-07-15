@@ -155,7 +155,7 @@ class ChallengeController:
             # if they fail
             self.tries = self.tries - 1
             if self.tries == 0:
-                self.delay_challenge_loss = 120
+                self.delay_challenge_loss = 60
             elif not self.challengee.is_playing:
                # print('challengee ran out of cards')
                 self.turn_controller.next_turn()
@@ -277,20 +277,23 @@ class BoardController:
         self.screen.blit(self.temp_storage, (172, 50))
         self.temp_storage = self.caption_font.render("When two of a kind or two of a kind with a random card in the middle appears, slap to win the round", True,(0, 0, 0))
         self.screen.blit(self.temp_storage, (172, 70))
-        self.temp_storage = self.caption_font.render("When J,Q,K, or A show up, the next player is challenged. To win a challenge you need to play a J,Q,K, or A", True,(0, 0, 0))
+        self.temp_storage = self.caption_font.render("If you slap at the wrong time you will be penalized, You will lose the top card of your hand", True,(0, 0, 0))
         self.screen.blit(self.temp_storage, (172, 90))
-        self.temp_storage = self.caption_font.render("and depending on the card you play, only get so many tries. 1 for J, 2 for Q, 3 for K, and 4 for A. ", True,(0, 0, 0))
+        self.temp_storage = self.caption_font.render("When J,Q,K, or A show up, the next player is challenged. To win a challenge you need to play a J,Q,K, or A", True,(0, 0, 0))
         self.screen.blit(self.temp_storage, (172, 110))
-        self.temp_storage = self.caption_font.render("If you fail the challenge, the challenger wins, If you succeed, then you challenge the next person in line.", True,(0, 0, 0))
+        self.temp_storage = self.caption_font.render("and depending on the card you play, only get so many tries. 1 for J, 2 for Q, 3 for K, and 4 for A. ", True,(0, 0, 0))
         self.screen.blit(self.temp_storage, (172, 130))
-        self.temp_storage = self.caption_font.render("", True, (0, 0, 0))
+        self.temp_storage = self.caption_font.render("If you fail the challenge, the challenger wins, If you succeed, then you challenge the next person in line.", True,(0, 0, 0))
         self.screen.blit(self.temp_storage, (172, 150))
+        self.temp_storage = self.caption_font.render("", True, (0, 0, 0))
+        self.screen.blit(self.temp_storage, (172, 170))
 #If you fail the challenge, the    challenger wins, If you succeed, then you challenge the next person in line.
         # set up where the cards are placed-------------------------------------------------------------------
         for i in range(3):
             pygame.draw.rect(self.screen, (0, 0, 0),((self.card_location[i][0] - 22, self.card_location[i][1] - 22), (144, 177)))
             pygame.draw.rect(self.screen, (252, 252, 252), ((self.card_location[i][0] - 20,self.card_location[i][1] - 20), (140, 173)))
             self.screen.blit(self.card_image, (self.card_location[i][0],self.card_location[i][1]))
+        #putting the correct amount of cards in the center
         if len(deck) < 5:
             for i in range(len(deck)):
                 pygame.draw.rect(self.screen, (0, 0, 0),((self.card_location[3+i][0] - 22, self.card_location[3+i][1] - 22), (144, 177)))
