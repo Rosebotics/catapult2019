@@ -178,7 +178,7 @@ def main():
             if event.type == pygame.QUIT:
                 sys.exit()
         screen.blit(level1_image, (0, 0))
-
+#hi
         if not is_game_over:
             # Check for game key presses
             pressed_keys = pygame.key.get_pressed()
