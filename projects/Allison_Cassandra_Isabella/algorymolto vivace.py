@@ -51,12 +51,12 @@ class Orb:
         self.y = 0
         self.direction = direction
         self.isdead = False
-        if self.direction == 'down':
+        if self.direction == 'up':
             self.x = self.screen_width // 2
             self.y = self.screen_height + 30
             self.color = (255, 240, 0)
             self.yspeed = -1
-        elif self.direction == 'up':
+        elif self.direction == 'down':
             self.x = self.screen_width // 2
             self.y = -30
             self.color = (191, 0, 254)
@@ -143,10 +143,10 @@ def main():
         pressed_keys = pygame.key.get_pressed()
         if pressed_keys[pygame.K_DOWN]:
             dancer.punch_down()
-            punchway = 'down'
+            punchway = 'up'
         elif pressed_keys[pygame.K_UP]:
             dancer.punch_up()
-            punchway = 'up'
+            punchway = 'down'
         elif pressed_keys[pygame.K_LEFT]:
             dancer.punch_left()
             punchway = 'left'
