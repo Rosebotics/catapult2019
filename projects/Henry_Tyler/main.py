@@ -1,6 +1,7 @@
 import pygame, sys, random, time
 from pygame.locals import *
 
+# Team 12
 
 class Column:  # Returns  the x value for a column, draws lines on the screen
     def __init__(self, screen):
@@ -22,7 +23,7 @@ class Player:  # The player. Draws, detects if itself is hit, draws health bar.
         self.canBlock = False
         self.direction = direction
         self.color = color
-        self.lives = 20
+        self.lives = 5
 
     def draw(self): # Draws the player
         if self.direction:
@@ -102,14 +103,16 @@ class EnemyList:
             if enemy.is_hit:
                 self.enemy_list.remove(enemy)
 
-    def isAtBottom(self, player):
+    def isAtBottom(self, player, sound):
         for enemy in self.enemy_list:
             if enemy.y > self.screen.get_height():
                 self.enemy_list.remove(enemy)
                 player.lives -= 1
+                pygame.mixer.Sound.play(sound)
             elif enemy.y > self.screen.get_height() - 33 and not enemy.direction:
                 self.enemy_list.remove(enemy)
                 player.lives -= 1
+                pygame.mixer.Sound.play(sound)
 
 
 class Score:
@@ -135,6 +138,7 @@ def main():
     score = Score(screen)
     up_hit = pygame.mixer.Sound("sword_hit.wav")
     down_hit = pygame.mixer.Sound("shield_hit.wav")
+    player_hit = pygame.mixer.Sound("player_hit.wav")
     font = pygame.font.Font(None, 50)
     column = Column(screen)
 
@@ -196,6 +200,8 @@ def main():
                 if player.isHit(enemy):
                     enemy.is_hit = True
                     player.lives -= 1
+                    pygame.mixer.Sound.play(player_hit)
+
                 if shield.isHit(enemy, player) and player.direction == enemy.direction and player.color == enemy.color:
                     if player.direction:
                         pygame.mixer.Sound.play(up_hit)
@@ -205,7 +211,7 @@ def main():
                     score.score += 100
 
             enemy_list.removeHitEnemies()
-            enemy_list.isAtBottom(player)
+            enemy_list.isAtBottom(player, player_hit)
             screen.fill(pygame.Color("Black"))
             player.draw()
             player.drawHealth()
