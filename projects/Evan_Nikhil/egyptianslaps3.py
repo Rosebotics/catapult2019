@@ -479,8 +479,9 @@ def main():
             if event.type == QUIT:
                 sys.exit()
             if not is_game_over:
-                if pressed_keys[pygame.K_t] and not (player2.deck == 0):
+                if pressed_keys[pygame.K_t] and len(player2.deck) == 17 and len(player3.deck) == 17 and len(player1.deck) == 18:
                     two_Player(player1,player2,player3)
+                    player2.is_playing = False
                 if pressed_keys[pygame.K_BACKQUOTE]:
                     board_controller.hand_slap(4)
                     play_card(player1, center_pile, turn_controller, challenge_controller)
