@@ -1,5 +1,5 @@
-import pygame, sys, random, time
-
+import pygame, sys, random, time, math
+from pygame.locals import *
 
 class WaterBottle:
     def __init__(self, screen, x, y,):
@@ -88,7 +88,7 @@ class Pearl:
 
 class PearlFleet:
     def __init__(self, screen):
-        # Already done.  Prepares the list of Badguys.
+        self.screen = screen
         self.pearls = []
         for x in range(3):
             pearl = Pearl(screen, random.randint(60, 850), random.randint(20, 850))
@@ -99,6 +99,9 @@ class PearlFleet:
             if self.pearls[k].collected:
                 del self.pearls[k]
 
+    def add_pearls(self):
+        pearl = Pearl(self.screen, random.randint(60, 850), random.randint(20, 850))
+        self.pearls.append(pearl)
 
 class Scoreboard:
     def __init__(self, screen):
@@ -112,6 +115,17 @@ class Scoreboard:
         text_as_image = self.font.render("Score: " + str(self.score), True, (255, 255, 255), (0, 0, 0))
         self.screen.blit(text_as_image, (5, 5))
 
+class Countdown:
+    def __init__(self, screen):
+        self.screen = screen
+        self.x = 690
+        self.y = 5
+        self.font = pygame.font.Font(None, 30)
+
+    def draw(self, countdown_time):
+        text_as_image = self.font.render("Remaining Time: " + str(countdown_time), True, (255, 255, 255), (0, 0, 0))
+        self.screen.blit(text_as_image, (self.x, self.y))
+
 def main():
     pygame.init()
     clock = pygame.time.Clock()
@@ -121,6 +135,8 @@ def main():
     level1_image = pygame.image.load('level_1.png')
 
     scoreboard = Scoreboard(screen)
+
+    countdown = Countdown(screen)
 
     is_game_over = False
 
@@ -148,12 +164,21 @@ def main():
         soda = Soda(screen, random.randint(0, 80), random.randint(55, 900))
         sodas.append(soda)
 
+    background_sound = pygame.mixer.Sound("water_background.mp3")
+    background_sound.play(-1)
+
+    pearl_sound = pygame.mixer.Sound("pearl.mp3")
+    soda_sound = pygame.mixer.Sound("sodacan.mp3")
+    waterbottle_sound = pygame.mixer.Sound("bottle.mp3")
+
+    starting_time = time.time()
+
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
         screen.blit(level1_image, (0, 0))
-
+#hi
         if not is_game_over:
             # Check for game key presses
             pressed_keys = pygame.key.get_pressed()
@@ -168,13 +193,22 @@ def main():
             # Check if the game is over
             for waterbottle in waterbottles:
                 if waterbottle.hit_by(starfish):
+                    waterbottle_sound.play()
+                    is_game_over = True
+
+            for soda in sodas:
+                if soda.hit_by(starfish):
+                    soda_sound.play()
                     is_game_over = True
 
         for pearl in pearl_fleet.pearls:
             if pearl.hit_by(starfish):
+                pearl_sound.play()
                 pearl.collected = True
                 scoreboard.score = scoreboard.score + 5
                 pearl_fleet.remove_collected_pearls()
+                pearl_fleet.add_pearls()
+
 
         for waterbottle in waterbottles:
             waterbottle.draw()
@@ -191,6 +225,20 @@ def main():
 
         if is_game_over:
             screen.blit(gameover_image2, (0, 0))
+
+        pressed_keys = pygame.key.get_pressed()
+        if pressed_keys[K_SPACE]:
+            main()
+
+        current_time = time.time()
+        game_time = current_time - starting_time
+
+        if game_time >= 120:
+            is_game_over = True
+
+        countdown_time = 120 - game_time
+        if not is_game_over:
+            countdown.draw(math.floor(countdown_time))
 
         pygame.display.update()
         clock.tick(60)
