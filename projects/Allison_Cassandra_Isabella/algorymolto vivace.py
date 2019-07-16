@@ -148,22 +148,6 @@ def main():
 
     is_game_over = False
 
-    def game_intro():
-
-        intro = True
-
-        while intro():
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    quit()
-            gameDisplay.fill(255,255,255)
-            largeText = pygame.font.Font('freesansbold.ttf', 115)
-            TextSurf, TextRect = text_objects("Beat Fighter", largeText)
-            TextRect.center = ((display_width / 2), (display_height / 2))
-            gameDisplay.blit(TextSurf, TextRect)
-            pygame.display.update()
-            clock.tick(15)
 
     pygame.mixer.music.play()
     start_milli_time = int(round(time.time() * 1000))

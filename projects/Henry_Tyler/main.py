@@ -3,7 +3,7 @@ from pygame.locals import *
 
 # Team 12
 
-res_y = 1036
+res_y = 1000
 
 
 class Column:  # Returns  the x value for a column, draws lines on the screen
@@ -147,7 +147,7 @@ class Scoreboard:
 
     def record(self, score, playername, id):
         file = open("scores.txt", "a")
-        file.write(str(score) + "," + playername + "," + str(id))
+        file.write("\n" + str(score) + "," + playername + "," + str(int(id)))
         file.close()
 
     def read(self):
@@ -170,7 +170,7 @@ class Scoreboard:
     def draw(self):
         pass
 def main():
-    playername = str(input("Enter Player Name:"))
+    playername = ""
 
     pygame.init()
     clock = pygame.time.Clock()
@@ -224,10 +224,24 @@ def main():
                 sys.exit()
 
         if player.lives < 1:
-            text_as_image = font.render("Game Over!", False, (255, 255, 255))
-            screen.blit(text_as_image, (200, res_y / 2))
-            if pressed_keys[K_SPACE]:
-                main()
+
+            if not player.lives == -42:
+                # text_as_image = font.render("Game Over!", True, (255, 255, 255))
+                # screen.blit(text_as_image, (200, res_y / 2))
+                playername = str(input("Enter Player Name:"))
+                scoreboard.record(score.score, playername, time.time())
+                scoreboard.read()
+                print(scoreboard.list)
+                length = len(scoreboard.list)
+                if length > 10:
+                    length = 10
+                for e in range(length):
+                    print(e)
+                    text = font.render(str(e+1) + "    " + str(scoreboard.list[e].playername) + " - " + str(scoreboard.list[e].score), True, (255, 255, 255))
+                    screen.blit(text, (10, 100+ 60*e))
+
+            player.lives = -42
+
         else:
             player.x = column.getX(player.column)
 
@@ -235,10 +249,9 @@ def main():
             if shield.should_be_retracted():
                 shield.isDeployed = False
 
-            # -SPAWN ENEMIES
-            if gameclock + 2 - score.score * .00007 < time.time():
-                enemy_list.spawn(3 + score.score * .00004)
-                score.score += int(score.score * .01)
+            # -SPAWN ENEMIES-
+            if gameclock + 3 - score.score * .00008 < time.time():
+                enemy_list.spawn(3 + score.score * .0001)
                 gameclock = time.time()
 
             for enemy in enemy_list.enemy_list:
@@ -246,6 +259,7 @@ def main():
                 if player.isHit(enemy):
                     enemy.is_hit = True
                     player.lives -= 1
+                    score.score -= int(score.score * .1)
                     pygame.mixer.Sound.play(player_hit)
 
                 if shield.isHit(enemy, player) and player.direction == enemy.direction and player.color == enemy.color:
@@ -255,6 +269,7 @@ def main():
                         pygame.mixer.Sound.play(down_hit)
                     enemy.is_hit = True
                     score.score += 100
+                    score.score += int(score.score * (random.randint(13, 21)/1000))
 
             enemy_list.removeHitEnemies()
             enemy_list.isAtBottom(player, player_hit)

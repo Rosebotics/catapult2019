@@ -446,7 +446,7 @@ def two_Player(player1,player2,player3):
 def main():
     pygame.init()
     clock = pygame.time.Clock()
-    pygame.display.set_caption("Egyptian Rat Killer")
+    pygame.display.set_caption("Egyptian Rat slap")
     screen = pygame.display.set_mode((1000, 750))
     card_delay = -1
 
@@ -514,9 +514,9 @@ def main():
                     two_Player(player1,player2,player3)
                     player2.is_playing = False
                 if pressed_keys[pygame.K_e] and len(player2.deck) == 17 and len(player3.deck) == 17 and len(player1.deck) == 18:
-                    player1.deck = [5,5,1]
-                    player2.deck = [5,6,9]
-                    player3.deck = [5,8,7]
+                    player1.deck = [5,5,"J","A"]
+                    player2.deck = [5,6,"Q",4,3,2,1]
+                    player3.deck = [5,"K"]
                 # normal game buttons
                 if pressed_keys[pygame.K_BACKQUOTE] and card_delay < 1:
                     board_controller.hand_slap(4)
