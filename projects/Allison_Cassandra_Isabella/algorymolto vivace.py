@@ -37,7 +37,7 @@ class Dancer:
         self.screen.blit(self.image_uppunch, (self.x, self.y))
 
     def punch_down(self):
-        self.screen.blit(self.image_downpunch, (self.x, self.y+100))
+        self.screen.blit(self.image_downpunch, (self.x, self.y+100)) 
 
 class Orb:
     def __init__(self, screen, direction):
