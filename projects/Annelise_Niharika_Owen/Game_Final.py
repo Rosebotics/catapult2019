@@ -125,7 +125,7 @@ class PearlFleet:
                 self.pearls.append(self.power_pearl)
                 self.power_pearl_spawned = True
             else:
-                pearl = Pearl(self.screen, random.randint(60, 850), random.randint(20, 850), pygame.image.load(""))
+                pearl = Pearl(self.screen, random.randint(60, 850), random.randint(20, 850), pygame.image.load("powerpearl.png"))
                 self.pearls.append(pearl)
 
 
