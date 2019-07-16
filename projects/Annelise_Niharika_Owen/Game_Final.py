@@ -202,7 +202,7 @@ def main():
     background_sound.play(-1)
 
     pearl_sound = pygame.mixer.Sound("pearl.wav")
-    powerpearl_sound = pygame.mixer.Sound("")
+    powerpearl_sound = pygame.mixer.Sound("powerpearl.wav")
     soda_sound = pygame.mixer.Sound("sodacan.wav")
     waterbottle_sound = pygame.mixer.Sound("bottle.wav")
 
@@ -240,6 +240,8 @@ def main():
 
         for pearl in pearl_fleet.pearls:
             if pearl.hit_by(starfish):
+                if pearl == pearl_fleet.power_pearl:
+
                 pearl_sound.play()
                 pearl.collected = True
                 scoreboard.score = scoreboard.score + 10
@@ -250,8 +252,12 @@ def main():
             waterbottle.draw()
 
         for soda in sodas:
-            soda.move()
-            soda.draw()
+            if pearl_fleet.power_pearl_has_been_collected:
+                if time.time() - pearl_fleet.power_pearl_collected_time > 5:
+                    soda.move()
+            else:
+                soda.move()
+                soda.draw()
 
         for pearl in pearl_fleet.pearls:
             pearl.draw()
