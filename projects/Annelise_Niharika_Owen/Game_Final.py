@@ -121,12 +121,15 @@ class PearlFleet:
         if not self.power_pearl_spawned:
             random_float = random.random()
             if random_float > 0:
-                self.power_pearl = Pearl(self.screen, random.randint(60, 850), random.randint(20, 850), pygame.image.load("powerpearl.png")
+                self.power_pearl = Pearl(self.screen, random.randint(60, 850), random.randint(20, 850), pygame.image.load("powerpearl.png"))
                 self.pearls.append(self.power_pearl)
                 self.power_pearl_spawned = True
             else:
-                pearl = Pearl(self.screen, random.randint(60, 850), random.randint(20, 850), pygame.image.load("powerpearl.png"))
+                pearl = Pearl(self.screen, random.randint(60, 850), random.randint(20, 850), pygame.image.load("pearl.png"))
                 self.pearls.append(pearl)
+        else:
+            pearl = Pearl(self.screen, random.randint(60, 850), random.randint(20, 850), pygame.image.load("pearl.png"))
+            self.pearls.append(pearl)
 
 
 
