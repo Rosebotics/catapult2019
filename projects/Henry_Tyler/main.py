@@ -249,7 +249,7 @@ def main():
             if shield.should_be_retracted():
                 shield.isDeployed = False
 
-            # -SPAWN ENEMIES
+            # -SPAWN ENEMIES-
             if gameclock + 3 - score.score * .00008 < time.time():
                 enemy_list.spawn(3 + score.score * .0001)
                 gameclock = time.time()
