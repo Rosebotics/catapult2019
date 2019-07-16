@@ -123,22 +123,70 @@ class Face:
             y = 130
         self.screen.blit(image, (x, y))
 
-
 def main():
     pygame.init()
     clock = pygame.time.Clock()
+    pygame.display.set_caption("Beat Fighter")
     screen = pygame.display.set_mode((640, 640))
+    intro = True
+    counselors = ["Jared", "Susan", "Jackson"]
+    songs = ["albatraoz.mp3", "old_town_road_diplo.mp3"]
+    counselor_select = counselors[0]
+    song_select = songs[0]
+    counselor_num = 0
+    song_num = 0
+    selection_row = 0
+    while intro:
+        print(selection_row)
+        screen.fill((0, 0, 0,))
+        counselor_text = pygame.font.Font(None, 28).render(counselors[counselor_num], True, (255, 255, 255))
+        screen.blit(counselor_text, (30, 100))
+        song_text = pygame.font.Font(None, 28).render(songs[song_num], True, (255, 255, 255))
+        screen.blit(song_text, (30, 200))
+        pygame.display.update()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit()
+            if event.type == pygame.K_UP:
+                selection_row -= 1
+                if selection_row < 0:
+                    selection_row = 2
+            if event.type == pygame.K_DOWN:
+                selection_row += 1
+                if selection_row > 2:
+                    selection_row = 0
+            if event.type == pygame.K_LEFT:
+                if selection_row == 0:
+                    counselor_num -= 1
+                    if counselor_num < 0:
+                        counselor_num = 2
+                elif selection_row == 1:
+                    counselor_num += 1
+                    if counselor_num > 2:
+                        counselor_num = 0
+            if event.type == pygame.K_RIGHT:
+                if selection_row == 0:
+                    counselor_num += 1
+                    if counselor_num > 2:
+                        counselor_num = 0
+                elif selection_row == 1:
+                    counselor_num -= 1
+                    if counselor_num < 0:
+                        counselor_num = 2
+            if event.type == pygame.K_SPACE:
+                if selection_row == 3:
+                    intro = False
     hpbar = HPBar(screen)
-    face = Face(screen, "Jared")
+    face = Face(screen, counselor_select)
     dancer = Dancer(screen, 90, 90)
     funished = pygame.image.load("Funished.png")
-    pygame.mixer.music.load("albatraoz.mp3")
+    pygame.mixer.music.load(song_select)
     punchbox = (129, 95, 383, 450)
     hurtbox = (204, 170, 233, 300)
     orblist = []
-
     timeline_dict = {}
-    with open("albatraoz_bk.txt") as file:
+    #with open("albatraoz_bk.txt") as file:
+    with open("old_town_road.txt") as file:
         for line in file:
             line = line.rstrip('\n')
             current_line = line.split(',')
@@ -147,24 +195,6 @@ def main():
             timeline_dict[time_ms] = action
 
     is_game_over = False
-
-    def game_intro():
-
-        intro = True
-
-        while intro():
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    quit()
-            gameDisplay.fill(255,255,255)
-            largeText = pygame.font.Font('freesansbold.ttf', 115)
-            TextSurf, TextRect = text_objects("Beat Fighter", largeText)
-            TextRect.center = ((display_width / 2), (display_height / 2))
-            gameDisplay.blit(TextSurf, TextRect)
-            pygame.display.update()
-            clock.tick(15)
-
     pygame.mixer.music.play()
     start_milli_time = int(round(time.time() * 1000))
     while True:
@@ -241,7 +271,9 @@ def main():
         if is_game_over:
             screen.blit(funished, (-150, 0))
             pygame.display.update()
+        if pressed_keys[pygame.K_SPACE]:    # lazy solution, sorry
+            break
 
 
-
-main()
+while True:
+    main()
