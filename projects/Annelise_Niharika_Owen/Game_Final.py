@@ -15,7 +15,6 @@ class WaterBottle:
     def hit_by(self, starfish):
         return pygame.Rect(self.x, self.y, 40, 50).collidepoint(starfish.x + 33.5, starfish.y + 25)
 
-
 class Soda:
     def __init__(self, screen, x, y,):
         self.screen = screen
@@ -242,13 +241,15 @@ def main():
         current_time = time.time()
         game_time = current_time - starting_time
 
-        if game_time >= 120:
+        if game_time >= 60:
             is_game_over = True
             screen.blit(gamewin, (0, 0))
+            screen.blit(score_display, (330, 750))
 
-        countdown_time = 120 - game_time
+        countdown_time = 60 - game_time
         if not is_game_over:
             countdown.draw(math.floor(countdown_time))
+
 
 
         pygame.display.update()
