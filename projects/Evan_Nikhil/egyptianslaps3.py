@@ -254,7 +254,6 @@ class BoardController:
         self.hand_image1 = pygame.transform.rotate(hand_image, 270)
         self.hand_image2 = pygame.transform.rotate(hand_image, 0)
         self.hand_image3 = pygame.transform.rotate(hand_image, 90)
-
         self.hand_location = [(300,230),(395,270),(450,230)]
         self.card_location = [[50,289],[430,578],[810,289],[310,289],[340,289],[370,289],[400,289],[430,289]]
         self.show_cards = caption_font.render("429A10", True, (0,0,0))
