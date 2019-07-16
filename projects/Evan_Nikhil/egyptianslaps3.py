@@ -446,7 +446,7 @@ def two_Player(player1,player2,player3):
 def main():
     pygame.init()
     clock = pygame.time.Clock()
-    pygame.display.set_caption("Egyptian Rat Killer")
+    pygame.display.set_caption("Egyptian Rat slap")
     screen = pygame.display.set_mode((1000, 750))
     card_delay = -1
 
