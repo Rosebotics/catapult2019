@@ -71,12 +71,27 @@ class Starfish:
             self.y = 850
 
 
-class Pearl:
+class PowerPearl:
     def __init__(self, screen, x, y):
         self.screen = screen
         self.x = x
         self.y = y
-        self.image = pygame.image.load('pearl.png')
+        self.image = pygame.image.load('') # TODO: IMAGE
+        self.collected = False
+
+    def draw(self):
+        self.screen.blit(self.image, (self.x, self.y))
+
+    def hit_by(self, starfish):
+        return pygame.Rect(self.x, self.y, 40, 30).collidepoint(starfish.x + 33.5, starfish.y + 25)
+
+
+class Pearl:
+    def __init__(self, screen, x, y, image):
+        self.screen = screen
+        self.x = x
+        self.y = y
+        self.image = image
         self.collected = False
 
     def draw(self):
@@ -89,9 +104,12 @@ class Pearl:
 class PearlFleet:
     def __init__(self, screen):
         self.screen = screen
+        power_pearl = None
+        power_pearl_spawned = False
         self.pearls = []
+        pearl_image = pygame.image.load("pearl.png")
         for x in range(3):
-            pearl = Pearl(screen, random.randint(60, 850), random.randint(20, 850))
+            pearl = Pearl(screen, random.randint(60, 850), random.randint(20, 850), pearl_image)
             self.pearls.append(pearl)
 
     def remove_collected_pearls(self):
@@ -100,8 +118,17 @@ class PearlFleet:
                 del self.pearls[k]
 
     def add_pearls(self):
-        pearl = Pearl(self.screen, random.randint(60, 850), random.randint(20, 850))
-        self.pearls.append(pearl)
+        if not self.power_pearl_spawned:
+            random_float = random.random()
+            if random_float > 0:
+                self.power_pearl = Pearl(self.screen, random.randint(60, 850), random.randint(20, 850), pygame.image.load("powerpearl.png")
+                self.pearls.append(self.power_pearl)
+                self.power_pearl_spawned = True
+            else:
+                pearl = Pearl(self.screen, random.randint(60, 850), random.randint(20, 850), pygame.image.load(""))
+                self.pearls.append(pearl)
+
+
 
 
 class Scoreboard:
@@ -144,8 +171,6 @@ def main():
 
     countdown = Countdown(screen)
 
-    is_game_over = False
-
     starfish = Starfish(screen, 10, 35)
 
     pearl_fleet = PearlFleet(screen)
@@ -154,7 +179,7 @@ def main():
     number_of_waterbottles_in_region_1 = random.randint(5, 10)
 
     for x in range(number_of_waterbottles_in_region_1):
-        waterbottle = WaterBottle(screen, random.randint(0, 80), random.randint(55, 900))
+        waterbottle = WaterBottle(screen, random.randint(0, 80), random.randint(70, 900))
         waterbottles.append(waterbottle)
 
     number_of_waterbottles_in_region_2 = 50 - number_of_waterbottles_in_region_1
@@ -174,10 +199,13 @@ def main():
     background_sound.play(-1)
 
     pearl_sound = pygame.mixer.Sound("pearl.wav")
+    powerpearl_sound = pygame.mixer.Sound("")
     soda_sound = pygame.mixer.Sound("sodacan.wav")
     waterbottle_sound = pygame.mixer.Sound("bottle.wav")
 
     starting_time = time.time()
+
+    dead = False
 
     while True:
         for event in pygame.event.get():
@@ -185,7 +213,7 @@ def main():
                 sys.exit()
         screen.blit(level1_image, (0, 0))
 
-        if not is_game_over:
+        if not dead:
             # Check for game key presses
             pressed_keys = pygame.key.get_pressed()
             if pressed_keys[pygame.K_UP]:
@@ -200,21 +228,20 @@ def main():
             for waterbottle in waterbottles:
                 if waterbottle.hit_by(starfish):
                     waterbottle_sound.play()
-                    is_game_over = True
+                    dead = True
 
             for soda in sodas:
                 if soda.hit_by(starfish):
                     soda_sound.play()
-                    is_game_over = True
+                    dead = True
 
         for pearl in pearl_fleet.pearls:
             if pearl.hit_by(starfish):
                 pearl_sound.play()
                 pearl.collected = True
-                scoreboard.score = scoreboard.score + 5
+                scoreboard.score = scoreboard.score + 10
                 pearl_fleet.remove_collected_pearls()
                 pearl_fleet.add_pearls()
-
 
         for waterbottle in waterbottles:
             waterbottle.draw()
@@ -230,7 +257,7 @@ def main():
         scoreboard.draw()
         score_display = caption_font.render("Score: " + str(scoreboard.score), True, (255, 255, 255))
 
-        if is_game_over:
+        if dead:
             screen.blit(gameover_image2, (0, 0))
             screen.blit(score_display, (330, 800))
 
@@ -241,16 +268,13 @@ def main():
         current_time = time.time()
         game_time = current_time - starting_time
 
-        if game_time >= 60:
-            is_game_over = True
+        if game_time >= 30 and not dead:
             screen.blit(gamewin, (0, 0))
             screen.blit(score_display, (330, 750))
 
-        countdown_time = 60 - game_time
-        if not is_game_over:
+        countdown_time = 30 - game_time
+        if not dead and not (game_time >= 30):
             countdown.draw(math.floor(countdown_time))
-
-
 
         pygame.display.update()
         clock.tick(60)
