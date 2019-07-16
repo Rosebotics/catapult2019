@@ -3,7 +3,7 @@ from pygame.locals import *
 
 # Team 12
 
-res_y = 1036
+res_y = 1876
 
 
 class Column:  # Returns  the x value for a column, draws lines on the screen
@@ -31,16 +31,24 @@ class Player:  # The player. Draws, detects if itself is hit, draws health bar.
 
     def draw(self): # Draws the player
         if self.direction:
-            pygame.draw.polygon(self.screen, self.color, [(self.x, self.y), (self.x, self.y - 66), (self.x + 75, self.y - 100), (self.x + 150, self.y - 66), (self.x + 150, self.y), (self.x + 75, self.y - 33)], 2)
+            pygame.draw.polygon(self.screen, self.color,
+                                [(self.x, self.y), (self.x, self.y - 66),
+                                (self.x + 75, self.y - 100), (self.x + 150, self.y - 66),
+                                (self.x + 150, self.y), (self.x + 75, self.y - 33)], 2)
         else:
-            pygame.draw.polygon(self.screen, self.color, [(self.x, self.y), (self.x, self.y - 66), (self.x + 75, self.y - 33), (self.x + 150, self.y - 66), (self.x + 150, self.y), (self.x + 75, self.y + 33)], 2)
+            pygame.draw.polygon(self.screen, self.color,
+                                [(self.x, self.y), (self.x, self.y - 66),
+                                (self.x + 75, self.y - 33), (self.x + 150, self.y - 66),
+                                (self.x + 150, self.y), (self.x + 75, self.y + 33)], 2)
 
-    def isHit(self, enemy): # If called, returns if it's touching the specified enemy
-        return pygame.Rect(self.x, self.y - 33, self.x +150, self.y-100).collidepoint(enemy.x, enemy.y)
+    def is_hit(self, enemy): # If called, returns if it's touching the specified enemy
+        return pygame.Rect(self.x, self.y - 33,
+                           self.x +150, self.y-100).collidepoint(enemy.x, enemy.y)
 
-    def drawHealth(self): # Draws the health bar
+    def draw_health(self): # Draws the health bar
         for i in range(self.lives):
-            pygame.draw.rect(self.screen, self.color, (self.screen.get_width() - (20 + i*15), 10, 10, 10), 2)
+            pygame.draw.rect(self.screen, self.color,
+                             (self.screen.get_width() - (20 + i*15), 10, 10, 10), 2)
 
 
 class Shield:  # Generates Player's shield. Draws and detects if it's hit
@@ -65,7 +73,7 @@ class Shield:  # Generates Player's shield. Draws and detects if it's hit
         return self.time_deployed + 300 < self.current_time and self.isDeployed
 
 
-class Enemy:
+class Enemy:  # Draws itself and moves down the screen.
     def __init__(self, screen, column, y, speed):
         self.screen = screen
         self.column = column
@@ -86,7 +94,7 @@ class Enemy:
         self.y += self.speed
 
 
-class EnemyList:
+class EnemyList:  # Creates list of enemies and manages them.
     def __init__(self, screen):
         self.screen = screen
         self.enemy_list = []
@@ -119,16 +127,7 @@ class EnemyList:
                 pygame.mixer.Sound.play(sound)
 
 
-class PlayerInfo:
-    def __init__(self, score, playername, id):
-        self.playername = playername
-        self.score = score
-        self.id = id
-
-    def __repr__(self):
-        return "%s, %d, %d" % (self.playername,self.score, self.id)
-
-class Score:
+class Score: # tracks score and draws it on screen.
     def __init__(self, screen):
         self.screen = screen
         self.score = 0
@@ -138,47 +137,14 @@ class Score:
         text_as_image = self.font.render("Score: " + str(self.score), True, (255, 255, 255))
         self.screen.blit(text_as_image, (5, 5))
 
-class Scoreboard:
-    def __init__(self, screen, playername):
-        self.screen = screen
-        self.playername = playername
-        self.list = []
 
-
-    def record(self, score, playername, id):
-        file = open("scores.txt", "a")
-        file.write(str(score) + "," + playername + "," + str(id))
-        file.close()
-
-    def read(self):
-        file = open("scores.txt", "r")
-
-        content = file.readlines()
-        for line in content:
-            stripLine = line.strip()
-            cleanList = stripLine.split(",")
-            score = int(cleanList[0])
-            playername = cleanList[1]
-            id = int(cleanList[2])
-            playerinfo = PlayerInfo(score, playername, id)
-            self.list.append(playerinfo)
-
-        self.list = sorted(self.list, key=lambda player_info: (player_info.score, -player_info.id), reverse=True)
-        print(self.list)
-        file.close()
-
-    def draw(self):
-        pass
 def main():
-    playername = str(input("Enter Player Name:"))
-
     pygame.init()
     clock = pygame.time.Clock()
     pygame.display.set_caption("On Point")
     screen = pygame.display.set_mode((600, res_y))
 
     player = Player(screen, 1, 1, True, (255, 0, 0))
-    scoreboard = Scoreboard(screen, playername)
     enemy_list = EnemyList(screen)
     gameclock = time.time()
     score = Score(screen)
@@ -187,6 +153,7 @@ def main():
     player_hit = pygame.mixer.Sound("player_hit.wav")
     font = pygame.font.Font(None, 50)
     column = Column(screen)
+
     shield = Shield()
     while True:
         clock.tick(60)
@@ -243,7 +210,7 @@ def main():
 
             for enemy in enemy_list.enemy_list:
                 enemy.x = column.getX(enemy.column)
-                if player.isHit(enemy):
+                if player.is_hit(enemy):
                     enemy.is_hit = True
                     player.lives -= 1
                     pygame.mixer.Sound.play(player_hit)
@@ -260,7 +227,7 @@ def main():
             enemy_list.isAtBottom(player, player_hit)
             screen.fill(pygame.Color("Black"))
             player.draw()
-            player.drawHealth()
+            player.draw_health()
             enemy_list.draw()
             column.draw()
 
