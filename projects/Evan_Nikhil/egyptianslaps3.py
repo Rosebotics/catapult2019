@@ -473,6 +473,7 @@ def main():
 
     while True:
         clock.tick(60)
+
         pressed_keys = pygame.key.get_pressed()
 
         for event in pygame.event.get():
