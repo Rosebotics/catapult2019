@@ -90,7 +90,7 @@ class PearlFleet:
     def __init__(self, screen):
         self.screen = screen
         self.pearls = []
-        for x in range(3):
+        for x in range(5):
             pearl = Pearl(screen, random.randint(60, 850), random.randint(20, 850))
             self.pearls.append(pearl)
 
@@ -215,7 +215,6 @@ def main():
                 pearl_fleet.remove_collected_pearls()
                 pearl_fleet.add_pearls()
 
-
         for waterbottle in waterbottles:
             waterbottle.draw()
 
@@ -241,14 +240,13 @@ def main():
         current_time = time.time()
         game_time = current_time - starting_time
 
-        if game_time >= 120:
+        if game_time >= 60:
             is_game_over = True
             screen.blit(gamewin, (0, 0))
 
-        countdown_time = 120 - game_time
+        countdown_time = 60 - game_time
         if not is_game_over:
             countdown.draw(math.floor(countdown_time))
-
 
         pygame.display.update()
         clock.tick(60)
