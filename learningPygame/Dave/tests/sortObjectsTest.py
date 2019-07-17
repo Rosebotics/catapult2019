@@ -20,6 +20,5 @@ my_list = [Bob, Alice9, Leo, Alice10, Alice11, Alice12, Frank]
 print(my_list)
 
 my_list = sorted(my_list,
-                 key=lambda score_entry: (score_entry.score, -score_entry.time_stamp),
-                 reverse=True)
+                 key=lambda score_entry: (-score_entry.score, -score_entry.time_stamp))
 print(my_list)

@@ -169,6 +169,7 @@ class ChallengeController:
     # TODO Consider giving people a chance to slap while challenge is going on.
     def resolve_lost_challenge(self):
         self.challenger.deck = self.challenger.deck + self.center_pile.cards
+        self.challenger.is_playing = True
         self.center_pile.empty_deck()
         self.turn_controller.set_turn_to(self.challenger.player_number)
         self.is_challenge_active = False
@@ -262,6 +263,8 @@ class BoardController:
         self.who_slapped = [0,0,0]
         self.slap_sound =  slap_sound
         self.card_back_image = card_back_image
+        self.moveing_x = 0
+        self.moveing_y = 0
 
 #there are sooooooo many variables that this needs, this is crazy it is 12 btw
 
@@ -367,33 +370,41 @@ class BoardController:
 # the game over screen
     def game_over_screen(self,winner):
         self.screen.fill((220, 181, 121))
-        self.temp_storage = self.caption_font.render('Player '+str(winner)+ " is the winner", True, (0, 0, 0))
-        self.screen.blit(self.temp_storage, (410, 335))
-        self.temp_storage = self.caption_font.render("everyone else has disturbed the pharaoh", True, (0, 0, 0))
-        self.screen.blit(self.temp_storage, (340, 355))
-        self.temp_storage = self.caption_font.render("press space to restart the game", True, (0, 0, 0))
-        self.screen.blit(self.temp_storage, (380, 375))
-        for i in range (10):
-            if (i % 2) == 0:
-                self.screen.blit(self.card_image,((i * 100),0))
-            else:
-                self.screen.blit(self.card_back_image,(i * 100, 0))
-        for i in range (5):
-            if (i % 2) == 0:
-                self.screen.blit(self.card_image, (0, i*133))
-            else:
-                self.screen.blit(self.card_back_image, (0, i*133))
-        for i in range (5):
-            if (i % 2) == 1:
-                self.screen.blit(self.card_image, (900, i*133))
-            else:
-                self.screen.blit(self.card_back_image, (900, i*133))
 
         for i in range (10):
             if (i % 2) == 0:
-                self.screen.blit(self.card_image,((i * 100),617))
+                self.screen.blit(self.card_image,((i * 100),self.moveing_y))
             else:
-                self.screen.blit(self.card_back_image,(i * 100, 617))
+                self.screen.blit(self.card_back_image,(i * 100, self.moveing_y))
+        for i in range (5):
+            if (i % 2) == 0:
+                self.screen.blit(self.card_image, (self.moveing_x, i*133))
+            else:
+                self.screen.blit(self.card_back_image, (self.moveing_x, i*133))
+        for i in range (5):
+            if (i % 2) == 1:
+                self.screen.blit(self.card_image, (self.screen.get_width() - self.moveing_x, i*133))
+            else:
+                self.screen.blit(self.card_back_image, (self.screen.get_width() - self.moveing_x, i*133))
+
+        for i in range (10):
+            if (i % 2) == 0:
+                self.screen.blit(self.card_image,((i * 100),self.screen.get_height() - self.moveing_y))
+            else:
+                self.screen.blit(self.card_back_image,(i * 100, self.screen.get_height() - self.moveing_y))
+        pygame.draw.rect(self.screen,(220, 181, 121),((340,335),(325,60)))
+        self.temp_storage = self.caption_font.render('Player '+str(winner)+ " is the winner", True, (255, 255, 255))
+        self.screen.blit(self.temp_storage, (410, 335))
+        self.temp_storage = self.caption_font.render("everyone else has disturbed the pharaoh", True, (255, 255, 255))
+        self.screen.blit(self.temp_storage, (340, 355))
+        self.temp_storage = self.caption_font.render("press space to restart the game", True, (255, 255, 255))
+        self.screen.blit(self.temp_storage, (380, 375))
+        self.moveing_x += 2
+        self.moveing_y += 1
+        if self.moveing_x > self.screen.get_width():
+            self.moveing_x = 0
+        if self.moveing_y > self.screen.get_height():
+            self.moveing_y = 0
 
 
 
@@ -446,7 +457,7 @@ def two_Player(player1,player2,player3):
 def main():
     pygame.init()
     clock = pygame.time.Clock()
-    pygame.display.set_caption("Egyptian Rat Killer")
+    pygame.display.set_caption("Egyptian Rat slap")
     screen = pygame.display.set_mode((1000, 750))
     card_delay = -1
 
@@ -551,6 +562,9 @@ def main():
                     print('player2:', player2.deck)
                     print('player3:', player3.deck)
                     print('current_turn:', turn_controller.current_turn)
+                    print("player1",player1.is_playing)
+                    print("player2",player2.is_playing)
+                    print("player3",player3.is_playing)
 
         #------------out of for loop--------------------------------------------------------------------out of for event loop
         if card_delay > 0:
@@ -568,7 +582,7 @@ def main():
             pygame.display.update()
         else:
             if not has_displayed_game_over:
-                has_displayed_game_over = True
+                #has_displayed_game_over = True
                 if player1.is_playing == True:
                     board_controller.game_over_screen(1)
                 if player2.is_playing == True:
@@ -577,10 +591,12 @@ def main():
                     board_controller.game_over_screen(3)
                 pygame.display.update()
                 #TODO display game over here!
-                print('game over')
+                #print('game over')
             if pressed_keys[pygame.K_SPACE]:
                 new_game(player1,player2,player3,center_pile,challenge_controller)
                 is_game_over = False
                 has_displayed_game_over = False
+                board_controller.moveing_x = 0
+                board_controller.moveing_y = 0
 
 main()

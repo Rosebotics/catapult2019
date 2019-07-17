@@ -9,7 +9,7 @@ def main():
     f = open('old_town_road.txt', 'w')
     OFFSET = 5
     clock = pygame.time.Clock()
-    pygame.mixer.music.load('old_town_road_diplo.mp3')
+    pygame.mixer.music.load('FRIENDS.mp3')
 
     pygame.mixer.music.play()
     starting_time = int(round(time.time() * 1000))
