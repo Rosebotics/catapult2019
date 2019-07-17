@@ -241,12 +241,11 @@ def main():
         for pearl in pearl_fleet.pearls:
             if pearl.hit_by(starfish):
                 if pearl == pearl_fleet.power_pearl:
-
-                pearl_sound.play()
-                pearl.collected = True
-                scoreboard.score = scoreboard.score + 10
-                pearl_fleet.remove_collected_pearls()
-                pearl_fleet.add_pearls()
+                    pearl_sound.play()
+                    pearl.collected = True
+                    scoreboard.score = scoreboard.score + 10
+                    pearl_fleet.remove_collected_pearls()
+                    pearl_fleet.add_pearls()
 
         for waterbottle in waterbottles:
             waterbottle.draw()
