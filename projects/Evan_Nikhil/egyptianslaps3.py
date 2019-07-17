@@ -262,6 +262,8 @@ class BoardController:
         self.who_slapped = [0,0,0]
         self.slap_sound =  slap_sound
         self.card_back_image = card_back_image
+        self.moveing_x = 0
+        self.moveing_y = 0
 
 #there are sooooooo many variables that this needs, this is crazy it is 12 btw
 
@@ -375,25 +377,31 @@ class BoardController:
         self.screen.blit(self.temp_storage, (380, 375))
         for i in range (10):
             if (i % 2) == 0:
-                self.screen.blit(self.card_image,((i * 100),0))
+                self.screen.blit(self.card_image,((i * 100),self.moveing_y))
             else:
-                self.screen.blit(self.card_back_image,(i * 100, 0))
+                self.screen.blit(self.card_back_image,(i * 100, self.moveing_y))
         for i in range (5):
             if (i % 2) == 0:
-                self.screen.blit(self.card_image, (0, i*133))
+                self.screen.blit(self.card_image, (self.moveing_x, i*133))
             else:
-                self.screen.blit(self.card_back_image, (0, i*133))
+                self.screen.blit(self.card_back_image, (self.moveing_x, i*133))
         for i in range (5):
             if (i % 2) == 1:
-                self.screen.blit(self.card_image, (900, i*133))
+                self.screen.blit(self.card_image, (self.screen.get_width() - self.moveing_x, i*133))
             else:
-                self.screen.blit(self.card_back_image, (900, i*133))
+                self.screen.blit(self.card_back_image, (self.screen.get_width() - self.moveing_x, i*133))
 
         for i in range (10):
             if (i % 2) == 0:
-                self.screen.blit(self.card_image,((i * 100),617))
+                self.screen.blit(self.card_image,((i * 100),self.screen.get_height() - self.moveing_y))
             else:
-                self.screen.blit(self.card_back_image,(i * 100, 617))
+                self.screen.blit(self.card_back_image,(i * 100, self.screen.get_height() - self.moveing_y))
+        self.moveing_x += 7
+        self.moveing_y += 5
+        if self.moveing_x > self.screen.get_width():
+            self.moveing_x = 0
+        if self.moveing_y > self.screen.get_height():
+            self.moveing_y = 0
 
 
 
@@ -568,7 +576,7 @@ def main():
             pygame.display.update()
         else:
             if not has_displayed_game_over:
-                has_displayed_game_over = True
+                #has_displayed_game_over = True
                 if player1.is_playing == True:
                     board_controller.game_over_screen(1)
                 if player2.is_playing == True:
@@ -577,10 +585,12 @@ def main():
                     board_controller.game_over_screen(3)
                 pygame.display.update()
                 #TODO display game over here!
-                print('game over')
+                #print('game over')
             if pressed_keys[pygame.K_SPACE]:
                 new_game(player1,player2,player3,center_pile,challenge_controller)
                 is_game_over = False
                 has_displayed_game_over = False
+                board_controller.moveing_x = 0
+                board_controller.moveing_y = 0
 
 main()
