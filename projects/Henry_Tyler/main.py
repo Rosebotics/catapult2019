@@ -1,5 +1,6 @@
 import pygame, sys, random, time
 from pygame.locals import *
+import pygame_textinput
 
 # Team 12
 
@@ -75,7 +76,12 @@ class Enemy:
         self.y = y
         self.speed = speed
         self.is_hit = False
-
+        self.change_direction = False
+        self.change_column = False
+        self.speeder = False
+        self.done_cd = False
+        self.done_cc = False
+        self.done_s = False
     def draw(self):
         if self.direction:
             pygame.draw.polygon(self.screen, self.color, [(self.x, self.y), (self.x, self.y - 36), (self.x + 75, self.y - 70), (self.x + 150, self.y - 36), (self.x + 150, self.y), (self.x + 75, self.y - 33)], 2)
@@ -84,6 +90,15 @@ class Enemy:
 
     def move(self):
         self.y += self.speed
+        if self.speeder and self.y > res_y/3.5 and not self.done_s:
+            self.speed += 1
+            self.done_s = True
+        if self.change_direction and self.y > res_y/3.5 and not self.done_cd:
+            self.direction = not self.direction
+            self.done_cd = True
+        if self.change_column and self.y > res_y/3.5 and not self.done_cc:
+            self.column = random.choice([0, 1, 2])
+            self.done_cc = True
 
 
 class EnemyList:
@@ -91,8 +106,14 @@ class EnemyList:
         self.screen = screen
         self.enemy_list = []
 
-    def spawn(self, speed):
-        self.enemy_list.append(Enemy(self.screen, random.randint(0, 2), 0, speed))
+    def spawn(self, speed, s, cd, cc, expert):
+        enemy = Enemy(self.screen, random.randint(0, 2), 0, speed)
+        if expert:
+            enemy.change_column = cc
+            enemy.change_direction = cd
+            enemy.speeder = s
+
+        self.enemy_list.append(enemy)
 
     def draw(self):
         for enemy in self.enemy_list:
@@ -169,6 +190,30 @@ class Scoreboard:
 
     def draw(self):
         pass
+def get_playername(screen):
+    textinput = pygame_textinput.TextInput()
+    textinput.text_color = (255, 255, 255)
+    textinput.font_object = pygame.font.Font(None, 50)
+    clock = pygame.time.Clock()
+
+    active = True
+    while active:
+        events = pygame.event.get()
+        for event in events:
+            pressed_keys = pygame.key.get_pressed()
+            if event.type == pygame.QUIT:
+                exit()
+            if pressed_keys[K_RETURN]:
+                active = False
+
+        # Feed it with events every frame
+        textinput.update(events)
+        # Blit its surface onto the screen
+        screen.blit(textinput.get_surface(), (120, 30))
+        pygame.display.update()
+        clock.tick(30)
+    return textinput.get_text()
+
 def main():
     playername = ""
 
@@ -188,12 +233,17 @@ def main():
     font = pygame.font.Font(None, 50)
     column = Column(screen)
     shield = Shield()
+    expert = False
     while True:
         clock.tick(60)
         shield.current_time = pygame.time.get_ticks()
         for event in pygame.event.get():
             pressed_keys = pygame.key.get_pressed()
-
+            if pressed_keys[K_e] and pressed_keys[K_x] and pressed_keys[K_p] and not expert:
+                expert = True
+                player.lives = 5
+                score.score = 0
+                enemy_list.enemy_list = []
             # -SWITCH PLAYER DIRECTION-
             if pressed_keys[K_UP] and not player.direction:
                 player.direction = True
@@ -226,9 +276,14 @@ def main():
         if player.lives < 1:
 
             if not player.lives == -42:
-                # text_as_image = font.render("Game Over!", True, (255, 255, 255))
-                # screen.blit(text_as_image, (200, res_y / 2))
-                playername = str(input("Enter Player Name:"))
+                screen.fill(pygame.Color("Black"))
+                text_score = font.render("Name:", True, (255, 255, 255))
+                screen.blit(text_score, (10, 30))
+                playername = get_playername(screen)
+                screen.fill(pygame.Color("Black"))
+                if expert:
+                    score.score *= 3.5
+                    score.score = int(score.score)
                 scoreboard.record(score.score, playername, time.time())
                 scoreboard.read()
                 print(scoreboard.list)
@@ -239,7 +294,8 @@ def main():
                     print(e)
                     text = font.render(str(e+1) + "    " + str(scoreboard.list[e].playername) + " - " + str(scoreboard.list[e].score), True, (255, 255, 255))
                     screen.blit(text, (10, 100+ 60*e))
-
+                text_score = font.render("High Scores:", True, (255, 255, 255))
+                screen.blit(text_score, (10, 30))
             player.lives = -42
 
         else:
@@ -248,11 +304,20 @@ def main():
             # -RETRACTS SHIELD-
             if shield.should_be_retracted():
                 shield.isDeployed = False
+            if expert:
+                # -SPAWN EXPERT ENEMIES-
+                if gameclock + 2 - score.score * .0001 < time.time():
+                    print("Expert Enemy Spawned")
+                    enemy_list.spawn(4 + score.score * .001, random.choice([True, False]), random.choice([True, False]), random.choice([True, False]), expert)
+                    gameclock = time.time()
 
-            # -SPAWN ENEMIES-
-            if gameclock + 3 - score.score * .00008 < time.time():
-                enemy_list.spawn(3 + score.score * .0001)
-                gameclock = time.time()
+            else:
+                # -SPAWN ENEMIES-
+                if gameclock + 2 - score.score * .00008 < time.time():
+                    print("Enemy Spawned")
+                    enemy_list.spawn(4 + score.score * .0001, False, False, False, expert)
+                    gameclock = time.time()
+
 
             for enemy in enemy_list.enemy_list:
                 enemy.x = column.getX(enemy.column)
