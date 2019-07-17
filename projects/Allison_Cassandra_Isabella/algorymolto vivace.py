@@ -202,6 +202,8 @@ def main():
     face = Face(screen, counselors[counselor_num])
     dancer = Dancer(screen, 90, 90)
     funished = pygame.image.load("Funished.png")
+    winner = pygame.image.load("victory_screen.png")
+    winner = pygame.transform.scale(winner, (640, 640))
     pygame.mixer.music.load(songs[song_num])
     punchbox = (129, 95, 383, 450)
     hurtbox = (204, 170, 233, 300)
@@ -234,6 +236,7 @@ def main():
     start_milli_time = int(round(time.time() * 1000))
     #  main game loop
     gameplay = True
+    win = False
     while gameplay:
         pressed_keys = pygame.key.get_pressed()
         if pressed_keys[pygame.K_SPACE]:
@@ -256,9 +259,15 @@ def main():
 
         if rounded_time in timeline_dict:
             action = timeline_dict[rounded_time]
-            orb = Orb(screen, action)
-            orblist.append(orb)
-            print("+++Time: %d, action: %s" % (rounded_time, action))
+            if action == 'over':
+                is_game_over = True
+                win = True
+                pygame.mixer.music.stop()
+                pygame.mixer.music.load("win_music.mp3")
+                pygame.mixer.music.play()
+            else:
+                orb = Orb(screen, action)
+                orblist.append(orb)
 
         punchway = ''
         if not is_game_over:
@@ -307,8 +316,12 @@ def main():
             pygame.mixer.music.load("My Heart Will Go On (terrible recorder meme).mp3")
             pygame.mixer.music.play(1, 19)
         if is_game_over:
-            screen.blit(funished, (-150, 0))
-            pygame.display.update()
+            if win:
+                screen.blit(winner, (0, 0))
+                pygame.display.update()
+            else:
+                screen.blit(funished, (-150, 0))
+                pygame.display.update()
 
 
 while True:
