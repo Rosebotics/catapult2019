@@ -90,8 +90,10 @@ class HPBar:
         self.font = pygame.font.Font(None, 30)
 
     def draw(self):
-        text_as_image = self.font.render("Health:" + str(self.score), True, (155, 75, 160))
-        self.screen.blit(text_as_image, (5, 5))
+        for hp in range(self.score // 100):
+            pygame.draw.rect(self.screen, (255, hp * 25, 0), (5 + 20 * (hp), 5, 20, 10))
+        # text_as_image = self.font.render("Health:" + str(self.score), True, (155, 75, 160))
+        # self.screen.blit(text_as_image, (5, 5))
 
 
 class Face:
@@ -131,6 +133,7 @@ class Face:
 def main():
     pygame.init()
     clock = pygame.time.Clock()
+    # start screen
     pygame.display.set_caption("Beat Fighter")
     screen = pygame.display.set_mode((640, 640))
     intro = True
@@ -142,6 +145,9 @@ def main():
     selection_row = 0
     while intro:
         screen.fill((0, 0, 0,))
+        screen.blit(pygame.font.Font(None, 28).render("Press arrow keys to punch in that direction.", True, (255, 255, 255)), (30, 500))
+        screen.blit(pygame.font.Font(None, 28).render("Punch the orbs in time to the music.", True, (255, 255, 255)), (30,530))
+        screen.blit(pygame.font.Font(None, 28).render("Press space at any time to reset.", True, (255, 255, 255)), (30, 560))
         screen.blit(pygame.font.Font(pygame.font.match_font('impact'), 64).render("Beat Fighter", True, (0, 150, 150)), (170, 10))
         if selection_row == 0:
             pygame.draw.rect(screen, (0, 0, 100), (25, 95, 590, 30))
@@ -154,7 +160,7 @@ def main():
         song_text = pygame.font.Font(None, 28).render(songs[song_num], True, (255, 255, 255))
         screen.blit(song_text, (30, 200))
         if selection_row == 2:
-            screen.blit(pygame.font.Font(None, 28).render("Press Space to Start", True, (255, 255, 255)), (30, 300))
+            screen.blit(pygame.font.Font(None, 28).render("Press Shift to Start", True, (255, 255, 255)), (30, 300))
         else:
             screen.blit(pygame.font.Font(None, 28).render("Start?", True, (255, 255, 255)), (30, 300))
         pygame.display.update()
@@ -175,22 +181,23 @@ def main():
                     counselor_num -= 1
                     if counselor_num < 0:
                         counselor_num = len(counselors) - 1
-                elif song_num == 1:
-                    song_num += 1
-                    if song_num > 1:
-                        song_num = 0
+                elif selection_row == 1:
+                    song_num -= 1
+                    if song_num < 0:
+                        song_num = len(songs) - 1
             if pressedkeys[pygame.K_RIGHT]:
                 if selection_row == 0:
                     counselor_num += 1
                     if counselor_num > len(counselors) - 1:
                         counselor_num = 0
                 elif selection_row == 1:
-                    song_num -= 1
-                    if song_num < 0:
-                        song_num = len(songs) - 1
-            if pressedkeys[pygame.K_SPACE]:
+                    song_num += 1
+                    if song_num > len(songs) - 1:
+                        song_num = 0
+            if pressedkeys[pygame.K_RSHIFT] or pressedkeys[pygame.K_LSHIFT]:
                 if selection_row == 2:
                     intro = False
+    #setup
     hpbar = HPBar(screen)
     face = Face(screen, counselors[counselor_num])
     dancer = Dancer(screen, 90, 90)
@@ -211,9 +218,12 @@ def main():
     is_game_over = False
     pygame.mixer.music.play()
     start_milli_time = int(round(time.time() * 1000))
+    # main game loop
     gameplay = True
     while gameplay:
-
+        pressed_keys = pygame.key.get_pressed()
+        if pressed_keys[pygame.K_SPACE]:
+            gameplay = False
         clock.tick(250)
         screen.fill((0, 0, 0))
         pygame.draw.rect(screen, (0, 0, 15), punchbox)
@@ -259,12 +269,9 @@ def main():
                 face.position = "i"
             face.draw()
 
-            # if dancer.hit_by: #TODO
-            #     hpbar.score = hpbar.score - 100
-
             if hpbar == 0:
                 is_game_over = True
-
+            # deal with orbs
             for orb in orblist:
                 orb.move()
                 orb.draw()
@@ -277,6 +284,7 @@ def main():
             for orb in orblist:
                 if orb.isdead:
                     orblist.remove(orb)
+
         if hpbar.score <= 0:
             pygame.mixer.music.stop()
             is_game_over = True
@@ -286,8 +294,6 @@ def main():
         if is_game_over:
             screen.blit(funished, (-150, 0))
             pygame.display.update()
-        if pressed_keys[pygame.K_SPACE]:
-            gameplay = False
 
 
 while True:

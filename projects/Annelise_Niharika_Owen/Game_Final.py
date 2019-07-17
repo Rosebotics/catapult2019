@@ -3,7 +3,7 @@ from pygame.locals import *
 
 
 class WaterBottle:
-    def __init__(self, screen, x, y,):
+    def __init__(self, screen, x, y, ):
         self.screen = screen
         self.x = x
         self.y = y
@@ -13,12 +13,12 @@ class WaterBottle:
         self.screen.blit(self.image, (self.x, self.y))
 
     def hit_by(self, starfish):
-        return starfish.x > self.x - 44 + 5 and starfish.x < self.x + 16 - 5 and\
-                starfish.y > self.y - 42 + 5 and starfish.y < self.y + 43 - 5
+        return starfish.x > self.x - 44 + 5 and starfish.x < self.x + 16 - 5 and \
+               starfish.y > self.y - 42 + 5 and starfish.y < self.y + 43 - 5
 
 
 class Soda:
-    def __init__(self, screen, x, y,):
+    def __init__(self, screen, x, y, ):
         self.screen = screen
         self.x = x
         self.y = y
@@ -50,8 +50,9 @@ class Soda:
         return starfish.x > self.x - 44 and starfish.x < self.x + 31 and \
                starfish.y > self.y - 42 and starfish.y < self.y + 56
 
+
 class Starfish:
-    def __init__(self, screen, x, y,):
+    def __init__(self, screen, x, y, ):
         self.screen = screen
         self.x = x
         self.y = y
@@ -69,7 +70,7 @@ class Starfish:
 
         if self.y > 900:
             self.y = -50
-        elif self.y < -60: #DAWGG, YUR HI KEE DUM NUDDY LITT WIT IT'
+        elif self.y < -60:  # DAWGG, YUR HI KEE DUM NUDDY LITT WIT IT'
             self.y = 850
 
 
@@ -100,8 +101,8 @@ class Pearl:
         if self.x is None:
             return True
         for waterbottle in self.waterbottles:
-            if self.x > waterbottle.x - 16 and self.x < waterbottle.x + 16 and\
-                self.y < waterbottle.y + 43 and self.y > waterbottle.y - 16:
+            if self.x > waterbottle.x - 16 and self.x < waterbottle.x + 16 and \
+                    self.y < waterbottle.y + 43 and self.y > waterbottle.y - 16:
                 return True
         return False
 
@@ -159,14 +160,13 @@ class Countdown:
         self.screen.blit(text_as_image, (self.x, self.y))
 
 
-
 def main():
     pygame.init()
     pygame.font.init()
     caption_font = pygame.font.Font(None, 100)
     clock = pygame.time.Clock()
-    pygame.display.set_caption("STARFISH!")
     screen = pygame.display.set_mode((900, 900))
+    pygame.display.set_caption("STARFISH!")
     gameover_image2 = pygame.image.load('gameover_image2.png')
     level1_image = pygame.image.load('level_1.png')
     gamewin = pygame.image.load('gamewin.png')
@@ -209,7 +209,6 @@ def main():
 
     starting_time = time.time()
 
-
     dead = False
 
     while True:
@@ -218,8 +217,8 @@ def main():
                 sys.exit()
 
         if not dead:
-            pressed_keys = pygame.key.get_pressed()
             # Check for game key presses
+            pressed_keys = pygame.key.get_pressed()
             if pressed_keys[pygame.K_UP]:
                 starfish.y = starfish.y - 5
             if pressed_keys[pygame.K_DOWN]:
@@ -249,6 +248,7 @@ def main():
                 if pearl == pearl_fleet.power_pearl:
                     pearl_fleet.power_pearl_collected_time = time.time()
                     pearl_fleet.power_pearl_spawned = False
+
         screen.blit(level1_image, (0, 0))
         for waterbottle in waterbottles:
             waterbottle.draw()
@@ -272,7 +272,7 @@ def main():
         pressed_keys = pygame.key.get_pressed()
         if pressed_keys[K_SPACE]:
             main()
-
+            screen.blit(level1_image, (0, 0))
 
         current_time = time.time()
         game_time = current_time - starting_time
@@ -291,20 +291,15 @@ def main():
 
 
 def game_intro():
-    screen = pygame.display.set_mode((900, 900))
-    start_screen = pygame.image.load('introscreen.png')
     while True:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                sys.exit()
-        screen.blit(start_screen, (0, 0))
-
+        screen = pygame.display.set_mode((900, 900))
+        start_screen = pygame.image.load('introscreen.png')
         pressed_keys = pygame.key.get_pressed()
-        if pressed_keys[pygame.K_s]:
+        screen.blit(start_screen, (0, 0))
+        pygame.display.update()
+        if pressed_keys[K_s]:
             main()
 
-        pygame.display.update()
 
 game_intro()
-
 
