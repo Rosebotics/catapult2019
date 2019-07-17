@@ -218,7 +218,7 @@ def main():
 
         #screen.blit(start_screen, (0, 0))
         screen.blit(level1_image, (0, 0))
-
+#hi
         if not dead:
             # Check for game key presses
             pressed_keys = pygame.key.get_pressed()
