@@ -3,7 +3,7 @@ from pygame.locals import *
 
 # Team 12
 
-res_y = 1000
+res_y = 1036
 
 
 class Column:  # Returns  the x value for a column, draws lines on the screen
@@ -36,11 +36,11 @@ class Player:  # The player. Draws, detects if itself is hit, draws health bar.
             pygame.draw.polygon(self.screen, self.color, [(self.x, self.y), (self.x, self.y - 66), (self.x + 75, self.y - 33), (self.x + 150, self.y - 66), (self.x + 150, self.y), (self.x + 75, self.y + 33)], 2)
 
     def isHit(self, enemy): # If called, returns if it's touching the specified enemy
-        return pygame.Rect(self.x, self.y - 33, self.x +150, self.y-100).collidepoint(enemy.x, enemy.y)
+        return pygame.Rect(self.x, self.y - 33, self.x + 150, self.y- 100).collidepoint(enemy.x, enemy.y)
 
     def drawHealth(self): # Draws the health bar
         for i in range(self.lives):
-            pygame.draw.rect(self.screen, self.color, (self.screen.get_width() - (20 + i*15), 10, 10, 10), 2)
+            pygame.draw.rect(self.screen, self.color, (self.screen.get_width() - (25 + i*30), 10, 20, 20), 2)
 
 
 class Shield:  # Generates Player's shield. Draws and detects if it's hit
@@ -132,7 +132,7 @@ class Score:
     def __init__(self, screen):
         self.screen = screen
         self.score = 0
-        self.font = pygame.font.Font(None, 24)
+        self.font = pygame.font.Font(None, 30)
 
     def draw(self):
         text_as_image = self.font.render("Score: " + str(self.score), True, (255, 255, 255))
@@ -143,7 +143,6 @@ class Scoreboard:
         self.screen = screen
         self.playername = playername
         self.list = []
-
 
     def record(self, score, playername, id):
         file = open("scores.txt", "a")
@@ -169,6 +168,8 @@ class Scoreboard:
 
     def draw(self):
         pass
+
+
 def main():
     playername = ""
 
