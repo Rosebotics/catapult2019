@@ -71,27 +71,15 @@ class Starfish:
             self.y = 850
 
 
-class PowerPearl:
-    def __init__(self, screen, x, y):
-        self.screen = screen
-        self.x = x
-        self.y = y
-        self.image = pygame.image.load('') # TODO: IMAGE
-        self.collected = False
-
-    def draw(self):
-        self.screen.blit(self.image, (self.x, self.y))
-
-    def hit_by(self, starfish):
-        return pygame.Rect(self.x, self.y, 40, 30).collidepoint(starfish.x + 33.5, starfish.y + 25)
-
-
 class Pearl:
-    def __init__(self, screen, x, y, image):
+    def __init__(self, screen, x, y, is_power_pearl):
         self.screen = screen
         self.x = x
         self.y = y
-        self.image = image
+        if is_power_pearl:
+            self.image = pygame.image.load("powerpearl.png")
+        else:
+            self.image = pygame.image.load("pearl.png")
         self.collected = False
 
     def draw(self):
@@ -104,12 +92,12 @@ class Pearl:
 class PearlFleet:
     def __init__(self, screen):
         self.screen = screen
-        power_pearl = None
-        power_pearl_spawned = False
+        self.power_pearl = None
+        self.power_pearl_spawned = False
         self.pearls = []
-        pearl_image = pygame.image.load("pearl.png")
-        for x in range(3):
-            pearl = Pearl(screen, random.randint(60, 850), random.randint(20, 850), pearl_image)
+        self.power_pearl_collected_time = 0
+        for x in range(5):
+            pearl = Pearl(screen, random.randint(60, 850), random.randint(20, 850), False)
             self.pearls.append(pearl)
 
     def remove_collected_pearls(self):
@@ -120,18 +108,16 @@ class PearlFleet:
     def add_pearls(self):
         if not self.power_pearl_spawned:
             random_float = random.random()
-            if random_float > 0:
-                self.power_pearl = Pearl(self.screen, random.randint(60, 850), random.randint(20, 850), pygame.image.load("powerpearl.png"))
+            if random_float > 0.8:
+                self.power_pearl = Pearl(self.screen, random.randint(60, 850), random.randint(20, 850), True)
                 self.pearls.append(self.power_pearl)
                 self.power_pearl_spawned = True
             else:
-                pearl = Pearl(self.screen, random.randint(60, 850), random.randint(20, 850), pygame.image.load("pearl.png"))
+                pearl = Pearl(self.screen, random.randint(60, 850), random.randint(20, 850), False)
                 self.pearls.append(pearl)
         else:
-            pearl = Pearl(self.screen, random.randint(60, 850), random.randint(20, 850), pygame.image.load("pearl.png"))
+            pearl = Pearl(self.screen, random.randint(60, 850), random.randint(20, 850), False)
             self.pearls.append(pearl)
-
-
 
 
 class Scoreboard:
@@ -164,6 +150,7 @@ def main():
     pygame.font.init()
     caption_font = pygame.font.Font(None, 100)
     clock = pygame.time.Clock()
+    start_screen = pygame.image.load('introscreen.png')
     pygame.display.set_caption("STARFISH!")
     screen = pygame.display.set_mode((900, 900))
     gameover_image2 = pygame.image.load('gameover_image2.png')
@@ -214,6 +201,8 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
+
+        screen.blit(start_screen, (0, 0))
         screen.blit(level1_image, (0, 0))
 
         if not dead:
@@ -240,23 +229,22 @@ def main():
 
         for pearl in pearl_fleet.pearls:
             if pearl.hit_by(starfish):
+                pearl_sound.play()
+                pearl.collected = True
+                scoreboard.score = scoreboard.score + 10
+                pearl_fleet.remove_collected_pearls()
+                pearl_fleet.add_pearls()
                 if pearl == pearl_fleet.power_pearl:
-                    pearl_sound.play()
-                    pearl.collected = True
-                    scoreboard.score = scoreboard.score + 10
-                    pearl_fleet.remove_collected_pearls()
-                    pearl_fleet.add_pearls()
+                    pearl_fleet.power_pearl_collected_time = time.time()
+                    pearl_fleet.power_pearl_spawned = False
 
         for waterbottle in waterbottles:
             waterbottle.draw()
 
         for soda in sodas:
-            if pearl_fleet.power_pearl_has_been_collected:
-                if time.time() - pearl_fleet.power_pearl_collected_time > 5:
-                    soda.move()
-            else:
+            if time.time() - pearl_fleet.power_pearl_collected_time > 5:
                 soda.move()
-                soda.draw()
+            soda.draw()
 
         for pearl in pearl_fleet.pearls:
             pearl.draw()
@@ -275,13 +263,14 @@ def main():
 
         current_time = time.time()
         game_time = current_time - starting_time
+        max_time = 90
 
-        if game_time >= 30 and not dead:
+        if game_time >= max_time and not dead:
             screen.blit(gamewin, (0, 0))
             screen.blit(score_display, (330, 750))
 
-        countdown_time = 30 - game_time
-        if not dead and not (game_time >= 30):
+        countdown_time = max_time - game_time
+        if not dead and not (game_time >= max_time):
             countdown.draw(math.floor(countdown_time))
 
         pygame.display.update()
