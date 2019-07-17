@@ -266,6 +266,7 @@ def main():
             #             face.position = "d"
             #             print("punchdown")
             #         else:
+            #
             #             dancer.draw()
             #             face.position = "i"
 
