@@ -69,7 +69,7 @@ class Starfish:
 
         if self.y > 900:
             self.y = -50
-        elif self.y < -60: # DAWGG, YUR HI KEE DUM NUDDY LITT WIT IT'
+        elif self.y < -60: #DAWGG, YUR HI KEE DUM NUDDY LITT WIT IT'
             self.y = 850
 
 
