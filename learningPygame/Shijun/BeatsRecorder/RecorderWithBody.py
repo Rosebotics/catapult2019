@@ -134,7 +134,7 @@ def main():
     dancer = Dancer(screen, 90, 90)
     funished = pygame.image.load("Funished.png")
     #pygame.mixer.music.load("albatraoz.mp3")
-    pygame.mixer.music.load("old_town_road_diplo.mp3")
+    pygame.mixer.music.load("Chicken Dance.mp3")
     punchbox = (129, 95, 383, 450)
     hurtbox = (204, 170, 233, 300)
     orblist = []
