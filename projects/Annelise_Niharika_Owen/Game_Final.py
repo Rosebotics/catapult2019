@@ -164,7 +164,7 @@ def main():
     pygame.font.init()
     caption_font = pygame.font.Font(None, 100)
     clock = pygame.time.Clock()
-    start_screen = pygame.image.load('introscreen.png')
+    #start_screen = pygame.image.load('introscreen.png')
     pygame.display.set_caption("STARFISH!")
     screen = pygame.display.set_mode((900, 900))
     gameover_image2 = pygame.image.load('gameover_image2.png')
@@ -216,7 +216,7 @@ def main():
             if event.type == pygame.QUIT:
                 sys.exit()
 
-        screen.blit(start_screen, (0, 0))
+        #screen.blit(start_screen, (0, 0))
         screen.blit(level1_image, (0, 0))
 
         if not dead:
