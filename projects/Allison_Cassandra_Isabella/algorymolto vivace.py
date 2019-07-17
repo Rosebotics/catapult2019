@@ -142,6 +142,9 @@ def main():
     selection_row = 0
     while intro:
         screen.fill((0, 0, 0,))
+        screen.blit(pygame.font.Font(None, 28).render("Press arrow keys to punch in that direction.", True, (255, 255, 255)), (30, 500))
+        screen.blit(pygame.font.Font(None, 28).render("Punch the orbs in time to the music.", True, (255, 255, 255)), (30,530))
+        screen.blit(pygame.font.Font(None, 28).render("Press space at any time to reset.", True, (255, 255, 255)), (30, 560))
         screen.blit(pygame.font.Font(pygame.font.match_font('impact'), 64).render("Beat Fighter", True, (0, 150, 150)), (170, 10))
         if selection_row == 0:
             pygame.draw.rect(screen, (0, 0, 100), (25, 95, 590, 30))
@@ -154,7 +157,7 @@ def main():
         song_text = pygame.font.Font(None, 28).render(songs[song_num], True, (255, 255, 255))
         screen.blit(song_text, (30, 200))
         if selection_row == 2:
-            screen.blit(pygame.font.Font(None, 28).render("Press Space to Start", True, (255, 255, 255)), (30, 300))
+            screen.blit(pygame.font.Font(None, 28).render("Press Shift to Start", True, (255, 255, 255)), (30, 300))
         else:
             screen.blit(pygame.font.Font(None, 28).render("Start?", True, (255, 255, 255)), (30, 300))
         pygame.display.update()
@@ -175,20 +178,20 @@ def main():
                     counselor_num -= 1
                     if counselor_num < 0:
                         counselor_num = len(counselors) - 1
-                elif song_num == 1:
-                    song_num += 1
-                    if song_num > 1:
-                        song_num = 0
+                elif selection_row == 1:
+                    song_num -= 1
+                    if song_num < 0:
+                        song_num = len(songs) - 1
             if pressedkeys[pygame.K_RIGHT]:
                 if selection_row == 0:
                     counselor_num += 1
                     if counselor_num > len(counselors) - 1:
                         counselor_num = 0
                 elif selection_row == 1:
-                    song_num -= 1
-                    if song_num < 0:
-                        song_num = len(songs) - 1
-            if pressedkeys[pygame.K_SPACE]:
+                    song_num += 1
+                    if song_num > len(songs) - 1:
+                        song_num = 0
+            if pressedkeys[pygame.K_RSHIFT] or pressedkeys[pygame.K_LSHIFT]:
                 if selection_row == 2:
                     intro = False
     hpbar = HPBar(screen)
@@ -213,7 +216,9 @@ def main():
     start_milli_time = int(round(time.time() * 1000))
     gameplay = True
     while gameplay:
-
+        pressed_keys = pygame.key.get_pressed()
+        if pressed_keys[pygame.K_SPACE]:
+            gameplay = False
         clock.tick(250)
         screen.fill((0, 0, 0))
         pygame.draw.rect(screen, (0, 0, 15), punchbox)
@@ -286,8 +291,6 @@ def main():
         if is_game_over:
             screen.blit(funished, (-150, 0))
             pygame.display.update()
-        if pressed_keys[pygame.K_SPACE]:
-            gameplay = False
 
 
 while True:
