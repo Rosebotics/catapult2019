@@ -135,8 +135,8 @@ def main():
     screen = pygame.display.set_mode((640, 640))
     intro = True
     counselors = ["Jared", "Susan", "Jackson"]
-    songs = ["albatraoz.mp3", "old_town_road_diplo.mp3", "EXO Power.mp3"]
-    song_files = ["albatraoz_bk.txt", "old_town_road.txt", "Power.txt"]
+    songs = ["albatraoz.mp3", "old_town_road_diplo.mp3", "FRIENDS.mp3", "EXO Power.mp3"]
+    song_files = ["albatraoz_bk.txt", "old_town_road.txt", "FRIENDS.txt", "Power.txt"]
     counselor_num = 0
     song_num = 0
     selection_row = 0
@@ -263,9 +263,6 @@ def main():
                 dancer.draw()
                 face.position = "i"
             face.draw()
-
-            # if dancer.hit_by: #TODO
-            #     hpbar.score = hpbar.score - 100
 
             if hpbar == 0:
                 is_game_over = True
