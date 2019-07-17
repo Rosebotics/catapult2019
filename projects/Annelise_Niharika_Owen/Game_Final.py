@@ -72,10 +72,11 @@ class Starfish:
 
 
 class Pearl:
-    def __init__(self, screen, x, y, is_power_pearl):
+    def __init__(self, screen, waterbottles, is_power_pearl):
         self.screen = screen
-        self.x = x
-        self.y = y
+        while self.touching_waterbottle():
+            self.x = random.randint(60, 850)
+            self.y = random.randint(20, 850)
         if is_power_pearl:
             self.image = pygame.image.load("powerpearl.png")
         else:
@@ -88,17 +89,22 @@ class Pearl:
     def hit_by(self, starfish):
         return pygame.Rect(self.x, self.y, 40, 30).collidepoint(starfish.x + 33.5, starfish.y + 25)
 
+    def touching_waterbottles(self):
+        if self.x is None:
+            return True
+
 
 class PearlFleet:
-    def __init__(self, screen):
+    def __init__(self, screen, waterbottles):
         self.screen = screen
+        self.waterbottles = waterbottles
         self.power_pearl = None
-        self.power_pearl_spawned = False
+        self.power_pearl_spawned = True
         self.pearls = []
         self.power_pearl_collected_time = 0
         for x in range(5):
-            pearl = Pearl(screen, random.randint(60, 850), random.randint(20, 850), False)
-            self.pearls.append(pearl)
+            self.add_pearls()
+        self.power_pearl_spawned = False
 
     def remove_collected_pearls(self):
         for k in range(len(self.pearls) - 1, -1, -1):
@@ -106,17 +112,13 @@ class PearlFleet:
                 del self.pearls[k]
 
     def add_pearls(self):
-        if not self.power_pearl_spawned:
-            random_float = random.random()
-            if random_float > 0.8:
-                self.power_pearl = Pearl(self.screen, random.randint(60, 850), random.randint(20, 850), True)
-                self.pearls.append(self.power_pearl)
-                self.power_pearl_spawned = True
-            else:
-                pearl = Pearl(self.screen, random.randint(60, 850), random.randint(20, 850), False)
-                self.pearls.append(pearl)
+        random_float = random.random()
+        if not self.power_pearl_spawned and random_float > 0.8:
+            self.power_pearl = Pearl(self.screen, self.waterbottles, True)
+            self.pearls.append(self.power_pearl)
+            self.power_pearl_spawned = True
         else:
-            pearl = Pearl(self.screen, random.randint(60, 850), random.randint(20, 850), False)
+            pearl = Pearl(self.screen, self.waterbottles, False)
             self.pearls.append(pearl)
 
 
@@ -163,8 +165,6 @@ def main():
 
     starfish = Starfish(screen, 10, 35)
 
-    pearl_fleet = PearlFleet(screen)
-
     waterbottles = []
     number_of_waterbottles_in_region_1 = random.randint(5, 10)
 
@@ -177,6 +177,8 @@ def main():
     for x in range(number_of_waterbottles_in_region_2):
         waterbottle = WaterBottle(screen, random.randint(90, 900), random.randint(0, 900))
         waterbottles.append(waterbottle)
+
+    pearl_fleet = PearlFleet(screen, waterbottles)
 
     sodas = []
     number_of_sodas_in_region_1 = 4
