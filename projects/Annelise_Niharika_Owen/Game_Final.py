@@ -7,13 +7,15 @@ class WaterBottle:
         self.screen = screen
         self.x = x
         self.y = y
-        self.image = pygame.image.load('water_bottle.png')
+        self.image = pygame.image.load('waterbottle_trim.png')
 
     def draw(self):
         self.screen.blit(self.image, (self.x, self.y))
 
     def hit_by(self, starfish):
-        return pygame.Rect(self.x, self.y, 40, 50).collidepoint(starfish.x + 33.5, starfish.y + 25)
+        return starfish.x > self.x - 44 + 5 and starfish.x < self.x + 16 - 5 and\
+                starfish.y > self.y - 42 + 5 and starfish.y < self.y + 43 - 5
+
 
 class Soda:
     def __init__(self, screen, x, y,):
@@ -26,7 +28,7 @@ class Soda:
             self.x_speed = 2
         if self.y_speed == 0:
             self.y_speed = 2
-        self.image = pygame.image.load('soda.png')
+        self.image = pygame.image.load('soda_trim.png')
 
     def draw(self):
         self.screen.blit(self.image, (self.x, self.y))
@@ -45,15 +47,15 @@ class Soda:
             self.y = 850
 
     def hit_by(self, starfish):
-        return pygame.Rect(self.x, self.y, 40, 50).collidepoint(starfish.x + 33.5, starfish.y + 25)
-
+        return starfish.x > self.x - 44 and starfish.x < self.x + 31 and \
+               starfish.y > self.y - 42 and starfish.y < self.y + 56
 
 class Starfish:
     def __init__(self, screen, x, y,):
         self.screen = screen
         self.x = x
         self.y = y
-        self.image = pygame.image.load('starfish.png')
+        self.image = pygame.image.load('starfish_trim.png')
         # self.dead = False
 
     def draw(self):
@@ -74,13 +76,16 @@ class Starfish:
 class Pearl:
     def __init__(self, screen, waterbottles, is_power_pearl):
         self.screen = screen
+        self.x = None
+        self.y = None
+        self.waterbottles = waterbottles
         while self.touching_waterbottle():
             self.x = random.randint(60, 850)
             self.y = random.randint(20, 850)
         if is_power_pearl:
-            self.image = pygame.image.load("powerpearl.png")
+            self.image = pygame.image.load("powerpearl_trim.png")
         else:
-            self.image = pygame.image.load("pearl.png")
+            self.image = pygame.image.load("pearl_trim.png")
         self.collected = False
 
     def draw(self):
@@ -88,10 +93,17 @@ class Pearl:
 
     def hit_by(self, starfish):
         return pygame.Rect(self.x, self.y, 40, 30).collidepoint(starfish.x + 33.5, starfish.y + 25)
+        # return starfish.x > self.x - 44 and starfish.x < self.x + 16 and \
+        #        starfish.y > self.y - 42 and starfish.y < self.y + 16
 
-    def touching_waterbottles(self):
+    def touching_waterbottle(self):
         if self.x is None:
             return True
+        for waterbottle in self.waterbottles:
+            if self.x > waterbottle.x - 16 and self.x < waterbottle.x + 16 and\
+                self.y < waterbottle.y + 43 and self.y > waterbottle.y - 16:
+                return True
+        return False
 
 
 class PearlFleet:
@@ -265,7 +277,7 @@ def main():
 
         current_time = time.time()
         game_time = current_time - starting_time
-        max_time = 90
+        max_time = 60
 
         if game_time >= max_time and not dead:
             screen.blit(gamewin, (0, 0))
