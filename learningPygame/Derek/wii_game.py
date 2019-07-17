@@ -6,11 +6,11 @@ def make_possible_button_objects():
     button_location = (50, 300)
 
     possible_buttons.append(GameAction('A', button_location, pygame.image.load('A.png')))
-    possible_buttons.append(GameAction('B', button_location, pygame.image.load('B.png')))
-    possible_buttons.append(GameAction('Up', button_location, pygame.image.load('up_arrow.png')))
-    possible_buttons.append(GameAction('Down', button_location, pygame.image.load('down_arrow.png')))
-    possible_buttons.append(GameAction('Left', button_location, pygame.image.load('left_arrow.png')))
-    possible_buttons.append(GameAction('Right', button_location, pygame.image.load('right_arrow.png')))
+    # possible_buttons.append(GameAction('B', button_location, pygame.image.load('B.png')))
+    # possible_buttons.append(GameAction('Up', button_location, pygame.image.load('up_arrow.png')))
+    # possible_buttons.append(GameAction('Down', button_location, pygame.image.load('down_arrow.png')))
+    # possible_buttons.append(GameAction('Left', button_location, pygame.image.load('left_arrow.png')))
+    # possible_buttons.append(GameAction('Right', button_location, pygame.image.load('right_arrow.png')))
 
     return possible_buttons
 
@@ -21,6 +21,8 @@ def make_possible_turn_objects():
 
     possible_turns.append(GameAction('Rotate Left', turn_location, pygame.image.load('rotate_left.png')))
     possible_turns.append(GameAction('Rotate Right', turn_location, pygame.image.load('rotate_right.png')))
+    possible_turns.append(GameAction('Rotate Up', turn_location, pygame.image.load('up_arrow.png')))
+    possible_turns.append(GameAction('Rotate Down', turn_location, pygame.image.load('down_arrow.png')))
 
     return possible_turns
 
@@ -44,47 +46,6 @@ class CombinationMaker:
 
         return button, turn
 
-class GameActionChecker:
-    def __init__(self, wii_remote):
-        self.wii_remote = wii_remote
-
-        self.button_numbers_to_button_names = {
-            0: lambda button_press_name : button_press_name == "A",
-            1: lambda button_press_name : button_press_name == "B",
-            "Up": round(self.wii_remote.get_axis(0)) == -1,
-            "Down": round(self.wii_remote.get_axis(0)) == 1,
-            "Left": round(self.wii_remote.get_axis(1)) == -1,
-            "Right": round(self.wii_remote.get_axis(1)) == 1
-        }
-
-        self.buttons_and_turns_to_checker_functions = {}
-
-    def check_game_action_combination(self, user_action_information):
-        # TODO: Fill in with successful move logic
-        if user_action_information.correct_button.name == 'A' or user_action_information.correct_button.name == 'B':
-            if self.button_numbers_to_button_names[user_action_information.button_press]()
-
-
-        correct_button_press = self.button_numbers_to_button_names[user_action_information.button_press]
-        if buttonbutton_pressed_name != user_action_information.correct_button.name:
-            return False
-        elif
-        else:
-            self.correct
-
-
-
-        pass
-
-class UserActionWrapper:
-    def __init__(self, correct_button, correct_turn, button_press, axis_0, axis_1, axis_4):
-        self.correct_button = correct_button
-        self.correct_turn = correct_turn
-        self.button_press = button_press
-        self.axis_0 = axis_0
-        self.axis_1 = axis_1
-        self.axis_4 = axis_4
-
 class Frame:
     def __init__(self):
         self.frame = pygame.display.set_mode((500, 500))
@@ -102,18 +63,14 @@ class Frame:
 
         self.frame.blit(time_remaining_surface, (50, 50))
 
-        print("Button is: " + game_action_combination[0].name)
-        print("Turn is: " + game_action_combination[1].name)
-
         self.frame.blit(game_action_combination[0].image, game_action_combination[0].location)
         self.frame.blit(game_action_combination[1].image, game_action_combination[1].location)
         pygame.display.update()
 
 class Game:
-    def __init__(self, frame, combination_maker, valid_combination_checker, wii_remote):
+    def __init__(self, frame, combination_maker, wii_remote):
         self.frame = frame
         self.combination_maker = combination_maker
-        self.valid_combination_checker = valid_combination_checker
         self.wii_remote = wii_remote
         self.current_combination = None
         self.current_combination_deploy_time = None
@@ -122,29 +79,53 @@ class Game:
     def run(self):
         playing_wii_game = True
 
+        user_played_correctly = False
+
         while playing_wii_game:
+
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     playing_wii_game = False
                 if event.type == pygame.JOYBUTTONDOWN:
                     if self.current_combination != None:
-                        user_action = \
-                            UserActionWrapper(self.current_combination[0], self.current_combination[1], event.button,
-                                              self.wii_remote.get_axis(0), self.wii_remote.get_axis(1), self.wii_remote.get_axis(4))
-                        correct_button_press = self.valid_combination_checker.check_game_action_combination(user_action)
-                        if correct_button_press:
-                            self.valid_combination_checker.check_game_action_button(event.button)
+                        if event.button == 2:
+                            if self.current_combination[1].name == 'Rotate Left':
+                                if self.wii_remote.get_axis(4) > 0.15:
+                                    user_played_correctly = True
+                                else:
+                                    user_played_correctly = False
+
+                            if self.current_combination[1].name == 'Rotate Right':
+                                if self.wii_remote.get_axis(4) < -0.15:
+                                    user_played_correctly = True
+                                else:
+                                    user_played_correctly = False
+
+                            if self.current_combination[1].name == 'Rotate Up':
+                                if self.wii_remote.get_axis(5) > 0.15:
+                                    user_played_correctly = True
+                                else:
+                                    user_played_correctly = False
+
+                            if self.current_combination[1].name == 'Rotate Down':
+                                if self.wii_remote.get_axis(5) < -0.15:
+                                    user_played_correctly = True
+                                else:
+                                    user_played_correctly = False
 
             if self.current_combination == None:
                 current_button, current_turn = self.combination_maker.get_random_combination()
                 self.current_combination_deploy_time = time.time()
                 self.current_combination = (current_button, current_turn)
+
+            if user_played_correctly:
+                self.frame.set_fill_color(pygame.Color('green'))
+                self.frame.update(self.current_combination, 3 - (time.time() - self.current_combination_deploy_time))
+                self.current_combination = None
+                user_played_correctly = False
             else:
                 if self.current_combination_is_timed_out(time.time()):
-                    self.current_combination = None
                     self.frame.set_fill_color(pygame.Color('red'))
-                elif self.valid_combination_checker.check_game_action_combination(current_button, current_turn):
-                    self.frame.set_fill_color(pygame.Color('green'))
                     self.current_combination = None
                 else:
                     self.frame.update(self.current_combination, 3 - (time.time() - self.current_combination_deploy_time))
@@ -166,16 +147,11 @@ def main():
     except pygame.error:
         wii_remote = None
 
-    if wii_remote.wii_remote is not None:
-        valid_combination_checker = GameActionChecker(wii_remote)
-        game = Game(frame, combination_maker, valid_combination_checker, wii_remote)
+    if wii_remote is not None:
+        game = Game(frame, combination_maker, wii_remote)
         game.run()
     else:
         print('Unable to connect to Wii Remote')
-
-
-
-
 
 
 main()

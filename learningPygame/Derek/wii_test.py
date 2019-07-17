@@ -29,22 +29,27 @@ def main():
             if event.type == pygame.QUIT:
                 looking_for_wii_events = False
             if event.type == pygame.JOYAXISMOTION:
-                if event.value < -0.1 and event.axis == 4:
-                    rect_x += 10
-                if event.value > 0.1 and event.axis == 4:
-                    rect_x += -10
-                # if -0.4 < event.value < 0.4 and event.axis == 4: # -- rotate controller facing up from palm up to palm down / hard controller movement up-down and left-right
+                if event.axis == 4:
+                    pass
+                    # print("Movement value is: " + str(event.value))
+                # if event.value < -0.1 and event.axis == 4:
+                #     rect_x += 10
+                # if event.value > 0.1 and event.axis == 4:
+                #     rect_x += -10
+                # if event.axis == 5:
+                #     print("Movement along axis 5 with value: " + str(event.value))
+            #     # if -0.4 < event.value < 0.4 and event.axis == 4: # -- rotate controller facing up from palm up to palm down / hard controller movement up-down and left-right
                 #     print("Axis is: " + str(event.axis))
                 #     print("Value is: " + str(event.value))
                 # if abs(event.value) < 0.0001:
                 #     print("Axis is: " + str(event.axis))
                 #     print("Value is: " + str(event.value))
 
-
-
         frame.fill((255, 255, 255))
 
         pygame.draw.rect(frame, (255, 0, 0), (rect_x, rect_y, rect_width, rect_height))
+
+        print("The value of axis 5 is currently: " + str(wii_remote.get_axis(5)))
 
         # for i in range(pygame.joystick.get_count()):
         #     print(pygame.joystick.Joystick(i).get_name())
