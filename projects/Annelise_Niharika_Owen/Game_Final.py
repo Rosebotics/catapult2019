@@ -216,7 +216,6 @@ def main():
             if event.type == pygame.QUIT:
                 sys.exit()
 
-#h
 
         screen.blit(start_screen, (0, 0))
 
