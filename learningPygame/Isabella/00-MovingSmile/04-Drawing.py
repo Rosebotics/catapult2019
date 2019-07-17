@@ -25,9 +25,12 @@ while True:
             sys.exit()
     screen.fill((255, 65, 65))
 
-    pygame.draw.circle(screen, (255, 255, 0), (320,240), 200)
+    pygame.draw.circle(screen, (255, 255, 0), (320, 240), 200)
     pygame.draw.circle(screen, (0, 0, 0), (250, 200), 40)
     pygame.draw.circle(screen, (0, 0, 0), (390, 200), 40)
-    pygame.draw.line(screen, (0, 0, 0), (270, 300), (370, 300), 100)
+    pygame.draw.rect(screen, (0, 0, 0), (270, 340, 100, -50), 30)
+    pygame.draw.line(screen, (255, 255, 0), (285, 305), (355, 305), 30)
+    pygame.draw.line(screen, (255, 255, 0), (270, 280), (370, 280), 20)
+
 
     pygame.display.update()

@@ -1,5 +1,35 @@
 Things I've learned
 
 00-Moving Smile
-    - drawing cirlces
+    - drawing circles
+    - drawing rectangles
     - listening to key press events
+    - clock
+    - game loop
+
+01-Dog bark
+    - drawing images
+    - using sound files
+    - using text
+
+02-ClickInTheCircle
+    - calculate distance
+    -
+
+03-Raindrop
+    -working with classes
+    -self
+    -using sprites that move and interact
+    -collide point
+    -time.time() to measure time
+    -working with loops and for each loops
+
+04-bouncing ball
+    - practice for writing a whole class
+    - practice using lists
+
+05-tic tac toe
+    -
+
+06-space invaders
+    - practice using lots of classes

@@ -30,9 +30,45 @@ in main function have a
                 sys.exit()
  to make the "x" button work and in the new (for event) loop have button/mouse events
 
+inorder to use randome ness have
+    import random
+at the begining of the code and use
+    randome.randint(min,max)
+for randome intigers
+
+set up lines ------------------------------------------------------------------------------------------------
+load up
+    inishat pygame
+       pygame.init()
+    set up screen
+       screen = pygame.display.set_mode((x, y))
+    update screen
+       pygame.display.update()
+    make "x" button work
+        if event.type == QUIT:
+            sys.exit()
+    load  images
+       image = pygame.image.load('fighter.png')
+    see keys
+       pressed_keys = pygame.key.get_pressed()
+    sound
+       pygame.mixer.music.load("file name here")
+       var = pygame.mixer.Sound("file name here")
+    set up chanals
+       pygame.mixer.set_num_channels()
+    start time
+       time.time()
+    set up clock/fps
+       clock = pygame.time.Clock()
+    use clock/fps
+        clock.tick(60)
+
+general notes ----------------------------------------------------------------------------------------------------------------------------------
+starting points for images is in the top left
+
 00-moving face that is creepy --------------------------------------------------------------------------------------------------
 thing that i can use
-    pygame.draw.rect(screen, collor, (start),(with lange)
+    pygame.draw.rect(screen, collor, (start),(with, lange)
     pygame.draw.circle(screen, color, position(x,y), radius, with)
 
 lisses to key presses with ,  this line needs to be in the begining of the loop, this will reupbate what the last event was
@@ -46,8 +82,9 @@ can use clock
         clock.tick(60)
 
 01- dog bark (lets make demons) --------------------------------------------------------------------------------------------------
-
-to put an immige on the screen
+load in immage
+var = pygame.image.load('file name')
+to put an image on the screen
         screen.blit(thing to put on screen , (x,y))
 to get size of a image (width)
         caption.get_width()
@@ -58,7 +95,7 @@ to play sound
     pygame.mixer.music.play()
 
 02 - click the circle --------------------------------------------------------------------------------------------------
-for sound inorder to be able to stack i can do
+for sound inorder to be able to stack i can do (only workes with OGG and .WAV files)
          var = pygame.mixer.Sound("file name here")
 this will only up to 8 sound at one time tho
 can use
@@ -79,8 +116,15 @@ classes are liek compound functions with their own memory and frnctions
  var_name1.class_function(paramiters)            this will do one of the function for the class
  var_name1.class_variable = number               this will change that variable for that instance spicificaly
 
+for colishion
+pygame.Rect(starting_x, starting_y, langth, hight).collidepoint((x position of object colliding into, y position of object colliding into))
+make a /rect/ as the hit box then use the collidepoint to see if a cirten point is in that box
+this returned true/false
 
- for creating the class
+time.time() to get time since start.
+need to have //import time// at the start inorder for this to work
+
+ for creating the class -------------------------------------------------------------------------------------------------------------------
  class class_name:
     def __init__(self, paramiters you want it to have):
 
@@ -88,7 +132,36 @@ classes are liek compound functions with their own memory and frnctions
         self.var = var
 
         this is what is writen to make a new function in a class
-    def function_name (paramiters):
+    def function_name (self, paramiters):
         here is where
+classes can be used to manige sprites, manage data, help with orginization
+
+def __init__    is used to define what is in a class( this part is manly ment for variables and not commands
+
+usfull code to copy/past
+        self.screen = screen
+        self.x = x
+        self.y = y
+
+04- bounsing ball --------------------------------------------------------------------------------------------------------------------------------
+to get screen width
+    screen.get_width()
+to get screen hieght
+    screen.get_height()
+
+    rememberin to put in comments
+    learned how to make my own classes
+
+05- tic tac toe -------------------------------------------------------------------------------------------------------------------------------
+not much lerned but that classes do not have to be seen and .Sound only workes with OGG and .WAV
+
+06-- space invaders -------------------------------------------------
+more practice with classes
+
+  self.image.set_colorkey(pygame.Color('WHITE'))
 
 
+  if top card == 'j' or top card == 'q' or top card == 'k' or top card == 'a'
+
+indexis work as
+'-' will look at the back

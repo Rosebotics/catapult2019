@@ -56,3 +56,52 @@ Play the music (bark) if there's a mouse click.
     Import math and math functions
          distance = math.sqrt((point1_x-point2_x)**2 +(point1_y-point2_y)**2)
     return distance
+
+03 - Raindrops
+    Working with Classes
+
+DISCUSS: If you want something to happen once per key press, put it in the events loop above
+If you want something to continually happen while holding the key, put it after the events loop.
+class Raindrop:
+    def __init__(self, screen, x, y):
+        """ Creates a Raindrop sprite that travels down at a random speed. """
+        # done 8: Initialize this Raindrop, as follows:
+        #     - Store the screen.
+        #     - Set the initial position of the Raindrop to x and y.
+        #     - Set the initial speed to a random integer between 5 and 15.
+        #   Use instance variables:   screen  x  y  speed.
+        self.screen = screen (regularly used)
+        self.x = x (regularly used)
+        self.y = y (regularly used)
+        self.speed = random.randint(5,15)
+
+
+    def move(self): (called methods)
+        """ Move the self.y value of the Raindrop down the screen (y increase) at the self.speed. """
+        # done 11: Change the  y  position of this Raindrop by its speed.
+        self.y = self.y + self.speed
+
+    def off_screen(self):
+        """ Returns true if the Raindrop y value is not shown on the screen, otherwise false. """
+        # Note: this will be used for testing, but not used in the final version of the code for the sake of simplicity.
+        # done 13: Return  True  if the  y  position of this Raindrop is greater than 800.
+        return self.y > self.screen.get_height()
+
+    - time.time() to track the current seconds since each
+
+04 - Boucning Ball
+    - learned that you need to account for radius when setting the bounds for the space that the ball bounces in
+    - I also learned that you can add an or connector in if statements which allows for two conditions to be considered
+    - ^this helped to set parameters for the size of the screen
+     if self.x > 275 or self.x < 25:
+            self.speed_x = - self.speed_x
+        if self.y > 275 or self.y < 25 :
+            self.speed_y = - self.speed_y
+    - I also deepened my understanding of classes and how to use them
+
+ 05 - Tic Tac Toe
+    - Nested for loops
+    - arrays
+
+
+
