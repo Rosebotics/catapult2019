@@ -291,8 +291,11 @@ def main():
 
 
 def game_intro():
+    screen = pygame.display.set_mode((900, 900))
     while True:
-        screen = pygame.display.set_mode((900, 900))
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit()
         start_screen = pygame.image.load('introscreen.png')
         pressed_keys = pygame.key.get_pressed()
         screen.blit(start_screen, (0, 0))
