@@ -169,6 +169,7 @@ class ChallengeController:
     # TODO Consider giving people a chance to slap while challenge is going on.
     def resolve_lost_challenge(self):
         self.challenger.deck = self.challenger.deck + self.center_pile.cards
+        self.challenger.is_playing = True
         self.center_pile.empty_deck()
         self.turn_controller.set_turn_to(self.challenger.player_number)
         self.is_challenge_active = False
@@ -369,12 +370,7 @@ class BoardController:
 # the game over screen
     def game_over_screen(self,winner):
         self.screen.fill((220, 181, 121))
-        self.temp_storage = self.caption_font.render('Player '+str(winner)+ " is the winner", True, (0, 0, 0))
-        self.screen.blit(self.temp_storage, (410, 335))
-        self.temp_storage = self.caption_font.render("everyone else has disturbed the pharaoh", True, (0, 0, 0))
-        self.screen.blit(self.temp_storage, (340, 355))
-        self.temp_storage = self.caption_font.render("press space to restart the game", True, (0, 0, 0))
-        self.screen.blit(self.temp_storage, (380, 375))
+
         for i in range (10):
             if (i % 2) == 0:
                 self.screen.blit(self.card_image,((i * 100),self.moveing_y))
@@ -396,8 +392,15 @@ class BoardController:
                 self.screen.blit(self.card_image,((i * 100),self.screen.get_height() - self.moveing_y))
             else:
                 self.screen.blit(self.card_back_image,(i * 100, self.screen.get_height() - self.moveing_y))
-        self.moveing_x += 7
-        self.moveing_y += 5
+        pygame.draw.rect(self.screen,(220, 181, 121),((340,335),(325,60)))
+        self.temp_storage = self.caption_font.render('Player '+str(winner)+ " is the winner", True, (255, 255, 255))
+        self.screen.blit(self.temp_storage, (410, 335))
+        self.temp_storage = self.caption_font.render("everyone else has disturbed the pharaoh", True, (255, 255, 255))
+        self.screen.blit(self.temp_storage, (340, 355))
+        self.temp_storage = self.caption_font.render("press space to restart the game", True, (255, 255, 255))
+        self.screen.blit(self.temp_storage, (380, 375))
+        self.moveing_x += 2
+        self.moveing_y += 1
         if self.moveing_x > self.screen.get_width():
             self.moveing_x = 0
         if self.moveing_y > self.screen.get_height():
@@ -559,6 +562,9 @@ def main():
                     print('player2:', player2.deck)
                     print('player3:', player3.deck)
                     print('current_turn:', turn_controller.current_turn)
+                    print("player1",player1.is_playing)
+                    print("player2",player2.is_playing)
+                    print("player3",player3.is_playing)
 
         #------------out of for loop--------------------------------------------------------------------out of for event loop
         if card_delay > 0:
