@@ -218,7 +218,7 @@ def main():
 
 
         screen.blit(start_screen, (0, 0))
-
+#h
 
         if not dead:
             # Check for game key presses
