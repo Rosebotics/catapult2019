@@ -82,6 +82,7 @@ class Orb:
         self.x += self.xspeed
         self.y += self.yspeed
 
+
 class HPBar:
     def __init__(self, screen):
         self.screen = screen
@@ -98,6 +99,10 @@ class Face:
         self.screen = screen
         if name == "Jared":
             self.image = pygame.image.load("Jared.png")
+        if name == "Susan":
+            self.image = pygame.image.load("Susan.png")
+        if name == "Jackson":
+            self.image = pygame.image.load("Jackson.png")
         self.position = "i"
 
     def draw(self):
