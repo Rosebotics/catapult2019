@@ -136,62 +136,71 @@ def main():
     intro = True
     counselors = ["Jared", "Susan", "Jackson"]
     songs = ["albatraoz.mp3", "old_town_road_diplo.mp3"]
-    counselor_select = counselors[0]
-    song_select = songs[0]
+    song_files = ["albatraoz_bk.txt", "old_town_road.txt"]
     counselor_num = 0
     song_num = 0
     selection_row = 0
     while intro:
-        print(selection_row)
         screen.fill((0, 0, 0,))
+        screen.blit(pygame.font.Font(pygame.font.match_font('impact'), 64).render("Beat Fighter", True, (0, 150, 150)), (170, 10))
+        if selection_row == 0:
+            pygame.draw.rect(screen, (0, 0, 100), (25, 95, 590, 30))
+        elif selection_row == 1:
+            pygame.draw.rect(screen, (0, 0, 100), (25, 195, 590, 30))
+        elif selection_row == 2:
+            pygame.draw.rect(screen, (0, 0, 100), (25, 295, 590, 30))
         counselor_text = pygame.font.Font(None, 28).render(counselors[counselor_num], True, (255, 255, 255))
         screen.blit(counselor_text, (30, 100))
         song_text = pygame.font.Font(None, 28).render(songs[song_num], True, (255, 255, 255))
         screen.blit(song_text, (30, 200))
+        if selection_row == 2:
+            screen.blit(pygame.font.Font(None, 28).render("Press Space to Start", True, (255, 255, 255)), (30, 300))
+        else:
+            screen.blit(pygame.font.Font(None, 28).render("Start?", True, (255, 255, 255)), (30, 300))
         pygame.display.update()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
-            if event.type == pygame.K_UP:
+            pressedkeys = pygame.key.get_pressed()
+            if pressedkeys[pygame.K_UP]:
                 selection_row -= 1
                 if selection_row < 0:
                     selection_row = 2
-            if event.type == pygame.K_DOWN:
+            if pressedkeys[pygame.K_DOWN]:
                 selection_row += 1
                 if selection_row > 2:
                     selection_row = 0
-            if event.type == pygame.K_LEFT:
+            if pressedkeys[pygame.K_LEFT]:
                 if selection_row == 0:
                     counselor_num -= 1
                     if counselor_num < 0:
-                        counselor_num = 2
-                elif selection_row == 1:
-                    counselor_num += 1
-                    if counselor_num > 2:
-                        counselor_num = 0
-            if event.type == pygame.K_RIGHT:
+                        counselor_num = len(counselors) - 1
+                elif song_num == 1:
+                    song_num += 1
+                    if song_num > 1:
+                        song_num = 0
+            if pressedkeys[pygame.K_RIGHT]:
                 if selection_row == 0:
                     counselor_num += 1
-                    if counselor_num > 2:
+                    if counselor_num > len(counselors) - 1:
                         counselor_num = 0
                 elif selection_row == 1:
-                    counselor_num -= 1
-                    if counselor_num < 0:
-                        counselor_num = 2
-            if event.type == pygame.K_SPACE:
-                if selection_row == 3:
+                    song_num -= 1
+                    if song_num < 0:
+                        song_num = len(songs) - 1
+            if pressedkeys[pygame.K_SPACE]:
+                if selection_row == 2:
                     intro = False
     hpbar = HPBar(screen)
-    face = Face(screen, counselor_select)
+    face = Face(screen, counselors[counselor_num])
     dancer = Dancer(screen, 90, 90)
     funished = pygame.image.load("Funished.png")
-    pygame.mixer.music.load(song_select)
+    pygame.mixer.music.load(songs[song_num])
     punchbox = (129, 95, 383, 450)
     hurtbox = (204, 170, 233, 300)
     orblist = []
     timeline_dict = {}
-    #with open("albatraoz_bk.txt") as file:
-    with open("old_town_road.txt") as file:
+    with open(song_files[song_num]) as file:
         for line in file:
             line = line.rstrip('\n')
             current_line = line.split(',')
@@ -202,7 +211,8 @@ def main():
     is_game_over = False
     pygame.mixer.music.play()
     start_milli_time = int(round(time.time() * 1000))
-    while True:
+    gameplay = True
+    while gameplay:
 
         clock.tick(250)
         screen.fill((0, 0, 0))
@@ -276,9 +286,10 @@ def main():
         if is_game_over:
             screen.blit(funished, (-150, 0))
             pygame.display.update()
-        if pressed_keys[pygame.K_SPACE]:    # lazy solution, sorry
-            break
+        if pressed_keys[pygame.K_SPACE]:
+            gameplay = False
 
 
 while True:
     main()
+    pygame.mixer.music.stop()
