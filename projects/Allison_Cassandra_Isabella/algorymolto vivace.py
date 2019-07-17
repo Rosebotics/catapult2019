@@ -135,8 +135,8 @@ def main():
     screen = pygame.display.set_mode((640, 640))
     intro = True
     counselors = ["Jared", "Susan", "Jackson"]
-    songs = ["albatraoz.mp3", "old_town_road_diplo.mp3"]
-    song_files = ["albatraoz_bk.txt", "old_town_road.txt"]
+    songs = ["albatraoz.mp3", "old_town_road_diplo.mp3", "EXO Power.mp3"]
+    song_files = ["albatraoz_bk.txt", "old_town_road.txt", "Power.txt"]
     counselor_num = 0
     song_num = 0
     selection_row = 0
