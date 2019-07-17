@@ -133,11 +133,12 @@ class Face:
 def main():
     pygame.init()
     clock = pygame.time.Clock()
-
+    print(pygame.joystick.get_count())
 
     try:
         wii_remote = pygame.joystick.Joystick(0)
         wii_remote.init()
+        print(wii_remote.get_numaxes())
     except pygame.error:
         wii_remote = None
 
