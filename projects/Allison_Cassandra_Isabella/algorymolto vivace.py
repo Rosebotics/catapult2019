@@ -90,8 +90,10 @@ class HPBar:
         self.font = pygame.font.Font(None, 30)
 
     def draw(self):
-        text_as_image = self.font.render("Health:" + str(self.score), True, (155, 75, 160))
-        self.screen.blit(text_as_image, (5, 5))
+        for hp in range(self.score // 100):
+            pygame.draw.rect(self.screen, (255, hp * 25, 0), (5 + 20 * (hp), 5, 20, 10))
+        # text_as_image = self.font.render("Health:" + str(self.score), True, (155, 75, 160))
+        # self.screen.blit(text_as_image, (5, 5))
 
 
 class Face:
@@ -131,6 +133,7 @@ class Face:
 def main():
     pygame.init()
     clock = pygame.time.Clock()
+    # start screen
     pygame.display.set_caption("Beat Fighter")
     screen = pygame.display.set_mode((640, 640))
     intro = True
@@ -194,6 +197,7 @@ def main():
             if pressedkeys[pygame.K_RSHIFT] or pressedkeys[pygame.K_LSHIFT]:
                 if selection_row == 2:
                     intro = False
+    #setup
     hpbar = HPBar(screen)
     face = Face(screen, counselors[counselor_num])
     dancer = Dancer(screen, 90, 90)
@@ -214,6 +218,7 @@ def main():
     is_game_over = False
     pygame.mixer.music.play()
     start_milli_time = int(round(time.time() * 1000))
+    # main game loop
     gameplay = True
     while gameplay:
         pressed_keys = pygame.key.get_pressed()
@@ -266,7 +271,7 @@ def main():
 
             if hpbar == 0:
                 is_game_over = True
-
+            # deal with orbs
             for orb in orblist:
                 orb.move()
                 orb.draw()
@@ -279,6 +284,7 @@ def main():
             for orb in orblist:
                 if orb.isdead:
                     orblist.remove(orb)
+
         if hpbar.score <= 0:
             pygame.mixer.music.stop()
             is_game_over = True
