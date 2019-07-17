@@ -138,8 +138,8 @@ def main():
     screen = pygame.display.set_mode((640, 640))
     intro = True
     counselors = ["Jared", "Susan", "Jackson"]
-    songs = ["albatraoz.mp3", "old_town_road_diplo.mp3", "EXO Power.mp3"]
-    song_files = ["albatraoz_bk.txt", "old_town_road.txt", "Power.txt"]
+    songs = ["albatraoz.mp3", "old_town_road_diplo.mp3", "EXO Power.mp3", "Chicken Dance.mp3"]
+    song_files = ["albatraoz_bk.txt", "old_town_road.txt", "Power.txt", "chicken_dance.txt"]
     counselor_num = 0
     song_num = 0
     selection_row = 0
@@ -218,7 +218,7 @@ def main():
     is_game_over = False
     pygame.mixer.music.play()
     start_milli_time = int(round(time.time() * 1000))
-    # main game loop
+    #  main game loop
     gameplay = True
     while gameplay:
         pressed_keys = pygame.key.get_pressed()

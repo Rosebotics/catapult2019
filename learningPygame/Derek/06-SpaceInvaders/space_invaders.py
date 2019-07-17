@@ -1,41 +1,36 @@
 import pygame, sys, random, time
-from pygame.locals import *
 
 
 class Missile:
     def __init__(self, screen, x):
-        # Store the data.  Initialize:   y to 591   and   exploded to False.
-        pass
+        self.screen = screen
+        self.x = x
+        self.y = 591
+        self.exploded = False
 
     def move(self):
-        # Make self.y 5 smaller than it was (which will cause the Missile to move UP).
-        pass
+        self.y = self.y - 5
 
     def draw(self):
-        # Draw a vertical, 4 pixels thick, 8 pixels long, red (or green) line on the screen,
-        # where the line starts at the current position of this Missile.
-        pass
+        pygame.draw.line(self.screen, (0, 255, 0), (self.x, self.y), (self.x, self.y + 8), 4)
 
 
 class Fighter:
     def __init__(self, screen, x, y):
-        # Store the data.
-        # Set   self.missiles   to the empty list.
-        # Load the file  "fighter.png"  as the image
-        # Set the colorkey to white (it has a white background that needs removed)
-        pass
+        self.screen = screen
+        self.image = pygame.image.load("fighter.png").convert()
+        self.image.set_colorkey((255, 255, 255))
+        self.x = x
+        self.y = y
+        self.missiles = []
 
     def draw(self):
-        # Draw this Fighter, using its image at its current (x, y) position.
-        pass
+        self.screen.blit(self.image, (self.x, self.y))
 
     def fire(self):
-        # Construct a new Missile 50 pixels to the right of this Fighter.
-        # Append that Missile to this Fighter's list of Missile objects.
-        pass
+        self.missiles.append(Missile(self.screen, self.x + 50))
 
-    def remove_exploded_missiles(self):
-        # Already complete
+    def remove_exploded_missles(self):
         for k in range(len(self.missiles) - 1, -1, -1):
             if self.missiles[k].exploded or self.missiles[k].y < 0:
                 del self.missiles[k]
@@ -43,30 +38,36 @@ class Fighter:
 
 class Badguy:
     def __init__(self, screen, x, y):
-        # Store the data.
-        # Set   dead to False   and   original_x to x   and move_right to True.
-        # Load the file  "badguy.png"  as the image. and set its colorkey to black.
-        pass
+        self.dead = False
+        self.screen = screen
+        self.x = x
+        self.y = y
+        self.image = pygame.image.load("badguy.png").convert()
+        self.image.set_colorkey((0, 0, 0))
+        self.original_x = x
+        self.move_right = True
 
     def move(self):
-        # Move 2 units in the current direction.
-        # Switch direction if this Badguy's position is more than 100 pixels from its original position.
-        pass
+        if self.move_right:
+            self.x = self.x + 4
+            if self.x > self.original_x + 100:
+                self.move_right = False
+                self.y = self.y + 15
+        else:
+            self.x = self.x - 4
+            if self.x < self.original_x - 100:
+                self.move_right = True
+                self.y = self.y + 15
 
     def draw(self):
-        # Draw this Badguy, using its image at its current (x, y) position.
-        pass
+        self.screen.blit(self.image, (self.x, self.y))
 
     def hit_by(self, missile):
-        # Return True if a 70x45 rectangle at this Badguy's current position
-        #   collides with the xy point of the given missile.
-        # Return False otherwise.
-        pass
+        return pygame.Rect(self.x, self.y, 70, 45).collidepoint(missile.x, missile.y)
 
 
 class EnemyFleet:
     def __init__(self, screen, enemy_rows):
-        # Already done.  Prepares the list of Badguys.
         self.badguys = []
         for j in range(enemy_rows):
             for k in range(8):
@@ -74,80 +75,125 @@ class EnemyFleet:
 
     @property
     def is_defeated(self):
-        # Return True if the number of badguys in this Enemy Fleet is 0,
-        # otherwise return False.
-        pass
+        return len(self.badguys) == 0
 
     def move(self):
-        # Make each badguy in this EnemyFleet move.
-        pass
+        for badguy in self.badguys:
+            badguy.move()
 
     def draw(self):
-        # Make each badguy in this EnemyFleet draw itself.
-        pass
+        for badguy in self.badguys:
+            badguy.draw()
 
     def remove_dead_badguys(self):
         for k in range(len(self.badguys) - 1, -1, -1):
             if self.badguys[k].dead:
                 del self.badguys[k]
 
+
+class Scoreboard:
+    def __init__(self, screen, x, y):
+        self.screen = screen
+        self.x = x
+        self.y = y
+        self.score = 0
+        self.font = pygame.font.Font(None, 30)
+
+
+    def draw(self):
+        # DONE: Convert the score number into a string called as_text using the format "Score: " + number
+        as_text = "Score: " + str(self.score)
+
+        # DONE: Using the font object convert the string into an image that can be placed onto the screen, call it as_image
+        as_image = self.font.render(as_text, True, (255, 255, 255))
+
+        # DONE: Using the screen blit as_image onto the location self.x and self.y
+        self.screen.blit(as_image, (self.x, self.y))
+
+
 def main():
+    game_over = False
     pygame.init()
     clock = pygame.time.Clock()
-    pygame.display.set_caption("SPACE INVADERS!")
+    pygame.display.set_caption("Space Invaders")
     screen = pygame.display.set_mode((640, 650))
 
-    # TODO 9: Set    enemy_rows    to an initial value of 3.
-    # TODO 10: Create an EnemyFleet object (called enemy) with the screen and enemy_rows
-    # TODO 1: Create a Fighter (called fighter) at location  320, 590
+    enemy_rows = 3
+    enemy = EnemyFleet(screen, enemy_rows)
+    fighter = Fighter(screen, 320, 590)
+
+    try:
+        wii_remote = pygame.joystick.Joystick(0)
+    except pygame.error:
+        wii_remote = None
+
+    if wii_remote is not None:
+        wii_remote.init()
+
+    # DONE: Create a Scoreboard, called scoreboard, using the screen at location 5, 5
+    scoreboard = Scoreboard(screen, 5, 5)
 
     while True:
         clock.tick(60)
         for event in pygame.event.get():
-            pressed_keys = pygame.key.get_pressed()
-            # TODO 5: If the event type is KEYDOWN and pressed_keys[K_SPACE] is True, then fire a missile
-            if event.type == QUIT:
+            # pressed_keys = pygame.key.get_pressed()
+            # if pressed_keys[pygame.K_SPACE] and event.type == pygame.KEYDOWN:
+            #     fighter.fire()
+            if event.type == pygame.QUIT:
                 sys.exit()
-
+            if event.type == pygame.JOYAXISMOTION:
+                if event.value < -0.1 and event.axis == 4:
+                    fighter.x += 10
+                if event.value > 0.1 and event.axis == 4:
+                    fighter.x += -10
+            if event.type == pygame.JOYBUTTONDOWN and event.button == 2:
+                fighter.fire()
         screen.fill((0, 0, 0))
-        pressed_keys = pygame.key.get_pressed()
-        # TODO 3: If K_LEFT is pressed and fighter.x is greater than -50 move the fighter left 5
-        # TODO 4: If K_RIGHT is pressed and fighter.x is less than 590 move the fighter right 5
-        # TODO 2: Draw the fighter
+        # pressed_keys = pygame.key.get_pressed()
+        # if pressed_keys[pygame.K_LEFT] and fighter.x > -50:
+        #     fighter.x = fighter.x - 5
+        # if pressed_keys[pygame.K_RIGHT] and fighter.x < 590:
+        #     fighter.x = fighter.x + 5
+        fighter.draw()
 
-        # TODO 11: Move the enemy
-        # TODO 12: Draw the enemy
+        enemy.move()
+        enemy.draw()
+        # DONE: Draw the scoreboard
+        scoreboard.draw()
 
-        # TODO 6: For each missile in the fighter missiles
-        #   TODO 7: Move the missile
-        #   TODO 8: Draw the missile
+        for missile in fighter.missiles:
+            missile.move()
+            missile.draw()
 
-        # TODO 12: For each badguy in the enemy badguys
-        #     TODO 13: For each missile in the fighter missiles
-        #         TODO 14: If the badguy is hit by the missile
-        #             TODO 15: Mark the badguy as dead = True
-        #             TODO 16: Mark the missile as exploded = True
+        for badguy in enemy.badguys:
+            for missile in fighter.missiles:
+                if badguy.hit_by(missile):
+                    # DONE: Increment the score of the scoreboard by 100
+                    scoreboard.score = scoreboard.score + 100
+                    badguy.dead = True
+                    missile.exploded = True
 
-        # TODO 17: Use the fighter to remove exploded missiles
-        # TODO 18: Use the enemy to remove dead badguys
+        fighter.remove_exploded_missles()
+        enemy.remove_dead_badguys()
 
-        # TODO 19: If the enemy is_defeated
-        #     TODO 20: Increment the enemy_rows
-        #     TODO 21: Create a new enemy with the screen and enemy_rows
+        if enemy.is_defeated:
+            enemy_rows = enemy_rows + 1
+            enemy = EnemyFleet(screen, enemy_rows)
 
-        pygame.display.update()
+        if not game_over:
+            pygame.display.update()
+
+            # New code to check for your death!
+            for badguy in enemy.badguys:
+                if badguy.y > 545:
+                    game_over = True
+                    # DONE: Uncomment the line below to create a game_over_image.
+                    game_over_image = pygame.image.load("gameover.png").convert()
+                    # DONE: Use the screen to blit the game_over_image to location 170 200
+                    screen.blit(game_over_image, (170, 200))
+
+                    # DONE: Do one final pygame display update
+                    pygame.display.update()
 
 
 main()
-
-
-# TODO: After the core game is complete we will implement these tasks:
-# Create a Scoreboard class (from scratch)
-#   Instance variables: screen, x, y, score, and font (size 30)
-#   Methods: draw (and __init__)
-# Create a scoreboard at location 5, 5
-# Draw the scoreboard in the game loop
-# When a Badguy is killed add 100 points to the scoreboard.score
-# Check if a Badguy gets a y value greater than 545
-#   If that happens show the gameover.png image at (170, 200)
-#   Update the display one final time with that image then never again.
