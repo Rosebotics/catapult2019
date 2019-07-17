@@ -169,6 +169,7 @@ class ChallengeController:
     # TODO Consider giving people a chance to slap while challenge is going on.
     def resolve_lost_challenge(self):
         self.challenger.deck = self.challenger.deck + self.center_pile.cards
+        self.challenger.is_playing = True
         self.center_pile.empty_deck()
         self.turn_controller.set_turn_to(self.challenger.player_number)
         self.is_challenge_active = False
@@ -369,12 +370,7 @@ class BoardController:
 # the game over screen
     def game_over_screen(self,winner):
         self.screen.fill((220, 181, 121))
-        self.temp_storage = self.caption_font.render('Player '+str(winner)+ " is the winner", True, (0, 0, 0))
-        self.screen.blit(self.temp_storage, (410, 335))
-        self.temp_storage = self.caption_font.render("everyone else has disturbed the pharaoh", True, (0, 0, 0))
-        self.screen.blit(self.temp_storage, (340, 355))
-        self.temp_storage = self.caption_font.render("press space to restart the game", True, (0, 0, 0))
-        self.screen.blit(self.temp_storage, (380, 375))
+
         for i in range (10):
             if (i % 2) == 0:
                 self.screen.blit(self.card_image,((i * 100),self.moveing_y))
@@ -396,8 +392,15 @@ class BoardController:
                 self.screen.blit(self.card_image,((i * 100),self.screen.get_height() - self.moveing_y))
             else:
                 self.screen.blit(self.card_back_image,(i * 100, self.screen.get_height() - self.moveing_y))
-        self.moveing_x += 7
-        self.moveing_y += 5
+        pygame.draw.rect(self.screen,(220, 181, 121),((340,335),(325,60)))
+        self.temp_storage = self.caption_font.render('Player '+str(winner)+ " is the winner", True, (255, 255, 255))
+        self.screen.blit(self.temp_storage, (410, 335))
+        self.temp_storage = self.caption_font.render("everyone else has disturbed the pharaoh", True, (255, 255, 255))
+        self.screen.blit(self.temp_storage, (340, 355))
+        self.temp_storage = self.caption_font.render("press space to restart the game", True, (255, 255, 255))
+        self.screen.blit(self.temp_storage, (380, 375))
+        self.moveing_x += 2
+        self.moveing_y += 1
         if self.moveing_x > self.screen.get_width():
             self.moveing_x = 0
         if self.moveing_y > self.screen.get_height():
@@ -457,6 +460,7 @@ def main():
     pygame.display.set_caption("Egyptian Rat slap")
     screen = pygame.display.set_mode((1000, 750))
     card_delay = -1
+    dev_restart = 0
 
     #---------------set up----------------------------------------------------------------------------set up
 
@@ -525,10 +529,26 @@ def main():
                     player1.deck = [5,5,"J","A"]
                     player2.deck = [5,6,"Q",4,3,2,1]
                     player3.deck = [5,"K"]
-                # normal game buttons
+                # deve reset
+                if pressed_keys[pygame.K_r]:
+                    dev_restart = 1
+                if pressed_keys[pygame.K_e] and dev_restart == 1:
+                    dev_restart = 2
+                if pressed_keys[pygame.K_s] and dev_restart == 2:
+                    dev_restart = 3
+                if pressed_keys[pygame.K_t] and dev_restart == 3:
+                    dev_restart = 0
+                    new_game(player1, player2, player3, center_pile, challenge_controller)
+                    is_game_over = False
+                    has_displayed_game_over = False
+                    board_controller.moveing_x = 0
+                    board_controller.moveing_y = 0
+                    turn_controller.set_turn_to(1)
+                    #normal game buttons
                 if pressed_keys[pygame.K_BACKQUOTE] and card_delay < 1:
                     board_controller.hand_slap(4)
                     card_delay = 5
+                    dev_restart = 0
                     play_card(player1, center_pile, turn_controller, challenge_controller)
                     is_game_over = check_for_game_over(challenge_controller)
                 if pressed_keys[pygame.K_1]:
@@ -538,6 +558,7 @@ def main():
                 if pressed_keys[pygame.K_v]and card_delay < 1:
                     board_controller.hand_slap(4)
                     card_delay = 5
+                    dev_restart = 0
                     play_card(player2, center_pile, turn_controller, challenge_controller)
                     is_game_over = check_for_game_over(challenge_controller)
                 if pressed_keys[pygame.K_b]:
@@ -547,6 +568,7 @@ def main():
                 if pressed_keys[pygame.K_o]and card_delay < 1:
                     board_controller.hand_slap(4)
                     card_delay = 5
+                    dev_restart = 0
                     play_card(player3, center_pile, turn_controller, challenge_controller)
                     is_game_over = check_for_game_over(challenge_controller)
                 if pressed_keys[pygame.K_p]:
@@ -559,6 +581,9 @@ def main():
                     print('player2:', player2.deck)
                     print('player3:', player3.deck)
                     print('current_turn:', turn_controller.current_turn)
+                    print("player1",player1.is_playing)
+                    print("player2",player2.is_playing)
+                    print("player3",player3.is_playing)
 
         #------------out of for loop--------------------------------------------------------------------out of for event loop
         if card_delay > 0:
