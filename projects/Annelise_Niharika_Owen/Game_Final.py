@@ -159,12 +159,12 @@ class Countdown:
         self.screen.blit(text_as_image, (self.x, self.y))
 
 
+
 def main():
     pygame.init()
     pygame.font.init()
     caption_font = pygame.font.Font(None, 100)
     clock = pygame.time.Clock()
-    start_screen = pygame.image.load('introscreen.png')
     pygame.display.set_caption("STARFISH!")
     screen = pygame.display.set_mode((900, 900))
     gameover_image2 = pygame.image.load('gameover_image2.png')
@@ -209,6 +209,7 @@ def main():
 
     starting_time = time.time()
 
+
     dead = False
 
     while True:
@@ -216,13 +217,9 @@ def main():
             if event.type == pygame.QUIT:
                 sys.exit()
 
-
-        screen.blit(start_screen, (0, 0))
-#h
-
         if not dead:
-            # Check for game key presses
             pressed_keys = pygame.key.get_pressed()
+            # Check for game key presses
             if pressed_keys[pygame.K_UP]:
                 starfish.y = starfish.y - 5
             if pressed_keys[pygame.K_DOWN]:
@@ -252,7 +249,7 @@ def main():
                 if pearl == pearl_fleet.power_pearl:
                     pearl_fleet.power_pearl_collected_time = time.time()
                     pearl_fleet.power_pearl_spawned = False
-
+        screen.blit(level1_image, (0, 0))
         for waterbottle in waterbottles:
             waterbottle.draw()
 
@@ -275,7 +272,7 @@ def main():
         pressed_keys = pygame.key.get_pressed()
         if pressed_keys[K_SPACE]:
             main()
-            screen.blit(level1_image, (0, 0))
+
 
         current_time = time.time()
         game_time = current_time - starting_time
@@ -293,4 +290,21 @@ def main():
         clock.tick(60)
 
 
-main()
+def game_intro():
+    screen = pygame.display.set_mode((900, 900))
+    start_screen = pygame.image.load('introscreen.png')
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit()
+        screen.blit(start_screen, (0, 0))
+
+        pressed_keys = pygame.key.get_pressed()
+        if pressed_keys[pygame.K_s]:
+            main()
+
+        pygame.display.update()
+
+game_intro()
+
+
