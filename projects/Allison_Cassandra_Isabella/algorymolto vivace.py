@@ -214,7 +214,21 @@ def main():
             time_ms = int(current_line[0])
             action = current_line[1]
             timeline_dict[time_ms] = action
-
+    background_image_frames = []
+    background_image_frames.append(pygame.image.load("frame_00.gif"))
+    background_image_frames.append(pygame.image.load("frame_01.gif"))
+    background_image_frames.append(pygame.image.load("frame_02.gif"))
+    background_image_frames.append(pygame.image.load("frame_03.gif"))
+    background_image_frames.append(pygame.image.load("frame_04.gif"))
+    background_image_frames.append(pygame.image.load("frame_05.gif"))
+    background_image_frames.append(pygame.image.load("frame_06.gif"))
+    background_image_frames.append(pygame.image.load("frame_07.gif"))
+    background_image_frames.append(pygame.image.load("frame_08.gif"))
+    background_image_frames.append(pygame.image.load("frame_09.gif"))
+    background_image_frames.append(pygame.image.load("frame_10.gif"))
+    background_image_frames.append(pygame.image.load("frame_11.gif"))
+    background_image_frames.append(pygame.image.load("frame_12.gif"))
+    current_image = 0
     is_game_over = False
     pygame.mixer.music.play()
     start_milli_time = int(round(time.time() * 1000))
@@ -225,7 +239,8 @@ def main():
         if pressed_keys[pygame.K_SPACE]:
             gameplay = False
         clock.tick(250)
-        screen.fill((0, 0, 0))
+        screen.blit(background_image_frames[current_image], (0,0))
+        current_image = (current_image + 1) % len(background_image_frames)
         pygame.draw.rect(screen, (0, 0, 15), punchbox)
         pygame.draw.rect(screen, (0, 0, 0), hurtbox)
         for event in pygame.event.get():
