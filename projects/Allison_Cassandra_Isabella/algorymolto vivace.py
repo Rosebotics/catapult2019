@@ -143,11 +143,17 @@ def main():
     counselor_num = 0
     song_num = 0
     selection_row = 0
+    backflash = False
+    pygame.mixer.music.load("if elevators had trap music.mp3")
+    pygame.mixer.music.play(1, 19)
     while intro:
         screen.fill((0, 0, 0,))
         screen.blit(pygame.font.Font(None, 28).render("Press arrow keys to punch in that direction.", True, (255, 255, 255)), (30, 500))
         screen.blit(pygame.font.Font(None, 28).render("Punch the orbs in time to the music.", True, (255, 255, 255)), (30,530))
         screen.blit(pygame.font.Font(None, 28).render("Press space at any time to reset.", True, (255, 255, 255)), (30, 560))
+        screen.blit(pygame.font.Font(None, 12).render("press s to toggle background", True, (255, 255, 255)), (500, 600))
+        if backflash:
+            screen.blit(pygame.font.Font(None, 12).render("ON", True, (255, 255, 255)), (550, 615))
         screen.blit(pygame.font.Font(pygame.font.match_font('impact'), 64).render("Beat Fighter", True, (0, 150, 150)), (170, 10))
         if selection_row == 0:
             pygame.draw.rect(screen, (0, 0, 100), (25, 95, 590, 30))
@@ -160,7 +166,7 @@ def main():
         song_text = pygame.font.Font(None, 28).render(songs[song_num], True, (255, 255, 255))
         screen.blit(song_text, (30, 200))
         if selection_row == 2:
-            screen.blit(pygame.font.Font(None, 28).render("Press Shift to Start", True, (255, 255, 255)), (30, 300))
+            screen.blit(pygame.font.Font(None, 28).render("Press Enter to Start", True, (255, 255, 255)), (30, 300))
         else:
             screen.blit(pygame.font.Font(None, 28).render("Start?", True, (255, 255, 255)), (30, 300))
         pygame.display.update()
@@ -194,14 +200,21 @@ def main():
                     song_num += 1
                     if song_num > len(songs) - 1:
                         song_num = 0
-            if pressedkeys[pygame.K_RSHIFT] or pressedkeys[pygame.K_LSHIFT]:
+            if pressedkeys[pygame.K_RETURN]:
                 if selection_row == 2:
                     intro = False
+            if pressedkeys[pygame.K_s]:
+                if backflash:
+                    backflash = False
+                else:
+                    backflash = True
     #setup
     hpbar = HPBar(screen)
     face = Face(screen, counselors[counselor_num])
     dancer = Dancer(screen, 90, 90)
     funished = pygame.image.load("Funished.png")
+    winner = pygame.image.load("victory_screen.png")
+    winner = pygame.transform.scale(winner, (640, 640))
     pygame.mixer.music.load(songs[song_num])
     punchbox = (129, 95, 383, 450)
     hurtbox = (204, 170, 233, 300)
@@ -214,18 +227,37 @@ def main():
             time_ms = int(current_line[0])
             action = current_line[1]
             timeline_dict[time_ms] = action
-
+    background_image_frames = []
+    background_image_frames.append(pygame.image.load("frame_00.gif"))
+    background_image_frames.append(pygame.image.load("frame_01.gif"))
+    background_image_frames.append(pygame.image.load("frame_02.gif"))
+    background_image_frames.append(pygame.image.load("frame_03.gif"))
+    background_image_frames.append(pygame.image.load("frame_04.gif"))
+    background_image_frames.append(pygame.image.load("frame_05.gif"))
+    background_image_frames.append(pygame.image.load("frame_06.gif"))
+    background_image_frames.append(pygame.image.load("frame_07.gif"))
+    background_image_frames.append(pygame.image.load("frame_08.gif"))
+    background_image_frames.append(pygame.image.load("frame_09.gif"))
+    background_image_frames.append(pygame.image.load("frame_10.gif"))
+    background_image_frames.append(pygame.image.load("frame_11.gif"))
+    background_image_frames.append(pygame.image.load("frame_12.gif"))
+    current_image = 0
     is_game_over = False
     pygame.mixer.music.play()
     start_milli_time = int(round(time.time() * 1000))
     #  main game loop
     gameplay = True
+    win = False
     while gameplay:
         pressed_keys = pygame.key.get_pressed()
         if pressed_keys[pygame.K_SPACE]:
             gameplay = False
         clock.tick(250)
-        screen.fill((0, 0, 0))
+        if backflash:
+            screen.blit(background_image_frames[current_image], (0,0))
+            current_image = (current_image + 1) % len(background_image_frames)
+        else:
+            screen.fill((0, 0, 0))
         pygame.draw.rect(screen, (0, 0, 15), punchbox)
         pygame.draw.rect(screen, (0, 0, 0), hurtbox)
         for event in pygame.event.get():
@@ -241,9 +273,15 @@ def main():
 
         if rounded_time in timeline_dict:
             action = timeline_dict[rounded_time]
-            orb = Orb(screen, action)
-            orblist.append(orb)
-            print("+++Time: %d, action: %s" % (rounded_time, action))
+            if action == 'over':
+                is_game_over = True
+                win = True
+                pygame.mixer.music.stop()
+                pygame.mixer.music.load("win_music.mp3")
+                pygame.mixer.music.play()
+            else:
+                orb = Orb(screen, action)
+                orblist.append(orb)
 
         punchway = ''
         if not is_game_over:
@@ -292,8 +330,12 @@ def main():
             pygame.mixer.music.load("My Heart Will Go On (terrible recorder meme).mp3")
             pygame.mixer.music.play(1, 19)
         if is_game_over:
-            screen.blit(funished, (-150, 0))
-            pygame.display.update()
+            if win:
+                screen.blit(winner, (0, 0))
+                pygame.display.update()
+            else:
+                screen.blit(funished, (-150, 0))
+                pygame.display.update()
 
 
 while True:

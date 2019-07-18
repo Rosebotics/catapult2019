@@ -133,6 +133,16 @@ class Face:
 def main():
     pygame.init()
     clock = pygame.time.Clock()
+    print(pygame.joystick.get_count())
+
+    try:
+        wii_remote = pygame.joystick.Joystick(0)
+        wii_remote.init()
+        print(wii_remote.get_numaxes())
+    except pygame.error:
+        wii_remote = None
+
+
     # start screen
     pygame.display.set_caption("Beat Fighter")
     screen = pygame.display.set_mode((640, 640))
@@ -228,11 +238,39 @@ def main():
         screen.fill((0, 0, 0))
         pygame.draw.rect(screen, (0, 0, 15), punchbox)
         pygame.draw.rect(screen, (0, 0, 0), hurtbox)
+        punchway = ''
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 print(event.pos)
+            # if event.type == pygame.JOYBUTTONDOWN:
+            #     if event.button == 2:
+            #         if wii_remote.get_axis(4) > 0.15:
+            #             punchway = "left"
+            #             dancer.punch_left()
+            #             face.position = "l"
+            #             print("punchleft")
+            #         elif wii_remote.get_axis(4) < -0.15:
+            #             punchway = "right"
+            #             print("punchright")
+            #             dancer.punch_right()
+            #             face.position = "r"
+            #         elif wii_remote.get_axis(5) > 0.15:
+            #             punchway = "down"
+            #             dancer.punch_up()
+            #             face.position = "u"
+            #             print("punchup")
+            #         elif wii_remote.get_axis(5) < -0.15:
+            #             punchway = "up"
+            #             dancer.punch_down()
+            #             face.position = "d"
+            #             print("punchdown")
+            #         else:
+            #
+            #             dancer.draw()
+            #             face.position = "i"
+
         hpbar.draw()
 
         current_milli_time = int(round(time.time() * 1000))
@@ -245,28 +283,54 @@ def main():
             orblist.append(orb)
             print("+++Time: %d, action: %s" % (rounded_time, action))
 
-        punchway = ''
         if not is_game_over:
-            pressed_keys = pygame.key.get_pressed()
-            if pressed_keys[pygame.K_DOWN]:
-                dancer.punch_down()
-                punchway = 'up'
-                face.position = "d"
-            elif pressed_keys[pygame.K_UP]:
-                dancer.punch_up()
-                punchway = 'down'
-                face.position = "u"
-            elif pressed_keys[pygame.K_LEFT]:
-                dancer.punch_left()
-                punchway = 'left'
-                face.position = "l"
-            elif pressed_keys[pygame.K_RIGHT]:
-                dancer.punch_right()
-                punchway = 'right'
-                face.position = "r"
+            if wii_remote == None:
+                pressed_keys = pygame.key.get_pressed()
+                if pressed_keys[pygame.K_DOWN]:
+                    dancer.punch_down()
+                    punchway = 'up'
+                    face.position = "d"
+                elif pressed_keys[pygame.K_UP]:
+                    dancer.punch_up()
+                    punchway = 'down'
+                    face.position = "u"
+                elif pressed_keys[pygame.K_LEFT]:
+                    dancer.punch_left()
+                    punchway = 'left'
+                    face.position = "l"
+                elif pressed_keys[pygame.K_RIGHT]:
+                    dancer.punch_right()
+                    punchway = 'right'
+                    face.position = "r"
+                else:
+                    if punchway == '':
+                        dancer.draw()
+                        face.position = "i"
             else:
-                dancer.draw()
-                face.position = "i"
+                if round(wii_remote.get_axis(0)) == -1:
+                    print('punch up')
+                    dancer.punch_up()
+                    punchway = 'down'
+                    face.position = "u"
+                elif round(wii_remote.get_axis(0)) == 1:
+                    print('punch down')
+                    dancer.punch_down()
+                    punchway = 'up'
+                    face.position = "d"
+                elif round(wii_remote.get_axis(1)) == -1:
+                    print('punch left')
+                    dancer.punch_right()
+                    punchway = 'right'
+                    face.position = "r"
+                elif round(wii_remote.get_axis(1)) == 1:
+                    print('print right')
+                    dancer.punch_left()
+                    punchway = 'left'
+                    face.position = "l"
+                else:
+                    dancer.draw()
+                    face.position = "i"
+
             face.draw()
 
             if hpbar == 0:
