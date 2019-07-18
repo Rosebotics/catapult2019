@@ -4,7 +4,7 @@ import pygame_textinput
 
 # Team 12
 
-res_y = 1036
+res_y = 1000
 
 
 class Column:  # Returns  the x value for a column, draws lines on the screen
@@ -28,7 +28,7 @@ class Player:  # The player. Draws, detects if itself is hit, draws health bar.
         self.canBlock = False
         self.direction = direction
         self.color = color
-        self.lives = 5
+        self.lives = 20
 
     def draw(self): # Draws the player
         if self.direction:
@@ -153,7 +153,7 @@ class Score:
     def __init__(self, screen):
         self.screen = screen
         self.score = 0
-        self.font = pygame.font.Font(None, 30)
+        self.font = pygame.font.Font(None, 24)
 
     def draw(self):
         text_as_image = self.font.render("Score: " + str(self.score), True, (255, 255, 255))
@@ -164,6 +164,7 @@ class Scoreboard:
         self.screen = screen
         self.playername = playername
         self.list = []
+
 
     def record(self, score, playername, id):
         file = open("scores.txt", "a")
@@ -214,6 +215,23 @@ def get_playername(screen):
     return textinput.get_text()
 
 
+    active = True
+    while active:
+        events = pygame.event.get()
+        for event in events:
+            pressed_keys = pygame.key.get_pressed()
+            if event.type == pygame.QUIT:
+                exit()
+            if pressed_keys[K_RETURN]:
+                active = False
+
+        # Feed it with events every frame
+        textinput.update(events)
+        # Blit its surface onto the screen
+        screen.blit(textinput.get_surface(), (120, 30))
+        pygame.display.update()
+        clock.tick(30)
+    return textinput.get_text()
 
 def main():
     playername = ""
