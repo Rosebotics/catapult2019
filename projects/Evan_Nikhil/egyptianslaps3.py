@@ -166,7 +166,7 @@ class ChallengeController:
         # print("   self.challenger.player_number", self.challenger.player_number)
         # print("   self.challengee.player_number", self.challengee.player_number)
 
-    # TODO Consider giving people a chance to slap while challenge is going on.
+    # done Consider giving people a chance to slap while challenge is going on.
     def resolve_lost_challenge(self):
         self.challenger.deck = self.challenger.deck + self.center_pile.cards
         self.challenger.is_playing = True
