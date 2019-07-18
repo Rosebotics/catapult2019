@@ -214,25 +214,6 @@ def get_playername(screen):
         clock.tick(30)
     return textinput.get_text()
 
-
-    active = True
-    while active:
-        events = pygame.event.get()
-        for event in events:
-            pressed_keys = pygame.key.get_pressed()
-            if event.type == pygame.QUIT:
-                exit()
-            if pressed_keys[K_RETURN]:
-                active = False
-
-        # Feed it with events every frame
-        textinput.update(events)
-        # Blit its surface onto the screen
-        screen.blit(textinput.get_surface(), (120, 30))
-        pygame.display.update()
-        clock.tick(30)
-    return textinput.get_text()
-
 def main():
     playername = ""
 
@@ -300,9 +281,9 @@ def main():
                 screen.blit(text_score, (10, 30))
                 playername = get_playername(screen)
                 screen.fill(pygame.Color("Black"))
-                # if expert:
-                #     score.score *= 3.5
-                #     score.score = int(score.score)
+                if expert:
+                    score.score *= 3
+                    score.score = int(score.score)
                 scoreboard.record(score.score, playername, time.time())
                 scoreboard.read()
                 print(scoreboard.list)
@@ -315,6 +296,9 @@ def main():
                     screen.blit(text, (10, 100+ 60*e))
                 text_score = font.render("High Scores:", True, (255, 255, 255))
                 screen.blit(text_score, (10, 30))
+            pressed_keys = pygame.key.get_pressed()
+            if pressed_keys[K_SPACE]:
+                main()
             player.lives = -42
 
         else:
@@ -326,14 +310,14 @@ def main():
             if expert:
                 # -SPAWN EXPERT ENEMIES-
                 if gameclock + 2 - score.score * .00008 < time.time():
-                    print("Expert Enemy Spawned")
+                    #print("Expert Enemy Spawned")
                     enemy_list.spawn(4 + score.score * .0001, random.choice([True, False]), random.choice([True, False]), random.choice([True, False]), expert)
                     gameclock = time.time()
 
             else:
                 # -SPAWN ENEMIES-
                 if gameclock + 2 - score.score * .00008 < time.time():
-                    print("Enemy Spawned")
+                    #print("Enemy Spawned")
                     enemy_list.spawn(4 + score.score * .0001, False, False, False, expert)
                     gameclock = time.time()
 
@@ -352,13 +336,9 @@ def main():
                     else:
                         pygame.mixer.Sound.play(down_hit)
                     enemy.is_hit = True
-                    if expert:
-                        score.score += 300
-                        score.score += int(score.score * (random.randint(2, 4) / 100))
-                    else:
-                        score.score += 100
-                        score.score += int(score.score * (random.randint(1, 2) / 100))
 
+                    score.score += 300
+                    score.score += int(score.score * .0015)
 
             enemy_list.removeHitEnemies()
             enemy_list.isAtBottom(player, player_hit)
@@ -367,6 +347,9 @@ def main():
             player.drawHealth()
             enemy_list.draw()
             column.draw()
+            isExpert = font.render("Expert Mode - 3.0X point Multiplier", True, (255, 255, 255))
+            if expert:
+                screen.blit(isExpert, (15, 35))
 
             if shield.isDeployed:
                 shield.draw(player)
