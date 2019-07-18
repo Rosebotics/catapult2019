@@ -28,7 +28,7 @@ class Player:  # The player. Draws, detects if itself is hit, draws health bar.
         self.canBlock = False
         self.direction = direction
         self.color = color
-        self.lives = 20
+        self.lives = 5
 
     def draw(self): # Draws the player
         if self.direction:
@@ -188,8 +188,6 @@ class Scoreboard:
         print(self.list)
         file.close()
 
-    def draw(self):
-        pass
 def get_playername(screen):
     textinput = pygame_textinput.TextInput()
     textinput.text_color = (255, 255, 255)
@@ -337,7 +335,7 @@ def main():
                         pygame.mixer.Sound.play(down_hit)
                     enemy.is_hit = True
 
-                    score.score += 300
+                    score.score + 150
                     score.score += int(score.score * .0015)
 
             enemy_list.removeHitEnemies()
