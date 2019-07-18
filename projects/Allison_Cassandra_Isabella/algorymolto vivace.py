@@ -143,6 +143,9 @@ def main():
     counselor_num = 0
     song_num = 0
     selection_row = 0
+    backflash = False
+    pygame.mixer.music.load("if elevators had trap music.mp3")
+    pygame.mixer.music.play()
     while intro:
         screen.fill((0, 0, 0,))
         screen.blit(pygame.font.Font(None, 28).render("Press arrow keys to punch in that direction.", True, (255, 255, 255)), (30, 500))
@@ -194,9 +197,14 @@ def main():
                     song_num += 1
                     if song_num > len(songs) - 1:
                         song_num = 0
-            if pressedkeys[pygame.K_RSHIFT] or pressedkeys[pygame.K_LSHIFT]:
+            if pressedkeys[pygame.K_RETURN]:
                 if selection_row == 2:
                     intro = False
+            if pressedkeys[pygame.K_s]:
+                if backflash:
+                    backflash = False
+                else:
+                    backflash = True
     #setup
     hpbar = HPBar(screen)
     face = Face(screen, counselors[counselor_num])
@@ -242,8 +250,11 @@ def main():
         if pressed_keys[pygame.K_SPACE]:
             gameplay = False
         clock.tick(250)
-        screen.blit(background_image_frames[current_image], (0,0))
-        current_image = (current_image + 1) % len(background_image_frames)
+        if backflash:
+            screen.blit(background_image_frames[current_image], (0,0))
+            current_image = (current_image + 1) % len(background_image_frames)
+        else:
+            screen.fill((0, 0, 0))
         pygame.draw.rect(screen, (0, 0, 15), punchbox)
         pygame.draw.rect(screen, (0, 0, 0), hurtbox)
         for event in pygame.event.get():
