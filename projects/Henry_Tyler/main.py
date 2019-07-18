@@ -281,9 +281,9 @@ def main():
                 screen.blit(text_score, (10, 30))
                 playername = get_playername(screen)
                 screen.fill(pygame.Color("Black"))
-                if expert:
-                    score.score *= 3.5
-                    score.score = int(score.score)
+                # if expert:
+                #     score.score *= 3.5
+                #     score.score = int(score.score)
                 scoreboard.record(score.score, playername, time.time())
                 scoreboard.read()
                 print(scoreboard.list)
@@ -306,9 +306,9 @@ def main():
                 shield.isDeployed = False
             if expert:
                 # -SPAWN EXPERT ENEMIES-
-                if gameclock + 2 - score.score * .0001 < time.time():
+                if gameclock + 2 - score.score * .00008 < time.time():
                     print("Expert Enemy Spawned")
-                    enemy_list.spawn(4 + score.score * .001, random.choice([True, False]), random.choice([True, False]), random.choice([True, False]), expert)
+                    enemy_list.spawn(4 + score.score * .0001, random.choice([True, False]), random.choice([True, False]), random.choice([True, False]), expert)
                     gameclock = time.time()
 
             else:
@@ -333,8 +333,13 @@ def main():
                     else:
                         pygame.mixer.Sound.play(down_hit)
                     enemy.is_hit = True
-                    score.score += 100
-                    score.score += int(score.score * (random.randint(13, 21)/1000))
+                    if expert:
+                        score.score += 300
+                        score.score += int(score.score * (random.randint(2, 4) / 100))
+                    else:
+                        score.score += 100
+                        score.score += int(score.score * (random.randint(1, 2) / 100))
+
 
             enemy_list.removeHitEnemies()
             enemy_list.isAtBottom(player, player_hit)
