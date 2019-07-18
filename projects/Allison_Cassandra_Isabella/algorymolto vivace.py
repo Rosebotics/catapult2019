@@ -145,12 +145,15 @@ def main():
     selection_row = 0
     backflash = False
     pygame.mixer.music.load("if elevators had trap music.mp3")
-    pygame.mixer.music.play()
+    pygame.mixer.music.play(1, 19)
     while intro:
         screen.fill((0, 0, 0,))
         screen.blit(pygame.font.Font(None, 28).render("Press arrow keys to punch in that direction.", True, (255, 255, 255)), (30, 500))
         screen.blit(pygame.font.Font(None, 28).render("Punch the orbs in time to the music.", True, (255, 255, 255)), (30,530))
         screen.blit(pygame.font.Font(None, 28).render("Press space at any time to reset.", True, (255, 255, 255)), (30, 560))
+        screen.blit(pygame.font.Font(None, 12).render("press s to toggle background", True, (255, 255, 255)), (500, 600))
+        if backflash:
+            screen.blit(pygame.font.Font(None, 12).render("ON", True, (255, 255, 255)), (550, 615))
         screen.blit(pygame.font.Font(pygame.font.match_font('impact'), 64).render("Beat Fighter", True, (0, 150, 150)), (170, 10))
         if selection_row == 0:
             pygame.draw.rect(screen, (0, 0, 100), (25, 95, 590, 30))
@@ -163,7 +166,7 @@ def main():
         song_text = pygame.font.Font(None, 28).render(songs[song_num], True, (255, 255, 255))
         screen.blit(song_text, (30, 200))
         if selection_row == 2:
-            screen.blit(pygame.font.Font(None, 28).render("Press Shift to Start", True, (255, 255, 255)), (30, 300))
+            screen.blit(pygame.font.Font(None, 28).render("Press Enter to Start", True, (255, 255, 255)), (30, 300))
         else:
             screen.blit(pygame.font.Font(None, 28).render("Start?", True, (255, 255, 255)), (30, 300))
         pygame.display.update()
