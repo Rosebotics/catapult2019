@@ -37,11 +37,11 @@ class Player:  # The player. Draws, detects if itself is hit, draws health bar.
             pygame.draw.polygon(self.screen, self.color, [(self.x, self.y), (self.x, self.y - 66), (self.x + 75, self.y - 33), (self.x + 150, self.y - 66), (self.x + 150, self.y), (self.x + 75, self.y + 33)], 2)
 
     def isHit(self, enemy): # If called, returns if it's touching the specified enemy
-        return pygame.Rect(self.x, self.y - 33, self.x +150, self.y-100).collidepoint(enemy.x, enemy.y)
+        return pygame.Rect(self.x, self.y - 33, self.x + 150, self.y- 100).collidepoint(enemy.x, enemy.y)
 
     def drawHealth(self): # Draws the health bar
         for i in range(self.lives):
-            pygame.draw.rect(self.screen, self.color, (self.screen.get_width() - (20 + i*15), 10, 10, 10), 2)
+            pygame.draw.rect(self.screen, self.color, (self.screen.get_width() - (25 + i*30), 10, 20, 20), 2)
 
 
 class Shield:  # Generates Player's shield. Draws and detects if it's hit
@@ -188,8 +188,6 @@ class Scoreboard:
         print(self.list)
         file.close()
 
-    def draw(self):
-        pass
 def get_playername(screen):
     textinput = pygame_textinput.TextInput()
     textinput.text_color = (255, 255, 255)
@@ -282,7 +280,7 @@ def main():
                 playername = get_playername(screen)
                 screen.fill(pygame.Color("Black"))
                 if expert:
-                    score.score *= 3.5
+                    score.score *= 3
                     score.score = int(score.score)
                 scoreboard.record(score.score, playername, time.time())
                 scoreboard.read()
@@ -296,6 +294,9 @@ def main():
                     screen.blit(text, (10, 100+ 60*e))
                 text_score = font.render("High Scores:", True, (255, 255, 255))
                 screen.blit(text_score, (10, 30))
+            pressed_keys = pygame.key.get_pressed()
+            if pressed_keys[K_SPACE]:
+                main()
             player.lives = -42
 
         else:
@@ -306,15 +307,15 @@ def main():
                 shield.isDeployed = False
             if expert:
                 # -SPAWN EXPERT ENEMIES-
-                if gameclock + 2 - score.score * .0001 < time.time():
-                    print("Expert Enemy Spawned")
-                    enemy_list.spawn(4 + score.score * .001, random.choice([True, False]), random.choice([True, False]), random.choice([True, False]), expert)
+                if gameclock + 2 - score.score * .00008 < time.time():
+                    #print("Expert Enemy Spawned")
+                    enemy_list.spawn(4 + score.score * .0001, random.choice([True, False]), random.choice([True, False]), random.choice([True, False]), expert)
                     gameclock = time.time()
 
             else:
                 # -SPAWN ENEMIES-
                 if gameclock + 2 - score.score * .00008 < time.time():
-                    print("Enemy Spawned")
+                    #print("Enemy Spawned")
                     enemy_list.spawn(4 + score.score * .0001, False, False, False, expert)
                     gameclock = time.time()
 
@@ -333,8 +334,9 @@ def main():
                     else:
                         pygame.mixer.Sound.play(down_hit)
                     enemy.is_hit = True
-                    score.score += 100
-                    score.score += int(score.score * (random.randint(13, 21)/1000))
+
+                    score.score + 150
+                    score.score += int(score.score * .0015)
 
             enemy_list.removeHitEnemies()
             enemy_list.isAtBottom(player, player_hit)
@@ -343,6 +345,9 @@ def main():
             player.drawHealth()
             enemy_list.draw()
             column.draw()
+            isExpert = font.render("Expert Mode - 3.0X point Multiplier", True, (255, 255, 255))
+            if expert:
+                screen.blit(isExpert, (15, 35))
 
             if shield.isDeployed:
                 shield.draw(player)
