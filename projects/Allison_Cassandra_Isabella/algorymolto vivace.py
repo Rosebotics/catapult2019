@@ -273,7 +273,7 @@ def main():
 
         if rounded_time in timeline_dict:
             action = timeline_dict[rounded_time]
-            if action == 'over':
+            if action == 'over' and not is_game_over:
                 is_game_over = True
                 win = True
                 pygame.mixer.music.stop()
