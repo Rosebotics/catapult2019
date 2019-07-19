@@ -18,7 +18,7 @@ class WaterBottle:
 
 
 class Soda:
-    def __init__(self, screen, x, y, ):
+    def __init__(self, screen, x, y, ): #yo
         self.screen = screen
         self.x = x
         self.y = y
