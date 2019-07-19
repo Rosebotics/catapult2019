@@ -22,8 +22,8 @@ class Soda:
         self.screen = screen
         self.x = x
         self.y = y
-        self.x_speed = random.randint(-10, 10)
-        self.y_speed = random.randint(-10, 10)
+        self.x_speed = random.randint(-6, 6)
+        self.y_speed = random.randint(-6, 6)
         if self.x_speed == 0:
             self.x_speed = 2
         if self.y_speed == 0:
