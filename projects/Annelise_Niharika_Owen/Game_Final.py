@@ -166,7 +166,7 @@ def main():
     caption_font = pygame.font.Font(None, 100)
     clock = pygame.time.Clock()
     screen = pygame.display.set_mode((900, 900))
-    pygame.display.set_caption("STARFISH!")
+    pygame.display.set_caption("POGTRAOOAD!")
     gameover_image2 = pygame.image.load('gameover_image2.png')
     level1_image = pygame.image.load('level_1.png')
     gamewin = pygame.image.load('gamewin.png')
