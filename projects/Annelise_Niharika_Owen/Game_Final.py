@@ -18,12 +18,12 @@ class WaterBottle:
 
 
 class Soda:
-    def __init__(self, screen, x, y, ):
+    def __init__(self, screen, x, y, ): #yo
         self.screen = screen
         self.x = x
         self.y = y
-        self.x_speed = random.randint(-10, 10)
-        self.y_speed = random.randint(-10, 10)
+        self.x_speed = random.randint(-6, 6)
+        self.y_speed = random.randint(-6, 6)
         if self.x_speed == 0:
             self.x_speed = 2
         if self.y_speed == 0:
@@ -166,7 +166,7 @@ def main():
     caption_font = pygame.font.Font(None, 100)
     clock = pygame.time.Clock()
     screen = pygame.display.set_mode((900, 900))
-    pygame.display.set_caption("STARFISH!")
+    pygame.display.set_caption("POGTRAOOAD!")
     gameover_image2 = pygame.image.load('gameover_image2.png')
     level1_image = pygame.image.load('level_1.png')
     gamewin = pygame.image.load('gamewin.png')
