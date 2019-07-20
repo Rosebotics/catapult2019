@@ -200,7 +200,7 @@ def main():
                     song_num += 1
                     if song_num > len(songs) - 1:
                         song_num = 0
-            if pressedkeys[pygame.K_RETURN]:
+            if pressedkeys[pygame.K_RETURN] or pressedkeys[pygame.K_KP_ENTER]:
                 if selection_row == 2:
                     intro = False
             if pressedkeys[pygame.K_s]:
