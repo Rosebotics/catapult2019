@@ -145,7 +145,7 @@ def main():
     selection_row = 0
     backflash = False
     pygame.mixer.music.load("if elevators had trap music.mp3")
-    pygame.mixer.music.play(1, 19)
+    pygame.mixer.music.play(10, 19)
     while intro:
         screen.fill((0, 0, 0,))
         screen.blit(pygame.font.Font(None, 28).render("Press arrow keys to punch in that direction.", True, (255, 255, 255)), (30, 500))
