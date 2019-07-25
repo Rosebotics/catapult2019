@@ -335,7 +335,7 @@ def main():
                         pygame.mixer.Sound.play(down_hit)
                     enemy.is_hit = True
 
-                    score.score + 150
+                    score.score += 150
                     score.score += int(score.score * .0015)
 
             enemy_list.removeHitEnemies()
