@@ -19,11 +19,23 @@ while True:
 
     screen.fill((0, 200, 200))
 
-
+    # Draws the yellow head
     pygame.draw.circle(screen, (255,255,0), (300,300), 250)
     pygame.draw.circle(screen, (0, 0, 0), (300, 300), 250, 5)
 
-    pygame.draw.circle(screen, (0, 0, 0), (225, 200), 20)
-    pygame.draw.circle(screen, (0, 0, 0), (375, 200), 20)
+    # draws the eyes
+    pygame.draw.circle(screen, (0, 0, 0), (205, 200), 20)
+    pygame.draw.circle(screen, (0, 0, 0), (400, 200), 20)
+
+    # draws the nose
+    pygame.draw.circle(screen, (255, 0, 0), (300, 300), 35)
+    pygame.draw.circle(screen, (0, 0, 0), (300, 300), 35, 2)
+
+    # draws the mouth
+    pygame.draw.rect(screen, (127, 0, 0), (200, 400, 200, 25))
+
+    # pygame.draw.rect(screen, color, (x, y, width, height), thickness)
+    # pygame.draw.rect(screen, (100, 0, 0), (240, 350, 160, 30))
+
 
     pygame.display.update()
